@@ -1,0 +1,35 @@
+Package: ECMExplainerApp
+Title: ECMExplainer Shiny Application
+Version: 0.2.0
+Authors@R: c(
+    person("Eleanor", "Sheekey", email = "eleanor.sheekey@example.com",
+           role = c("aut", "cre")),
+    person("Roberto A.", "Avelar", email = "roberto.avelar@example.com",
+           role = "aut"))
+Description: A modular Shiny application for predicting fibroblast phenotypic
+    states from bulk RNA-seq data (human or mouse). Users can train a custom
+    ECMExplainer model through the Training Wizard and evaluate new samples
+    via the Test Wizard. The pipeline uses ECM gene-expression ratios with
+    dual-panel PCA and LDA classification, and supports batch correction via
+    ComBat (sva) and limma. Model bundles (.rds) and parameter logs (.json)
+    can be saved and restored.
+License: MIT + file LICENSE
+Imports:
+    shiny (>= 1.7.0),
+    shinydashboard,
+    shinyWidgets,
+    DT,
+    ggplot2,
+    ggrepel,
+    MASS,
+    sva,
+    limma,
+    dplyr,
+    tidyr,
+    jsonlite,
+    waiter
+Suggests:
+    testthat (>= 3.0.0)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1

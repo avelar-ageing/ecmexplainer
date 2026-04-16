@@ -1,0 +1,31 @@
+# ── R session artefacts ──────────────────────────────────────────────────────
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# ── renv library (restored via renv::restore(), not committed) ────────────────
+renv/library/
+renv/staging/
+renv/python/
+
+# ── Large training data files (distribute separately; too large for git) ──────
+# Commit the ECM dictionary and ratio CSV; exclude large expression matrices.
+training_data/*.rds
+training_data/ECMExplorer_v19_AllGenes_Merged.rds
+training_data/ECMExplorer_v19_CorrectedVis.rds
+training_data/ECMExplorer_v19_Foundation.rds
+training_data/ECMExplorer_v19_TrainedModel.rds
+
+# Keep the ECM dictionary and ratio feature table (small, essential)
+!training_data/ECMExplained_Master_List_Expanded_Fixed.csv
+!training_data/ECMExplorer_v19_Final_Ratios.csv
+!training_data/ECMExplorer_v19_Metadata.csv
+
+# ── User-generated model bundles / outputs (do not commit) ───────────────────
+*.rds
+*.json
+
+# ── OS / editor noise ─────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

@@ -1,0 +1,1063 @@
+Gene,ECMExplained_Function,ECMExplained_Subcategory,Naba_Division,Naba_Category,Stress_Association,Key_Gene,Gene_Name
+ABI3BP,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"ABI family, member 3 (NESH) binding protein"
+ACAN,ASSEMBLY,Proteoglycan_Lecticans,Core matrisome,Proteoglycans,Cartilage,NO,aggrecan
+ADAMTS14,ASSEMBLY,Biosynthesis_Processing,Matrisome-associated,ECM Regulators,Fibrosis,YES,"ADAM metallopeptidase with thrombospondin type 1 motif, 14"
+ADAMTS2,ASSEMBLY,Biosynthesis_Processing,Matrisome-associated,ECM Regulators,"Fibrosis,EDS",YES,"ADAM metallopeptidase with thrombospondin type 1 motif, 2"
+ADIPOQ,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"adiponectin, C1Q and collagen domain containing"
+AEBP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,AE binding protein 1
+AGRN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,agrin
+AMBN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,ameloblastin (enamel matrix protein)
+AMELX,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"amelogenin (amelogenesis imperfecta 1, X-linked)"
+AMELY,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"amelogenin, Y-linked"
+ASPN,ASSEMBLY,Proteoglycan_SLRP,Core matrisome,Proteoglycans,"Cartilage,Fibrosis",YES,asporin
+BCAN,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,brevican
+BGLAP,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,bone gamma-carboxyglutamate (gla) protein
+BGN,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,biglycan
+BMP1,ASSEMBLY,Biosynthesis_Processing,Matrisome-associated,ECM Regulators,"Fibrosis,Essential",YES,bone morphogenetic protein 1
+BSPH1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,binder of sperm protein homolog 1
+CCN1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"cysteine-rich, angiogenic inducer, 61"
+CCN2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,connective tissue growth factor
+CCN3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,nephroblastoma overexpressed gene
+CCN4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,WNT1 inducible signaling pathway protein 1
+CCN5,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,WNT1 inducible signaling pathway protein 2
+CCN6,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,WNT1 inducible signaling pathway protein 3
+CDCP2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,CUB domain containing protein 2
+CHAD,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,chondroadherin
+CHADL,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,chondroadherin-like
+COCH,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"coagulation factor C homolog, cochlin (Limulus polyphemus)"
+COL10A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type X, alpha 1"
+COL11A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XI, alpha 1"
+COL11A2,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XI, alpha 2"
+COL12A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XII, alpha 1"
+COL13A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XIII, alpha 1"
+COL14A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XIV, alpha 1"
+COL15A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XV, alpha 1"
+COL16A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XVI, alpha 1"
+COL17A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XVII, alpha 1"
+COL18A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XVIII, alpha 1"
+COL19A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XIX, alpha 1"
+COL1A1,ASSEMBLY,Collagen_Fibrillar,Core matrisome,Collagens,"Fibrosis,Aging,Cancer,Universal",YES,"collagen, type I, alpha 1"
+COL1A2,ASSEMBLY,Collagen_Fibrillar,Core matrisome,Collagens,"Fibrosis,Aging,Cancer,Universal",YES,"collagen, type I, alpha 2"
+COL20A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XX, alpha 1"
+COL21A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXI, alpha 1"
+COL22A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXII, alpha 1"
+COL23A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXIII, alpha 1"
+COL24A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXIV, alpha 1"
+COL25A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXV, alpha 1"
+COL26A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,EMI domain containing 2
+COL27A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXVII, alpha 1"
+COL28A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXVIII, alpha 1"
+COL2A1,ASSEMBLY,Collagen_Fibrillar,Core matrisome,Collagens,Cartilage,NO,"collagen, type II, alpha 1"
+COL3A1,ASSEMBLY,Collagen_Fibrillar,Core matrisome,Collagens,"Fibrosis,Cancer,Vascular",YES,"collagen, type III, alpha 1"
+COL4A1,ASSEMBLY,Collagen_Basement,Core matrisome,Collagens,Basement_Membrane,NO,"collagen, type IV, alpha 1"
+COL4A2,ASSEMBLY,Collagen_Basement,Core matrisome,Collagens,Basement_Membrane,NO,"collagen, type IV, alpha 2"
+COL4A3,ASSEMBLY,Collagen_Basement,Core matrisome,Collagens,"Basement_Membrane,Kidney",NO,"collagen, type IV, alpha 3 (Goodpasture antigen)"
+COL4A4,ASSEMBLY,Collagen_Basement,Core matrisome,Collagens,"Basement_Membrane,Kidney",NO,"collagen, type IV, alpha 4"
+COL4A5,ASSEMBLY,Collagen_Basement,Core matrisome,Collagens,"Basement_Membrane,Kidney",NO,"collagen, type IV, alpha 5"
+COL4A6,ASSEMBLY,Collagen_Basement,Core matrisome,Collagens,Basement_Membrane,NO,"collagen, type IV, alpha 6"
+COL5A1,ASSEMBLY,Collagen_Fibrillar,Core matrisome,Collagens,Fibrosis,NO,"collagen, type V, alpha 1"
+COL5A2,ASSEMBLY,Collagen_Fibrillar,Core matrisome,Collagens,Fibrosis,NO,"collagen, type V, alpha 2"
+COL5A3,ASSEMBLY,Collagen_Fibrillar,Core matrisome,Collagens,Aging,YES,"collagen, type V, alpha 3"
+COL6A1,ASSEMBLY,Collagen_Microfibrillar,Core matrisome,Collagens,"Aging,Fibrosis",YES,"collagen, type VI, alpha 1"
+COL6A2,ASSEMBLY,Collagen_Microfibrillar,Core matrisome,Collagens,"Aging,Fibrosis",YES,"collagen, type VI, alpha 2"
+COL6A3,ASSEMBLY,Collagen_Microfibrillar,Core matrisome,Collagens,"Aging,Fibrosis",YES,"collagen, type VI, alpha 3"
+COL6A5,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type XXIX, alpha 1"
+COL6A6,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type VI, alpha 6"
+COL7A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type VII, alpha 1"
+COL8A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type VIII, alpha 1"
+COL8A2,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type VIII, alpha 2"
+COL9A1,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type IX, alpha 1"
+COL9A2,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type IX, alpha 2"
+COL9A3,ASSEMBLY,Collagen,Core matrisome,Collagens,Unknown,NO,"collagen, type IX, alpha 3"
+COLQ,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,collagen-like tail subunit (single strand of homotrimer) of asymmetric acetylcholinesterase
+COMP,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,cartilage oligomeric matrix protein
+CRELD1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,cysteine-rich with EGF-like domains 1
+CRELD2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,cysteine-rich with EGF-like domains 2
+CRIM1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,cysteine rich transmembrane BMP regulator 1 (chordin-like)
+CRISPLD1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,cysteine-rich secretory protein LCCL domain containing 1
+CRISPLD2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,cysteine-rich secretory protein LCCL domain containing 2
+CTHRC1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,collagen triple helix repeat containing 1
+DCN,ASSEMBLY,Proteoglycan_SLRP,Core matrisome,Proteoglycans,"Fibrosis,Aging",YES,decorin
+DDX26B,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,DEAD/H (Asp-Glu-Ala-Asp/His) box polypeptide 26B
+DMBT1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,deleted in malignant brain tumors 1
+DMP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,dentin matrix acidic phosphoprotein 1
+DPT,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,dermatopontin
+DSPP,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,dentin sialophosphoprotein
+ECM1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,extracellular matrix protein 1
+ECM2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"extracellular matrix protein 2, female organ and adipocyte specific"
+EFEMP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,EGF-containing fibulin-like extracellular matrix protein 1
+EFEMP2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,EGF-containing fibulin-like extracellular matrix protein 2
+EGFLAM,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"EGF-like, fibronectin type III and laminin G domains"
+ELN,ASSEMBLY,Glycoprotein_Elastic,Core matrisome,ECM Glycoproteins,"Aging,Vascular",YES,elastin
+ELSPBP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,epididymal sperm binding protein 1
+EMID1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,EMI domain containing 1
+EPYC,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,epiphycan
+ESM1,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,endothelial cell-specific molecule 1
+EYS,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,eyes shut homolog (Drosophila)
+FBLN1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibulin 1
+FBLN2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibulin 2
+FBLN5,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibulin 5
+FBLN7,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibulin 7
+FBN1,ASSEMBLY,Glycoprotein_Elastic,Core matrisome,ECM Glycoproteins,"Elastic_Fiber,Aging",YES,fibrillin 1
+FBN2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibrillin 2
+FBN3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibrillin 3
+FGA,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibrinogen alpha chain
+FGB,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibrinogen beta chain
+FGG,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibrinogen gamma chain
+FGL1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibrinogen-like 1
+FGL2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibrinogen-like 2
+FKBP10,ASSEMBLY,Biosynthesis_Chaperone,,,Fibrosis,NO,
+FMOD,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,fibromodulin
+FN1,ASSEMBLY,Glycoprotein_Major,Core matrisome,ECM Glycoproteins,"Fibrosis,Cancer,Wound_Healing,Universal",YES,fibronectin 1
+FNDC1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibronectin type III domain containing 1
+FNDC7,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibronectin type III domain containing 7
+FNDC8,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,fibronectin type III domain containing 8
+FRAS1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,Fraser syndrome 1
+GAS6,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,growth arrest-specific 6
+GLDN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,gliomedin
+HAPLN1,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,hyaluronan and proteoglycan link protein 1
+HAPLN2,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,hyaluronan and proteoglycan link protein 2
+HAPLN3,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,hyaluronan and proteoglycan link protein 3
+HAPLN4,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,hyaluronan and proteoglycan link protein 4
+HAS1,ASSEMBLY,Biosynthesis_HA,,,Moderate,NO,
+HAS2,ASSEMBLY,Biosynthesis_HA,,,"Fibrosis,Cancer,Hypoxia",YES,
+HAS3,ASSEMBLY,Biosynthesis_HA,,,Inflammation,NO,
+HMCN1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,hemicentin 1
+HMCN2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,hemicentin 2
+HSPG2,ASSEMBLY,Proteoglycan_HSPG,Core matrisome,Proteoglycans,Basement_Membrane,NO,heparan sulfate proteoglycan 2
+IBSP,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,integrin-binding sialoprotein
+IGFALS,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"insulin-like growth factor binding protein, acid labile subunit"
+IGFBP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,insulin-like growth factor binding protein 1
+IGFBP2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"insulin-like growth factor binding protein 2, 36kDa"
+IGFBP4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,insulin-like growth factor binding protein 4
+IGFBP5,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,insulin-like growth factor binding protein 5
+IGFBP6,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,insulin-like growth factor binding protein 6
+IGFBPL1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,insulin-like growth factor binding protein-like 1
+IGSF10,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"immunoglobulin superfamily, member 10"
+IMPG1,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,interphotoreceptor matrix proteoglycan 1
+IMPG2,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,interphotoreceptor matrix proteoglycan 2
+KAL1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,Kallmann syndrome 1 sequence
+KCP,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,kielin/chordin-like protein
+KERA,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,keratocan
+LAMA1,ASSEMBLY,Glycoprotein_Laminin,Core matrisome,ECM Glycoproteins,Basement_Membrane,NO,"laminin, alpha 1"
+LAMA2,ASSEMBLY,Glycoprotein_Laminin,Core matrisome,ECM Glycoproteins,"Basement_Membrane,Muscle",NO,"laminin, alpha 2"
+LAMA3,ASSEMBLY,Glycoprotein_Laminin,Core matrisome,ECM Glycoproteins,"Basement_Membrane,Epithelial",NO,"laminin, alpha 3"
+LAMA4,ASSEMBLY,Glycoprotein_Laminin,Core matrisome,ECM Glycoproteins,"Basement_Membrane,Vascular",NO,"laminin, alpha 4"
+LAMA5,ASSEMBLY,Glycoprotein_Laminin,Core matrisome,ECM Glycoproteins,Basement_Membrane,NO,"laminin, alpha 5"
+LAMB1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"laminin, beta 1"
+LAMB2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"laminin, beta 2 (laminin S)"
+LAMB3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"laminin, beta 3"
+LAMB4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"laminin, beta 4"
+LAMC1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"laminin, gamma 1 (formerly LAMB2)"
+LAMC2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"laminin, gamma 2"
+LAMC3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"laminin, gamma 3"
+LEPRE1,ASSEMBLY,Biosynthesis_Collagen,,,P3H1,NO,
+LGI1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"leucine-rich, glioma inactivated 1"
+LGI2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"leucine-rich repeat LGI family, member 2"
+LGI3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"leucine-rich repeat LGI family, member 3"
+LGI4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"leucine-rich repeat LGI family, member 4"
+LOX,ASSEMBLY,Crosslinking,Matrisome-associated,ECM Regulators,"Aging,Fibrosis,Cancer",YES,lysyl oxidase
+LOXL1,ASSEMBLY,Crosslinking,Matrisome-associated,ECM Regulators,Elastogenesis,NO,lysyl oxidase-like 1
+LOXL2,ASSEMBLY,Crosslinking,Matrisome-associated,ECM Regulators,"Fibrosis,Cancer",YES,lysyl oxidase-like 2
+LOXL3,ASSEMBLY,Crosslinking,Matrisome-associated,ECM Regulators,Dev,NO,lysyl oxidase-like 3
+LOXL4,ASSEMBLY,Crosslinking,Matrisome-associated,ECM Regulators,"Senescence,Aging",YES,lysyl oxidase-like 4
+LRG1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,leucine-rich alpha-2-glycoprotein 1
+LTBP1,ASSEMBLY,Glycoprotein_LTBP,Core matrisome,ECM Glycoproteins,Fibrosis,YES,latent transforming growth factor beta binding protein 1
+LTBP2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,latent transforming growth factor beta binding protein 2
+LTBP3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,latent transforming growth factor beta binding protein 3
+LTBP4,ASSEMBLY,Glycoprotein_LTBP,Core matrisome,ECM Glycoproteins,Fibrosis,YES,latent transforming growth factor beta binding protein 4
+LUM,ASSEMBLY,Proteoglycan_SLRP,Core matrisome,Proteoglycans,"Cornea,Fibrosis",NO,lumican
+MATN1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"matrilin 1, cartilage matrix protein"
+MATN2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,matrilin 2
+MATN3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,matrilin 3
+MATN4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,matrilin 4
+MEPE,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,matrix extracellular phosphoglycoprotein
+MFAP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,microfibrillar-associated protein 1
+MFAP2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,microfibrillar-associated protein 2
+MFAP3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,microfibrillar-associated protein 3
+MFAP4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,microfibrillar-associated protein 4
+MFAP5,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,microfibrillar associated protein 5
+MFGE8,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,milk fat globule-EGF factor 8 protein
+MGP,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,matrix Gla protein
+MMRN1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,multimerin 1
+MMRN2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,multimerin 2
+MXRA5,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,matrix-remodelling associated 5
+NCAN,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,neurocan
+NDNF,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,chromosome 4 open reading frame 31
+NELL1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,NEL-like 1 (chicken)
+NELL2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,NEL-like 2 (chicken)
+NID1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,nidogen 1
+NID2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,nidogen 2 (osteonidogen)
+NPNT,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,nephronectin
+NTN1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,netrin 1
+NTN3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,netrin 3
+NTN4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,netrin 4
+NTN5,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,netrin 5
+NTNG1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,netrin G1
+NTNG2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,netrin G2
+NYX,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,nyctalopin
+OGN,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,osteoglycin
+OIT3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,oncoprotein induced transcript 3
+OMD,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,osteomodulin
+OPTC,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,opticin
+OTOG,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,otogelin
+OTOL1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,otolin-1
+P4HA1,ASSEMBLY,Biosynthesis_Collagen,Matrisome-associated,ECM Regulators,"Homeostatic,Aging",YES,"prolyl 4-hydroxylase, alpha polypeptide I"
+P4HA2,ASSEMBLY,Biosynthesis_Collagen,Matrisome-associated,ECM Regulators,"Fibrosis,Cancer,Hypoxia",YES,"prolyl 4-hydroxylase, alpha polypeptide II"
+P4HA3,ASSEMBLY,Biosynthesis_Collagen,Matrisome-associated,ECM Regulators,Tissue_Specific,NO,"prolyl 4-hydroxylase, alpha polypeptide III"
+PAPLN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"papilin, proteoglycan-like sulfated glycoprotein"
+PLOD1,ASSEMBLY,Biosynthesis_Collagen,Matrisome-associated,ECM Regulators,Homeostatic,YES,"procollagen-lysine 1, 2-oxoglutarate 5-dioxygenase 1"
+PLOD2,ASSEMBLY,Biosynthesis_Collagen,Matrisome-associated,ECM Regulators,"Fibrosis,Cancer",YES,"procollagen-lysine, 2-oxoglutarate 5-dioxygenase 2"
+PLOD3,ASSEMBLY,Biosynthesis_Collagen,Matrisome-associated,ECM Regulators,Homeostatic,NO,"procollagen-lysine, 2-oxoglutarate 5-dioxygenase 3"
+PODN,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,podocan
+PODNL1,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,podocan-like 1
+POMZP3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"POM (POM121 homolog, rat) and ZP3 fusion"
+POSTN,ASSEMBLY,Glycoprotein_Matricellular,Core matrisome,ECM Glycoproteins,"Fibrosis,Cancer",YES,"periostin, osteoblast specific factor"
+PRELP,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,proline/arginine-rich end leucine-rich repeat protein
+PRG2,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,"proteoglycan 2, bone marrow (natural killer cell activator, eosinophil granule major basic protein)"
+PRG3,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,proteoglycan 3
+PRG4,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,p53-responsive gene 4
+PXDN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,peroxidasin homolog (Drosophila)
+PXDNL,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,peroxidasin homolog (Drosophila)-like
+RELN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,reelin
+RSPO1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,R-spondin homolog (Xenopus laevis)
+RSPO2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,R-spondin 2 homolog (Xenopus laevis)
+RSPO3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,R-spondin 3 homolog (Xenopus laevis)
+RSPO4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"R-spondin family, member 4"
+SBSPON,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,chromosome 8 open reading frame 84
+SERPINH1,ASSEMBLY,Biosynthesis_Collagen,Matrisome-associated,ECM Regulators,"Fibrosis,TGFβ",YES,"serpin peptidase inhibitor, clade H (heat shock protein 47), member 1, (collagen binding protein 1)"
+SLIT1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,slit homolog 1 (Drosophila)
+SLIT2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,slit homolog 2 (Drosophila)
+SLIT3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,slit homolog 3 (Drosophila)
+SMOC1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,SPARC related modular calcium binding 1
+SMOC2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,SPARC related modular calcium binding 2
+SNED1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"sushi, nidogen and EGF-like domains 1"
+SPARC,ASSEMBLY,Glycoprotein_Matricellular,Core matrisome,ECM Glycoproteins,"Fibrosis,Cancer,Aging",YES,"secreted protein, acidic, cysteine-rich (osteonectin)"
+SPARCL1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,SPARC-like 1 (hevin)
+SPOCK1,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,"sparc/osteonectin, cwcv and kazal-like domains proteoglycan (testican) 1"
+SPOCK2,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,"sparc/osteonectin, cwcv and kazal-like domains proteoglycan (testican) 2"
+SPOCK3,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,"sparc/osteonectin, cwcv and kazal-like domains proteoglycan (testican) 3"
+SPON1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"spondin 1, extracellular matrix protein"
+SPON2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"spondin 2, extracellular matrix protein"
+SPP1,ASSEMBLY,Glycoprotein_Matricellular,Core matrisome,ECM Glycoproteins,"Inflammation,Cancer,Fibrosis",YES,secreted phosphoprotein 1
+SRGN,ASSEMBLY,Proteoglycan,Core matrisome,Proteoglycans,Unknown,NO,serglycin
+SRPX,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"sushi-repeat-containing protein, X-linked"
+SRPX2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"sushi-repeat-containing protein, X-linked 2"
+SSPO,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,SCO-spondin homolog (Bos taurus)
+SVEP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"sushi, von Willebrand factor type A, EGF and pentraxin domain containing 1"
+TECTA,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,tectorin alpha
+TECTB,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,tectorin beta
+TGFBI,ASSEMBLY,Glycoprotein_Inducible,Core matrisome,ECM Glycoproteins,Fibrosis,YES,"transforming growth factor, beta-induced, 68kDa"
+TGM2,ASSEMBLY,Crosslinking,Matrisome-associated,ECM Regulators,Fibrosis,YES,"transglutaminase 2 (C polypeptide, protein-glutamine-gamma-glutamyltransferase)"
+THBS1,ASSEMBLY,Glycoprotein_Matricellular,Core matrisome,ECM Glycoproteins,"Wound_Healing,Cancer",YES,thrombospondin 1
+THBS2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,thrombospondin 2
+THBS3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,thrombospondin 3
+THBS4,ASSEMBLY,Glycoprotein_Thrombospondin,Core matrisome,ECM Glycoproteins,"Cancer,Fibrosis",YES,thrombospondin 4
+THSD4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"thrombospondin, type I, domain containing 4"
+TINAG,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,tubulointerstitial nephritis antigen
+TINAGL1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,tubulointerstitial nephritis antigen-like 1
+TNC,ASSEMBLY,Glycoprotein_Matricellular,Core matrisome,ECM Glycoproteins,"Inflammation,Cancer,Wound_Healing",YES,tenascin C
+TNFAIP6,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"tumor necrosis factor, alpha-induced protein 6"
+TNN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,tenascin N
+TNR,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,"tenascin R (restrictin, janusin)"
+TNXB,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,tenascin XB
+TSKU,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,tsukushi small leucine rich proteoglycan homolog (Xenopus laevis)
+TSPEAR,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,chromosome 21 open reading frame 29
+VCAN,ASSEMBLY,Proteoglycan_Lecticans,Core matrisome,Proteoglycans,"Fibrosis,Cancer",YES,versican
+VIT,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,vitrin
+VTN,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,vitronectin
+VWA1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor A domain containing 1
+VWA2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor A domain containing 2
+VWA3A,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor A domain containing 3A
+VWA3B,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor A domain containing 3B
+VWA5A,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor A domain containing 5A
+VWA5B1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor A domain containing 5B1
+VWA5B2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor A domain containing 5B2
+VWA7,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,chromosome 6 open reading frame 27
+VWA9,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,chromosome 15 open reading frame 44
+VWCE,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor C and EGF domains
+VWDE,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor D and EGF domains
+VWF,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,von Willebrand factor
+ZP1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,zona pellucida glycoprotein 1 (sperm receptor)
+ZP2,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,zona pellucida glycoprotein 2 (sperm receptor)
+ZP3,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,zona pellucida glycoprotein 3 (sperm receptor)
+ZP4,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,zona pellucida glycoprotein 4
+ZPLD1,ASSEMBLY,Other_Assembly,Core matrisome,ECM Glycoproteins,Unknown,NO,zona pellucida-like domain containing 1
+ADAM10,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 10
+ADAM11,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 11
+ADAM12,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 12
+ADAM15,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 15
+ADAM17,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 17
+ADAM18,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 18
+ADAM19,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 19 (meltrin beta)
+ADAM2,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 2
+ADAM20,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 20
+ADAM21,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 21
+ADAM22,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 22
+ADAM23,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 23
+ADAM28,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 28
+ADAM29,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 29
+ADAM30,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 30
+ADAM32,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 32
+ADAM33,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 33
+ADAM7,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 7
+ADAM8,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 8
+ADAM9,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAM metallopeptidase domain 9 (meltrin gamma)
+ADAMDEC1,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM-like, decysin 1"
+ADAMTS1,DESTRUCTION,ADAMTS_Versicanase,Matrisome-associated,ECM Regulators,"Senescence,Inflammation",YES,"ADAM metallopeptidase with thrombospondin type 1 motif, 1"
+ADAMTS10,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 10"
+ADAMTS12,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 12"
+ADAMTS13,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 13"
+ADAMTS15,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 15"
+ADAMTS16,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 16"
+ADAMTS17,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 17"
+ADAMTS18,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 18"
+ADAMTS19,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 19"
+ADAMTS20,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 20"
+ADAMTS3,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 3"
+ADAMTS4,DESTRUCTION,ADAMTS_Aggrecanase,Matrisome-associated,ECM Regulators,"Cartilage,Senescence",YES,"ADAM metallopeptidase with thrombospondin type 1 motif, 4"
+ADAMTS5,DESTRUCTION,ADAMTS_Aggrecanase,Matrisome-associated,ECM Regulators,"Cartilage,Senescence",YES,"ADAM metallopeptidase with thrombospondin type 1 motif, 5"
+ADAMTS6,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 6"
+ADAMTS7,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 7"
+ADAMTS8,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 8"
+ADAMTS9,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"ADAM metallopeptidase with thrombospondin type 1 motif, 9"
+ADAMTSL1,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAMTS-like 1
+ADAMTSL2,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAMTS-like 2
+ADAMTSL3,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAMTS-like 3
+ADAMTSL4,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAMTS-like 4
+ADAMTSL5,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,ADAMTS-like 5
+AGT,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"angiotensinogen (serpin peptidase inhibitor, clade A, member 8)"
+ASTL,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,astacin-like metallo-endopeptidase (M12 family)
+CPN2,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"carboxypeptidase N, polypeptide 2"
+CTSA,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin A
+CTSB,DESTRUCTION,Cathepsin_Cysteine,Matrisome-associated,ECM Regulators,"Inflammation,Cancer",YES,cathepsin B
+CTSC,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin C
+CTSD,DESTRUCTION,Cathepsin,Matrisome-associated,ECM Regulators,Cancer,NO,cathepsin D
+CTSE,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin E
+CTSF,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin F
+CTSG,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin G
+CTSH,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin H
+CTSK,DESTRUCTION,Cathepsin_Cysteine,Matrisome-associated,ECM Regulators,"Aging,Bone,Osteoclast",YES,cathepsin K
+CTSL,DESTRUCTION,Cathepsin_Cysteine,Matrisome-associated,ECM Regulators,"Inflammation,Cancer",YES,cathepsin L1
+CTSO,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin O
+CTSS,DESTRUCTION,Cathepsin_Cysteine,Matrisome-associated,ECM Regulators,"Aging,Immune",YES,cathepsin S
+CTSV,DESTRUCTION,Cathepsin,Matrisome-associated,ECM Regulators,Pathology,NO,cathepsin L2
+CTSW,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin W
+CTSZ,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,cathepsin Z
+ELANE,DESTRUCTION,Serine_Protease,Matrisome-associated,ECM Regulators,"Inflammation,Neutrophil",YES,"elastase, neutrophil expressed"
+HPSE,DESTRUCTION,Heparanase,Matrisome-associated,ECM Regulators,"Cancer,Inflammation",YES,heparanase
+HPSE2,DESTRUCTION,Heparanase,Matrisome-associated,ECM Regulators,Development,NO,heparanase 2
+HTRA1,DESTRUCTION,Serine_Protease,Matrisome-associated,ECM Regulators,"Aging,AMD",YES,HtrA serine peptidase 1
+HTRA3,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,HtrA serine peptidase 3
+HTRA4,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,HtrA serine peptidase 4
+HYAL1,DESTRUCTION,Hyaluronidase,Matrisome-associated,ECM Regulators,Homeostatic,NO,hyaluronoglucosaminidase 1
+HYAL2,DESTRUCTION,Hyaluronidase,Matrisome-associated,ECM Regulators,Homeostatic,NO,hyaluronoglucosaminidase 2
+HYAL3,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,hyaluronoglucosaminidase 3
+HYAL4,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,hyaluronoglucosaminidase 4
+KAZALD1,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,Kazal-type serine peptidase inhibitor domain 1
+KY,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,kyphoscoliosis peptidase
+MASP1,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,mannan-binding lectin serine peptidase 1 (C4/C2 activating component of Ra-reactive factor)
+MASP2,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,mannan-binding lectin serine peptidase 2
+MMP1,DESTRUCTION,MMP_Collagenase,Matrisome-associated,ECM Regulators,"Senescence,Inflammation",YES,matrix metallopeptidase 1 (interstitial collagenase)
+MMP10,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 10 (stromelysin 2)
+MMP11,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 11 (stromelysin 3)
+MMP12,DESTRUCTION,MMP_Elastase,Matrisome-associated,ECM Regulators,"Inflammation,Aging",YES,matrix metallopeptidase 12 (macrophage elastase)
+MMP13,DESTRUCTION,MMP_Collagenase,Matrisome-associated,ECM Regulators,"Cartilage,Osteoarthritis",YES,matrix metallopeptidase 13 (collagenase 3)
+MMP14,DESTRUCTION,MMP_Membrane,Matrisome-associated,ECM Regulators,"Cancer,Angiogenesis",YES,matrix metallopeptidase 14 (membrane-inserted)
+MMP15,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 15 (membrane-inserted)
+MMP16,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 16 (membrane-inserted)
+MMP17,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 17 (membrane-inserted)
+MMP19,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 19
+MMP2,DESTRUCTION,MMP_Gelatinase,Matrisome-associated,ECM Regulators,"Cancer,Angiogenesis",YES,"matrix metallopeptidase 2 (gelatinase A, 72kDa gelatinase, 72kDa type IV collagenase)"
+MMP20,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 20
+MMP21,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 21
+MMP23B,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 23B
+MMP24,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 24 (membrane-inserted)
+MMP25,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 25
+MMP26,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 26
+MMP27,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 27
+MMP28,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 28
+MMP3,DESTRUCTION,MMP_Stromelysin,Matrisome-associated,ECM Regulators,"Senescence,Inflammation",YES,"matrix metallopeptidase 3 (stromelysin 1, progelatinase)"
+MMP7,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"matrix metallopeptidase 7 (matrilysin, uterine)"
+MMP8,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,matrix metallopeptidase 8 (neutrophil collagenase)
+MMP9,DESTRUCTION,MMP_Gelatinase,Matrisome-associated,ECM Regulators,"Senescence,Inflammation,Cancer",YES,"matrix metallopeptidase 9 (gelatinase B, 92kDa gelatinase, 92kDa type IV collagenase)"
+PAMR1,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,peptidase domain containing associated with muscle regeneration 1
+PCOLCE,DESTRUCTION,Other_Destruction,Core matrisome,ECM Glycoproteins,Unknown,NO,procollagen C-endopeptidase enhancer
+PCOLCE2,DESTRUCTION,Other_Destruction,Core matrisome,ECM Glycoproteins,Unknown,NO,procollagen C-endopeptidase enhancer 2
+PI3,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"peptidase inhibitor 3, skin-derived"
+PLAU,DESTRUCTION,Plasminogen_System,Matrisome-associated,ECM Regulators,"Senescence,Inflammation,Cancer",YES,"plasminogen activator, urokinase"
+PLG,DESTRUCTION,Plasminogen_System,Matrisome-associated,ECM Regulators,"Coagulation,Inflammation",YES,plasminogen
+PRSS1,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"protease, serine, 1 (trypsin 1)"
+PRSS12,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"protease, serine, 12 (neurotrypsin, motopsin)"
+PRSS2,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"protease, serine, 2 (trypsin 2)"
+PRSS23,DESTRUCTION,Serine_Protease,,,Stress,NO,
+PRSS3,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"protease, serine, 3"
+PRSS35,DESTRUCTION,Serine_Protease,,,"Stress,Hyperosmotic,Novel",YES,
+SERPINA1,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 1"
+SERPINA10,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 10"
+SERPINA11,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 11"
+SERPINA12,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 12"
+SERPINA2,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 2"
+SERPINA3,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 3"
+SERPINA4,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 4"
+SERPINA5,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 5"
+SERPINA6,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 6"
+SERPINA7,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 7"
+SERPINA9,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 9"
+SERPINB1,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 1"
+SERPINB10,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 10"
+SERPINB11,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 11 (gene/pseudogene)"
+SERPINB12,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 12"
+SERPINB13,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 13"
+SERPINB2,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 2"
+SERPINB3,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 3"
+SERPINB4,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 4"
+SERPINB5,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 5"
+SERPINB6,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 6"
+SERPINB7,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 7"
+SERPINB8,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 8"
+SERPINB9,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade B (ovalbumin), member 9"
+SERPINC1,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade C (antithrombin), member 1"
+SERPIND1,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade D (heparin cofactor), member 1"
+SERPINE2,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade E (nexin, plasminogen activator inhibitor type 1), member 2"
+SERPINE3,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade E (nexin, plasminogen activator inhibitor type 1), member 3"
+SERPINF1,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade F (alpha-2 antiplasmin, pigment epithelium derived factor), member 1"
+SERPINF2,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade F (alpha-2 antiplasmin, pigment epithelium derived factor), member 2"
+SERPING1,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade G (C1 inhibitor), member 1"
+SERPINI1,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade I (neuroserpin), member 1"
+SERPINI2,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"serpin peptidase inhibitor, clade I (pancpin), member 2"
+SLPI,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,secretory leukocyte peptidase inhibitor
+TIMP2,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,TIMP metallopeptidase inhibitor 2
+TIMP3,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,TIMP metallopeptidase inhibitor 3
+TIMP4,ASSEMBLY,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,TIMP metallopeptidase inhibitor 4
+TMPRSS15,DESTRUCTION,Other_Destruction,Matrisome-associated,ECM Regulators,Unknown,NO,"protease, serine, 7 (enterokinase)"
+A2M,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,alpha-2-macroglobulin
+A2ML1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,alpha-2-macroglobulin-like 1
+AMBP,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,alpha-1-microglobulin/bikunin precursor
+AMH,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,anti-Mullerian hormone
+ANGPT1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin 1
+ANGPT2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin 2
+ANGPT4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin 4
+ANGPTL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin-like 1
+ANGPTL2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin-like 2
+ANGPTL3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin-like 3
+ANGPTL4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin-like 4
+ANGPTL5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin-like 5
+ANGPTL6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin-like 6
+ANGPTL7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,angiopoietin-like 7
+ANXA1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A1
+ANXA10,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A10
+ANXA11,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A11
+ANXA13,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A13
+ANXA2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A2
+ANXA3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A3
+ANXA4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A4
+ANXA5,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A5
+ANXA6,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A6
+ANXA7,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A7
+ANXA8,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A8
+ANXA8L1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A8-like 1
+ANXA9,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,annexin A9
+AREG,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,amphiregulin
+ARTN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,artemin
+BDNF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,brain-derived neurotrophic factor
+BMP10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 10
+BMP15,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 15
+BMP2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 2
+BMP3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 3
+BMP4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 4
+BMP5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 5
+BMP6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 6
+BMP7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 7
+BMP8A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 8a
+BMP8B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,bone morphogenetic protein 8b
+BMPER,SIGNALLING,Other_Signalling,Core matrisome,ECM Glycoproteins,Unknown,NO,BMP binding endothelial regulator
+BRINP2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"family with sequence similarity 5, member B"
+BRINP3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"family with sequence similarity 5, member C"
+BTC,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,betacellulin
+C17orf58,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,chromosome 17 open reading frame 58
+C1QA,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"complement component 1, q subcomponent, A chain"
+C1QB,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"complement component 1, q subcomponent, B chain"
+C1QC,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"complement component 1, q subcomponent, C chain"
+C1QL1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"complement component 1, q subcomponent-like 1"
+C1QL2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"complement component 1, q subcomponent-like 2"
+C1QL3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"complement component 1, q subcomponent-like 3"
+C1QL4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"complement component 1, q subcomponent-like 4"
+C1QTNF1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 1
+C1QTNF2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 2
+C1QTNF3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 3
+C1QTNF4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 4
+C1QTNF5,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 5
+C1QTNF6,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 6
+C1QTNF7,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 7
+C1QTNF8,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 8
+C1QTNF9,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,C1q and tumor necrosis factor related protein 9
+C1QTNF9B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,C1q and tumor necrosis factor related protein 9B
+CBLN1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cerebellin 1 precursor
+CBLN2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cerebellin 2 precursor
+CBLN3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cerebellin 3 precursor
+CBLN4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cerebellin 4 precursor
+CCBE1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,collagen and calcium binding EGF domains 1
+CCL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 1
+CCL11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 11
+CCL13,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 13
+CCL14,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 14
+CCL15,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 15
+CCL16,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 16
+CCL17,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 17
+CCL18,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 18 (pulmonary and activation-regulated)
+CCL19,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 19
+CCL2,SIGNALLING,Chemokine,Matrisome-associated,Secreted Factors,"Inflammation,Cancer",YES,chemokine (C-C motif) ligand 2
+CCL20,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 20
+CCL21,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 21
+CCL22,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 22
+CCL23,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 23
+CCL24,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 24
+CCL25,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 25
+CCL26,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 26
+CCL27,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 27
+CCL28,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 28
+CCL3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 3
+CCL3L3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 3-like 3
+CCL4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 4
+CCL4L1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 4-like 1
+CCL4L2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 4-like 2
+CCL5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 5
+CCL7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 7
+CCL8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-C motif) ligand 8
+CD109,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,CD109 molecule
+CD209,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,CD209 molecule
+CD44,SIGNALLING,Receptor_HA,,,"Senescence,Cancer,Inflammation",YES,
+CELA1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"chymotrypsin-like elastase family, member 1"
+CELA2A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"chymotrypsin-like elastase family, member 2A"
+CELA2B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"chymotrypsin-like elastase family, member 2B"
+CELA3A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"chymotrypsin-like elastase family, member 3A"
+CELA3B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"chymotrypsin-like elastase family, member 3B"
+CFC1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"cripto, FRL-1, cryptic family 1"
+CFC1B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"cripto, FRL-1, cryptic family 1B"
+CHRD,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chordin
+CHRDL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chordin-like 1
+CHRDL2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chordin-like 2
+CILP,SIGNALLING,Other_Signalling,Core matrisome,ECM Glycoproteins,Unknown,NO,"cartilage intermediate layer protein, nucleotide pyrophosphohydrolase"
+CILP2,SIGNALLING,Other_Signalling,Core matrisome,ECM Glycoproteins,Unknown,NO,cartilage intermediate layer protein 2
+CLC,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,Charcot-Leyden crystal protein
+CLCF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cardiotrophin-like cytokine factor 1
+CLEC10A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 10, member A"
+CLEC11A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 11, member A"
+CLEC12A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 12, member A"
+CLEC12B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 12, member B"
+CLEC14A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 14, member A"
+CLEC17A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 17, member A"
+CLEC18A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 18, member A"
+CLEC18B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 18, member B"
+CLEC18C,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 18, member C"
+CLEC19A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 19, member A"
+CLEC1A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 1, member A"
+CLEC1B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 1, member B"
+CLEC2A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 2, member A"
+CLEC2B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 2, member B"
+CLEC2D,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 2, member D"
+CLEC2L,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 2, member L"
+CLEC3A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 3, member A"
+CLEC3B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 3, member B"
+CLEC4A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 4, member A"
+CLEC4C,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 4, member C"
+CLEC4D,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 4, member D"
+CLEC4E,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 4, member E"
+CLEC4F,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 4, member F"
+CLEC4G,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 4, member G"
+CLEC4M,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 4, member M"
+CLEC5A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 5, member A"
+CLEC6A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 6, member A"
+CLEC7A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 7, member A"
+CLEC9A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"C-type lectin domain family 9, member A"
+CNTF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,ciliary neurotrophic factor
+COLEC10,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,collectin sub-family member 10 (C-type lectin)
+COLEC11,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,collectin sub-family member 11
+COLEC12,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,collectin sub-family member 12
+CPAMD8,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"C3 and PZP-like, alpha-2-macroglobulin domain containing 8"
+CRHBP,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,corticotropin releasing hormone binding protein
+CRLF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cytokine receptor-like factor 1
+CRLF3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cytokine receptor-like factor 3
+CRNN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cornulin
+CSF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,colony stimulating factor 1 (macrophage)
+CSF2,SIGNALLING,Cytokine,Matrisome-associated,Secreted Factors,GM-CSF,NO,colony stimulating factor 2 (granulocyte-macrophage)
+CSF3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,colony stimulating factor 3 (granulocyte)
+CSH1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chorionic somatomammotropin hormone 1 (placental lactogen)
+CSH2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chorionic somatomammotropin hormone 2
+CSHL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chorionic somatomammotropin hormone-like 1
+CSPG4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,chondroitin sulfate proteoglycan 4
+CSPG5,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,chondroitin sulfate proteoglycan 5 (neuroglycan C)
+CST1,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin SN
+CST11,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin 11
+CST2,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin SA
+CST3,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin C
+CST4,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin S
+CST5,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin D
+CST6,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin E/M
+CST7,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin F (leukocystatin)
+CST8,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin 8 (cystatin-related epididymal specific)
+CST9,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin 9 (testatin)
+CST9L,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin 9-like
+CSTA,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin A (stefin A)
+CSTB,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin B (stefin B)
+CSTL1,ASSEMBLY,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,cystatin-like 1
+CTF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,cardiotrophin 1
+CX3CL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X3-C motif) ligand 1
+CXCL1,SIGNALLING,Chemokine,Matrisome-associated,Secreted Factors,"Inflammation,Cancer",YES,"chemokine (C-X-C motif) ligand 1 (melanoma growth stimulating activity, alpha)"
+CXCL10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 10
+CXCL11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 11
+CXCL12,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 12 (stromal cell-derived factor 1)
+CXCL13,SIGNALLING,Chemokine,Matrisome-associated,Secreted Factors,"Cancer,Immune",YES,chemokine (C-X-C motif) ligand 13
+CXCL14,SIGNALLING,Chemokine,Matrisome-associated,Secreted Factors,Cancer,YES,chemokine (C-X-C motif) ligand 14
+CXCL2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 2
+CXCL3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 3
+CXCL5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 5
+CXCL6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 6 (granulocyte chemotactic protein 2)
+CXCL8,SIGNALLING,Chemokine_SASP,Matrisome-associated,Secreted Factors,Senescence,NO,interleukin 8
+CXCL9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C-X-C motif) ligand 9
+DDR1,SIGNALLING,Receptor_DDR,,,"Epithelial,Fibrosis",YES,
+DDR2,SIGNALLING,Receptor_DDR,,,"Fibroblast,Fibrosis",YES,
+DHH,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,desert hedgehog homolog (Drosophila)
+EBI3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,Epstein-Barr virus induced 3
+EDA,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,ectodysplasin A
+EDIL3,SIGNALLING,Other_Signalling,Core matrisome,ECM Glycoproteins,Unknown,NO,EGF-like repeats and discoidin I-like domains 3
+EGF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,epidermal growth factor (beta-urogastrone)
+EGFL6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"EGF-like-domain, multiple 6"
+EGFL7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"EGF-like-domain, multiple 7"
+EGFL8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"EGF-like-domain, multiple 8"
+EGLN1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,egl nine homolog 1 (C. elegans)
+EGLN2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,egl nine homolog 2 (C. elegans)
+EGLN3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,egl nine homolog 3 (C. elegans)
+ELFN1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,extracellular leucine-rich repeat and fibronectin type III domain containing 1
+ELFN2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,extracellular leucine-rich repeat and fibronectin type III domain containing 2
+EMCN,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,endomucin
+EMILIN1,SIGNALLING,Other_Signalling,Core matrisome,ECM Glycoproteins,Unknown,NO,elastin microfibril interfacer 1
+EMILIN2,SIGNALLING,Other_Signalling,Core matrisome,ECM Glycoproteins,Unknown,NO,elastin microfibril interfacer 2
+EMILIN3,SIGNALLING,Other_Signalling,Core matrisome,ECM Glycoproteins,Unknown,NO,elastin microfibril interfacer 3
+EPGN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,epithelial mitogen homolog (mouse)
+EPO,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,erythropoietin
+EREG,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,epiregulin
+F10,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,coagulation factor X
+F12,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,coagulation factor XII (Hageman factor)
+F13A1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"coagulation factor XIII, A1 polypeptide"
+F13B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"coagulation factor XIII, B polypeptide"
+F2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,coagulation factor II (thrombin)
+F7,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,coagulation factor VII (serum prothrombin conversion accelerator)
+F9,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,coagulation factor IX
+FAM20A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"family with sequence similarity 20, member A"
+FAM20B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"family with sequence similarity 20, member B"
+FAM20C,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"family with sequence similarity 20, member C"
+FASLG,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"Fas ligand (TNF superfamily, member 6)"
+FCN1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,ficolin (collagen/fibrinogen domain containing) 1
+FCN2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,ficolin (collagen/fibrinogen domain containing lectin) 2 (hucolin)
+FCN3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,ficolin (collagen/fibrinogen domain containing) 3 (Hakata antigen)
+FGF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 1 (acidic)
+FGF10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 10
+FGF11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 11
+FGF12,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 12
+FGF13,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 13
+FGF14,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 14
+FGF16,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 16
+FGF17,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 17
+FGF18,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 18
+FGF19,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 19
+FGF2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 2 (basic)
+FGF20,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 20
+FGF21,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 21
+FGF22,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 22
+FGF23,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 23
+FGF3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 3 (murine mammary tumor virus integration site (v-int-2) oncogene homolog)
+FGF4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 4
+FGF5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 5
+FGF6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 6
+FGF7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 7 (keratinocyte growth factor)
+FGF8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 8 (androgen-induced)
+FGF9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor 9 (glia-activating factor)
+FGFBP1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor binding protein 1
+FGFBP2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor binding protein 2
+FGFBP3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fibroblast growth factor binding protein 3
+FIGF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,c-fos induced growth factor (vascular endothelial growth factor D)
+FLG,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,filaggrin
+FLG2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,filaggrin family member 2
+FLT3LG,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,fms-related tyrosine kinase 3 ligand
+FREM1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,FRAS1 related extracellular matrix 1
+FREM2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,FRAS1 related extracellular matrix protein 2
+FREM3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,FRAS1 related extracellular matrix 3
+FRZB,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,frizzled-related protein
+FST,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,follistatin
+FSTL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,follistatin-like 1
+FSTL3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,follistatin-like 3 (secreted glycoprotein)
+GDF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 1
+GDF10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 10
+GDF11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 11
+GDF15,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 15
+GDF2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 2
+GDF3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 3
+GDF5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 5
+GDF6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 6
+GDF7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 7
+GDF9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth differentiation factor 9
+GDNF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,glial cell derived neurotrophic factor
+GH1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth hormone 1
+GH2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,growth hormone 2
+GPC1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,glypican 1
+GPC2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,glypican 2
+GPC3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,glypican 3
+GPC4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,glypican 4
+GPC5,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,glypican 5
+GPC6,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,glypican 6
+GREM1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"gremlin 1, cysteine knot superfamily, homolog (Xenopus laevis)"
+GRIFIN,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,galectin-related inter-fiber protein
+HABP2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,hyaluronan binding protein 2
+HBEGF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,heparin-binding EGF-like growth factor
+HCFC1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,host cell factor C1 (VP16-accessory protein)
+HCFC2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,host cell factor C2
+HGF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,hepatocyte growth factor (hepapoietin A; scatter factor)
+HGFAC,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,HGF activator
+HHIP,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,hedgehog interacting protein
+HMMR,SIGNALLING,Receptor_HA,,,"Cancer,Proliferation",YES,
+HMSD,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,histocompatibility (minor) serpin domain containing
+HPX,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,hemopexin
+HRG,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,histidine-rich glycoprotein
+HRNR,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,hornerin
+HSPC159,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,galectin-related protein
+IFNA1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 1"
+IFNA10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 10"
+IFNA13,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 13"
+IFNA14,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 14"
+IFNA16,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 16"
+IFNA17,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 17"
+IFNA2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 2"
+IFNA21,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 21"
+IFNA4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 4"
+IFNA5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 5"
+IFNA6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 6"
+IFNA7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 7"
+IFNA8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, alpha 8"
+IFNB1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, beta 1, fibroblast"
+IFNE,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, epsilon"
+IFNG,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, gamma"
+IFNK,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, kappa"
+IFNW1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interferon, omega 1"
+IGF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,insulin-like growth factor 1 (somatomedin C)
+IGF2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,insulin-like growth factor 2 (somatomedin A)
+IGFBP3,SIGNALLING,IGF_System,Core matrisome,ECM Glycoproteins,Senescence,NO,insulin-like growth factor binding protein 3
+IGFBP7,SIGNALLING,IGF_System,Core matrisome,ECM Glycoproteins,Senescence,NO,insulin-like growth factor binding protein 7
+IHH,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,Indian hedgehog homolog (Drosophila)
+IL10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 10
+IL11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 11
+IL12A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 12A (natural killer cell stimulatory factor 1, cytotoxic lymphocyte maturation factor 1, p35)"
+IL12B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 12B (natural killer cell stimulatory factor 2, cytotoxic lymphocyte maturation factor 2, p40)"
+IL13,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 13
+IL15,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 15
+IL16,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 16 (lymphocyte chemoattractant factor)
+IL17A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 17A
+IL17B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 17B
+IL17C,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 17C
+IL17D,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 17D
+IL17F,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 17F
+IL18,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 18 (interferon-gamma-inducing factor)
+IL19,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 19
+IL1A,SIGNALLING,Cytokine_Inflammatory,Matrisome-associated,Secreted Factors,"Senescence,Inflammation",YES,"interleukin 1, alpha"
+IL1B,SIGNALLING,Cytokine_Inflammatory,Matrisome-associated,Secreted Factors,"Senescence,Inflammation",YES,"interleukin 1, beta"
+IL1F10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 1 family, member 10 (theta)"
+IL1F5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 1 family, member 5 (delta)"
+IL1F6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 1 family, member 6 (epsilon)"
+IL1F7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 1 family, member 7 (zeta)"
+IL1F8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 1 family, member 8 (eta)"
+IL1F9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 1 family, member 9"
+IL1RN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 1 receptor antagonist
+IL2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 2
+IL20,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 20
+IL22,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 22
+IL23A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 23, alpha subunit p19"
+IL24,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 24
+IL25,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 25
+IL26,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 26
+IL3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 3 (colony-stimulating factor, multiple)"
+IL34,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 34
+IL4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 4
+IL5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"interleukin 5 (colony-stimulating factor, eosinophil)"
+IL6,SIGNALLING,Cytokine_Inflammatory,Matrisome-associated,Secreted Factors,"Senescence,Inflammation",YES,"interleukin 6 (interferon, beta 2)"
+IL7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 7
+IL8,SIGNALLING,Cytokine_Inflammatory,,,"Senescence,Inflammation",YES,
+IL9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,interleukin 9
+INHA,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"inhibin, alpha"
+INHBA,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"inhibin, beta A"
+INHBB,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"inhibin, beta B"
+INHBC,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"inhibin, beta C"
+INHBE,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"inhibin, beta E"
+INS,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,insulin
+INS-IGF2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,INS-IGF2 readthrough transcript
+INSL3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,insulin-like 3 (Leydig cell)
+INSL5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,insulin-like 5
+INSL6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,insulin-like 6
+ISM1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,isthmin 1 homolog (zebrafish)
+ISM2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,isthmin 2 homolog (zebrafish)
+ITGA1,SIGNALLING,Receptor_Integrin,,,Homeostatic,NO,
+ITGA10,SIGNALLING,Receptor_Integrin,,,Cartilage,NO,
+ITGA11,SIGNALLING,Receptor_Integrin,,,"Fibrosis,CAF",YES,
+ITGA2,SIGNALLING,Receptor_Integrin,,,"Homeostatic,Cancer",YES,
+ITGA3,SIGNALLING,Receptor_Integrin,,,Wound_Healing,NO,
+ITGA4,SIGNALLING,Receptor_Integrin,,,Inflammation,NO,
+ITGA5,SIGNALLING,Receptor_Integrin,,,"Homeostatic,Fibrosis",YES,
+ITGA6,SIGNALLING,Receptor_Integrin,,,"Stemness,Cancer",NO,
+ITGA7,SIGNALLING,Receptor_Integrin,,,Muscle,NO,
+ITGA8,SIGNALLING,Receptor_Integrin,,,"Kidney,Fibrosis",NO,
+ITGA9,SIGNALLING,Receptor_Integrin,,,Lymphangiogenesis,NO,
+ITGAM,SIGNALLING,Receptor_Integrin,,,Inflammation,NO,
+ITGAV,SIGNALLING,Receptor_Integrin,,,"Angiogenesis,Cancer",YES,
+ITGAX,SIGNALLING,Receptor_Integrin,,,Inflammation,NO,
+ITGB1,SIGNALLING,Receptor_Integrin,,,"Ubiquitous,Fibrosis",YES,
+ITGB2,SIGNALLING,Receptor_Integrin,,,Inflammation,NO,
+ITGB3,SIGNALLING,Receptor_Integrin,,,"Angiogenesis,Cancer",NO,
+ITGB4,SIGNALLING,Receptor_Integrin,,,Hemidesmosome,NO,
+ITGB5,SIGNALLING,Receptor_Integrin,,,Fibrosis,NO,
+ITGB6,SIGNALLING,Receptor_Integrin,,,"Fibrosis,Epithelial",YES,
+ITGB7,SIGNALLING,Receptor_Integrin,,,Immune,NO,
+ITGB8,SIGNALLING,Receptor_Integrin,,,"Fibrosis,Development",YES,
+ITIH1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,inter-alpha (globulin) inhibitor H1
+ITIH2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,inter-alpha (globulin) inhibitor H2
+ITIH3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,inter-alpha (globulin) inhibitor H3
+ITIH4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,inter-alpha (globulin) inhibitor H4 (plasma Kallikrein-sensitive glycoprotein)
+ITIH5,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,inter-alpha (globulin) inhibitor H5
+ITIH6,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,inter-alpha (globulin) inhibitor H5-like
+ITLN1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,intelectin 1 (galactofuranose binding)
+ITLN2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,intelectin 2
+KITLG,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,KIT ligand
+KNG1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,kininogen 1
+LEFTY1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,left-right determination factor 1
+LEFTY2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,left-right determination factor 2
+LEP,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,leptin
+LGALS1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 1"
+LGALS12,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 12"
+LGALS13,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 13"
+LGALS14,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 14"
+LGALS16,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,beta-galactoside-binding lectin
+LGALS2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 2"
+LGALS3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 3"
+LGALS4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 4"
+LGALS7,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 7"
+LGALS8,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 8"
+LGALS9,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 9"
+LGALS9B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 9B"
+LGALS9C,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, galactoside-binding, soluble, 9C"
+LIF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,leukemia inhibitory factor (cholinergic differentiation factor)
+LMAN1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, mannose-binding, 1"
+LMAN1L,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"lectin, mannose-binding, 1 like"
+LPA,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"lipoprotein, Lp(a)"
+LTA,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"lymphotoxin alpha (TNF superfamily, member 1)"
+LTB,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"lymphotoxin beta (TNF superfamily, member 3)"
+MBL2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mannose-binding lectin (protein C) 2, soluble (opsonic defect)"
+MDK,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,midkine (neurite growth-promoting factor 2)
+MEGF10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,multiple EGF-like-domains 10
+MEGF11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,multiple EGF-like-domains 11
+MEGF6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,multiple EGF-like-domains 6
+MEGF8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,multiple EGF-like-domains 8
+MEGF9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,multiple EGF-like-domains 9
+MEP1A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"meprin A, alpha (PABA peptide hydrolase)"
+MEP1B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"meprin A, beta"
+MST1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,macrophage stimulating 1 (hepatocyte growth factor-like)
+MST1L,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,macrophage stimulating 1 (hepatocyte growth factor-like) pseudogene 9
+MSTN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,myostatin
+MUC1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 1, cell surface associated"
+MUC12,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 12, cell surface associated"
+MUC13,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 13, cell surface associated"
+MUC15,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 15, cell surface associated"
+MUC16,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 16, cell surface associated"
+MUC17,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 17, cell surface associated"
+MUC19,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 19, oligomeric"
+MUC2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 2, oligomeric mucus/gel-forming"
+MUC20,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 20, cell surface associated"
+MUC21,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 21, cell surface associated"
+MUC22,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,hypothetical LOC729792
+MUC3A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 3A, cell surface associated"
+MUC4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 4, cell surface associated"
+MUC5AC,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 5AC, oligomeric mucus/gel-forming"
+MUC5B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 5B, oligomeric mucus/gel-forming"
+MUC6,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 6, oligomeric mucus/gel-forming"
+MUC7,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"mucin 7, secreted"
+MUC8,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,mucin 8
+MUCL1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,mucin-like 1
+NGF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,nerve growth factor (beta polypeptide)
+NGLY1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,N-glycanase 1
+NODAL,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,nodal homolog (mouse)
+NRG1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,neuregulin 1
+NRG2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,neuregulin 2
+NRG3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,neuregulin 3
+NRG4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,neuregulin 4
+NRTN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,neurturin
+NTF3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,neurotrophin 3
+NTF4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,neurotrophin 4
+OGFOD1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,2-oxoglutarate and iron-dependent oxygenase domain containing 1
+OGFOD2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,2-oxoglutarate and iron-dependent oxygenase domain containing 2
+OSM,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,oncostatin M
+OVGP1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"oviductal glycoprotein 1, 120kDa"
+P3H1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,leucine proline-enriched proteoglycan (leprecan) 1
+P3H2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,leprecan-like 1
+P3H3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,leprecan-like 2
+P4HTM,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"prolyl 4-hydroxylase, transmembrane (endoplasmic reticulum)"
+PAPPA,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"pregnancy-associated plasma protein A, pappalysin 1"
+PAPPA2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,pappalysin 2
+PARM1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,prostate androgen-regulated mucin-like protein 1
+PCSK5,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,proprotein convertase subtilisin/kexin type 5
+PCSK6,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,proprotein convertase subtilisin/kexin type 6
+PDGFA,SIGNALLING,Growth_Factor_PDGF,Matrisome-associated,Secreted Factors,"Fibrosis,Angiogenesis",YES,platelet-derived growth factor alpha polypeptide
+PDGFB,SIGNALLING,Growth_Factor_PDGF,Matrisome-associated,Secreted Factors,"Fibrosis,Angiogenesis",YES,platelet-derived growth factor beta polypeptide (simian sarcoma viral (v-sis) oncogene homolog)
+PDGFC,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,platelet derived growth factor C
+PDGFD,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,platelet derived growth factor D
+PF4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,platelet factor 4
+PF4V1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,platelet factor 4 variant 1
+PGF,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,placental growth factor
+PIK3IP1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,phosphoinositide-3-kinase interacting protein 1
+PLAT,DESTRUCTION,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"plasminogen activator, tissue"
+PLAUR,SIGNALLING,Receptor_Plasminogen,,,"Senescence,Cancer",YES,
+PLXDC1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin domain containing 1
+PLXDC2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin domain containing 2
+PLXNA1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin A1
+PLXNA2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin A2
+PLXNA3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin A3
+PLXNA4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin A4
+PLXNB1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin B1
+PLXNB2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin B2
+PLXNB3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin B3
+PLXNC1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin C1
+PLXND1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,plexin D1
+PPBP,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,pro-platelet basic protein (chemokine (C-X-C motif) ligand 7)
+PRL,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,prolactin
+PROL1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"proline rich, lacrimal 1"
+PSPN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,persephin
+PTN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,pleiotrophin
+PZP,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,pregnancy-zone protein
+REG1A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,regenerating islet-derived 1 alpha
+REG1B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,regenerating islet-derived 1 beta
+REG3A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,regenerating islet-derived 3 alpha
+REG3G,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,regenerating islet-derived 3 gamma
+REG4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"regenerating islet-derived family, member 4"
+RPTN,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,repetin
+S100A1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A1
+S100A10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A10
+S100A11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A11
+S100A12,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A12
+S100A13,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A13
+S100A14,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A14
+S100A16,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A16
+S100A2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A2
+S100A3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A3
+S100A4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A4
+S100A5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A5
+S100A6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A6
+S100A7,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A7
+S100A7A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A7A
+S100A7L2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A7-like 2
+S100A8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A8
+S100A9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein A9
+S100B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein B
+S100G,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein G
+S100P,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein P
+S100Z,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,S100 calcium binding protein Z
+SCUBE1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"signal peptide, CUB domain, EGF-like 1"
+SCUBE2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"signal peptide, CUB domain, EGF-like 2"
+SCUBE3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"signal peptide, CUB domain, EGF-like 3"
+SDC1,SIGNALLING,Proteoglycan_Syndecan,Matrisome-associated,ECM-affiliated Proteins,"Epithelial,Fibroblast",YES,syndecan 1
+SDC2,SIGNALLING,Receptor_Syndecan,Matrisome-associated,ECM-affiliated Proteins,Fibrosis,NO,syndecan 2
+SDC3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,syndecan 3
+SDC4,SIGNALLING,Proteoglycan_Syndecan,Matrisome-associated,ECM-affiliated Proteins,"Ubiquitous,Mechanosensing",YES,syndecan 4
+SEMA3A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3A"
+SEMA3B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3B"
+SEMA3C,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3C"
+SEMA3D,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3D"
+SEMA3E,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3E"
+SEMA3F,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3F"
+SEMA3G,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3G"
+SEMA4A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4A"
+SEMA4B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4B"
+SEMA4C,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4C"
+SEMA4D,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4D"
+SEMA4F,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4F"
+SEMA4G,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4G"
+SEMA5A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, seven thrombospondin repeats (type 1 and type 1-like), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 5A"
+SEMA5B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, seven thrombospondin repeats (type 1 and type 1-like), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 5B"
+SEMA6A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, transmembrane domain (TM), and cytoplasmic domain, (semaphorin) 6A"
+SEMA6B,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, transmembrane domain (TM), and cytoplasmic domain, (semaphorin) 6B"
+SEMA6C,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, transmembrane domain (TM), and cytoplasmic domain, (semaphorin) 6C"
+SEMA6D,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"sema domain, transmembrane domain (TM), and cytoplasmic domain, (semaphorin) 6D"
+SEMA7A,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,"semaphorin 7A, GPI membrane anchor (John Milton Hagen blood group)"
+SERPINE1,ASSEMBLY,Inhibitor_Serpin,Matrisome-associated,ECM Regulators,"Senescence,Fibrosis,Aging",YES,"serpin peptidase inhibitor, clade E (nexin, plasminogen activator inhibitor type 1), member 1"
+SFRP1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,secreted frizzled-related protein 1
+SFRP2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,secreted frizzled-related protein 2
+SFRP4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,secreted frizzled-related protein 4
+SFRP5,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,secreted frizzled-related protein 5
+SFTA2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,surfactant associated 2
+SFTA3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,surfactant associated 3
+SFTPA1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,surfactant protein A1
+SFTPA2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,surfactant protein A2
+SFTPB,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,surfactant protein B
+SFTPC,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,surfactant protein C
+SFTPD,SIGNALLING,Other_Signalling,Matrisome-associated,ECM-affiliated Proteins,Unknown,NO,surfactant protein D
+SHH,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,sonic hedgehog homolog (Drosophila)
+SPAM1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"sperm adhesion molecule 1 (PH-20 hyaluronidase, zona pellucida binding)"
+ST14,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,suppression of tumorigenicity 14 (colon carcinoma)
+SULF1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,sulfatase 1
+SULF2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,sulfatase 2
+TCHH,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,trichohyalin
+TCHHL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,trichohyalin-like 1
+TDGF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,teratocarcinoma-derived growth factor 1
+TGFA,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"transforming growth factor, alpha"
+TGFB1,SIGNALLING,Growth_Factor_TGFβ,Matrisome-associated,Secreted Factors,"Fibrosis,Aging",YES,"transforming growth factor, beta 1"
+TGFB2,SIGNALLING,Growth_Factor_TGFβ,Matrisome-associated,Secreted Factors,"Fibrosis,Development",YES,"transforming growth factor, beta 2"
+TGFB3,SIGNALLING,Growth_Factor_TGFβ,Matrisome-associated,Secreted Factors,"Fibrosis,Wound_Healing",YES,"transforming growth factor, beta 3"
+TGM1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"transglutaminase 1 (K polypeptide epidermal type I, protein-glutamine-gamma-glutamyltransferase)"
+TGM3,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,"transglutaminase 3 (E polypeptide, protein-glutamine-gamma-glutamyltransferase)"
+TGM4,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,transglutaminase 4 (prostate)
+TGM5,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,transglutaminase 5
+TGM6,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,transglutaminase 6
+TGM7,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,transglutaminase 7
+THPO,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,thrombopoietin
+TIMP1,ASSEMBLY,Inhibitor_TIMP,Matrisome-associated,ECM Regulators,"Homeostatic,Fibrosis",YES,TIMP metallopeptidase inhibitor 1
+TLL1,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,tolloid-like 1
+TLL2,SIGNALLING,Other_Signalling,Matrisome-associated,ECM Regulators,Unknown,NO,tolloid-like 2
+TNF,SIGNALLING,Cytokine_Inflammatory,Matrisome-associated,Secreted Factors,"Senescence,Inflammation",YES,"tumor necrosis factor (TNF superfamily, member 2)"
+TNFSF10,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 10"
+TNFSF11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 11"
+TNFSF12,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 12"
+TNFSF13,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 13"
+TNFSF13B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 13b"
+TNFSF14,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 14"
+TNFSF15,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 15"
+TNFSF18,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 18"
+TNFSF4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 4"
+TNFSF8,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 8"
+TNFSF9,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"tumor necrosis factor (ligand) superfamily, member 9"
+TPO,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,thyroid peroxidase
+VEGFA,SIGNALLING,Growth_Factor_VEGF,Matrisome-associated,Secreted Factors,"Angiogenesis,Cancer,Hypoxia",YES,vascular endothelial growth factor A
+VEGFB,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,vascular endothelial growth factor B
+VEGFC,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,vascular endothelial growth factor C
+VWC2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,von Willebrand factor C domain containing 2
+VWC2L,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,von Willebrand factor C domain-containing protein 2-like
+WFIKKN1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"WAP, follistatin/kazal, immunoglobulin, kunitz and netrin domain containing 1"
+WFIKKN2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"WAP, follistatin/kazal, immunoglobulin, kunitz and netrin domain containing 2"
+WIF1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,WNT inhibitory factor 1
+WNT1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 1"
+WNT10A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 10A"
+WNT10B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 10B"
+WNT11,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 11"
+WNT16,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 16"
+WNT2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,wingless-type MMTV integration site family member 2
+WNT2B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 2B"
+WNT3,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 3"
+WNT3A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 3A"
+WNT4,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 4"
+WNT5A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 5A"
+WNT5B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 5B"
+WNT6,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 6"
+WNT7A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 7A"
+WNT7B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 7B"
+WNT8A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 8A"
+WNT8B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 8B"
+WNT9A,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 9A"
+WNT9B,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,"wingless-type MMTV integration site family, member 9B"
+XCL1,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C motif) ligand 1
+XCL2,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,chemokine (C motif) ligand 2
+ZFP91,SIGNALLING,Other_Signalling,Matrisome-associated,Secreted Factors,Unknown,NO,zinc finger protein 91 homolog (mouse)
