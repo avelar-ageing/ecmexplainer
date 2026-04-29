@@ -13,17 +13,26 @@
 
 #' Project new samples into the trained ECMExplainer geometric space and predict.
 #'
-#' @param test_expr_mat         genes x test_samples numeric matrix; same gene universe as training
-#' @param train_obj             list returned by \code{train_ecmexplainer()}
-#' @param avail_features        data.frame; columns Panel, Gene_A, Gene_B (same subset used for training)
-#' @param precomputed_ratio_mat optional features x test_samples matrix; when supplied, the
-#'                              ratio-computation step is skipped and this matrix is used directly.
-#'                              Row names must match the row names of the training ratio matrix.
+#' Automatically dispatches to \code{predict_ktsp()} when the model bundle was
+#' trained with the binary k-TSP method (\code{train_obj$encoding == "sign"}).
+#'
+#' @param test_expr_mat         genes x test_samples numeric matrix; log2(CPM+1)
+#' @param train_obj             list returned by \code{train_ecmexplainer()} or
+#'                              loaded from a bundle .rds file
+#' @param avail_features        data.frame; columns Panel, Gene_A, Gene_B
+#' @param precomputed_ratio_mat optional features x test_samples matrix; skips
+#'                              ratio computation (continuous mode only)
 #' @return named list with $final_report, $val_pcs, $val_lda_coords
 predict_ecmexplainer <- function(test_expr_mat,
                                  train_obj,
                                  avail_features,
                                  precomputed_ratio_mat = NULL) {
+
+  # ---- Dispatch: binary k-TSP (sign-encoded) model --------------------------
+  if (identical(train_obj$encoding, "sign")) {
+    res <- predict_ktsp(test_expr_mat, train_obj)
+    return(res)
+  }
 
   ad_rows  <- train_obj$ad_rows
   sig_rows <- train_obj$sig_rows

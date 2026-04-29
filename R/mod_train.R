@@ -31,8 +31,12 @@
 #' correction is applied via \code{apply_ratio_batch_correction()} (V19 pipeline)
 #' before PCA. LOOCV accuracy is always computed.
 #'
-#' @param ratio_mat      ratios x training_samples numeric matrix
-#' @param avail_features data.frame; must have column Panel ("AD" or "SIG")
+#' @param ratio_mat      ratios x training_samples numeric matrix (continuous ratios)
+#'                       OR a logCPM matrix [genes x samples] when
+#'                       \code{feature_method = "binary_tsp"} — in that case the
+#'                       sign-encoding is performed internally.
+#' @param avail_features data.frame; must have column Panel ("AD" or "SIG").
+#'                       For binary_tsp must also have Gene_A, Gene_B, Ratio_ID.
 #' @param phenotype_vec  factor with one level per phenotype class
 #' @param metadata_df    optional data.frame aligned to columns of ratio_mat;
 #'                       required for ratio-level batch correction
@@ -40,16 +44,55 @@
 #'                       (default "Study_ID")
 #' @param protect_cols   optional character vector; columns in metadata_df to protect
 #'                       as biological covariates during batch correction
+#' @param feature_method character; one of "ratios" (default), "binary_tsp",
+#'                       "ecm_genes", or "all_genes"
+#' @param logcpm_mat     [genes x samples] log2(CPM+1) matrix; required when
+#'                       \code{feature_method = "binary_tsp"} (ratio_mat is ignored)
 #' @return named list with model objects and coordinates (see header)
 train_ecmexplainer <- function(ratio_mat,
                                avail_features,
                                phenotype_vec,
-                               metadata_df   = NULL,
-                               batch_col     = "Study_ID",
-                               protect_cols  = NULL) {
+                               metadata_df    = NULL,
+                               batch_col      = "Study_ID",
+                               protect_cols   = NULL,
+                               feature_method = "ratios",
+                               logcpm_mat     = NULL) {
 
   if (!requireNamespace("MASS", quietly = TRUE))
     stop("Package 'MASS' is required for LDA training.")
+
+  feature_method <- match.arg(feature_method,
+                               c("ratios", "binary_tsp", "ecm_genes", "all_genes"))
+
+  # ---- Dispatch: binary k-TSP path ------------------------------------------
+  # sign(logCPM_A − logCPM_B) encoding; no batch correction required.
+  # Caller must supply logcpm_mat [genes × samples]; avail_features must have
+  # Gene_A, Gene_B, Ratio_ID (or Ratio), Module (or Panel) columns.
+  if (feature_method == "binary_tsp") {
+    if (is.null(logcpm_mat))
+      stop("[Train] feature_method='binary_tsp' requires logcpm_mat [genes × samples].")
+
+    # Normalise Module column (Panel → Module, "A/D" → "AD")
+    feat2 <- avail_features
+    if (!"Module" %in% colnames(feat2) && "Panel" %in% colnames(feat2))
+      feat2$Module <- feat2$Panel
+    feat2$Module[feat2$Module %in% c("A/D", "Signalling", "SIGNALLING")] <-
+      c("AD", "SIG", "SIG")[match(feat2$Module[feat2$Module %in%
+        c("A/D", "Signalling", "SIGNALLING")], c("A/D", "Signalling", "SIGNALLING"))]
+    if (!"Ratio_ID" %in% colnames(feat2) && "Ratio" %in% colnames(feat2))
+      feat2$Ratio_ID <- feat2$Ratio
+
+    bundle <- train_ktsp(
+      logcpm_mat    = logcpm_mat,
+      features_df   = feat2,
+      phenotype_vec = phenotype_vec,
+      study_col     = batch_col %||% "Study_ID",
+      metadata_df   = metadata_df
+    )
+    # Store feature_method in bundle for downstream auto-detect
+    bundle$feature_method <- "binary_tsp"
+    return(bundle)
+  }
 
   phenotype_vec <- as.factor(phenotype_vec)
 
@@ -192,6 +235,8 @@ train_ecmexplainer <- function(ratio_mat,
     loocv_acc              = loocv_acc,
     batch_correction_level = batch_correction_level,
     mat_ad_train_corr      = mat_ad_train_corr,
-    mat_sig_train_corr     = mat_sig_train_corr
+    mat_sig_train_corr     = mat_sig_train_corr,
+    feature_method         = feature_method,
+    encoding               = "continuous"
   )
 }

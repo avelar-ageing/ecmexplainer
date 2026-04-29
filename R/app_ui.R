@@ -647,6 +647,7 @@ app_ui <- function(request) {
                         label    = NULL,
                         choices  = c(
                           "ECM ratios (log\u2082A \u2212 log\u2082B) \u2014 recommended" = "ratios",
+                          "Binary TSP (sign A > B, 0/1) \u2014 batch-robust"           = "binary_tsp",
                           "All ECM genes (individual log\u2082CPM)"                    = "ecm_genes",
                           "All genes (full transcriptome)"                             = "all_genes"
                         ),

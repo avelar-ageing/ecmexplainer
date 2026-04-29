@@ -33,6 +33,24 @@ ECM_DEFAULT_MODELS <- list(
       "Proliferating, Quiescence, Senescence.",
       "LOOCV: 90.4%  |  Species: Human  |  Ratios: 10 AD + 9 SIG"
     )
+  ),
+
+  "ECMExplainer V3 k-TSP — Human fibroblasts (96 samples, binary TSP)" = list(
+    label       = "ECMExplainer V3 k-TSP — Human fibroblasts (96 samples, binary TSP)",
+    bundle_file = NULL,
+    # raw data lives in the k-TSP source folder; loaded via ktsp_data_dir
+    ktsp_data_dir = "/home/ro/Downloads/Rcode_ECMExplainer-20260309T165711Z-3-001/Rcode_ECMExplainer/k-TSP model!-20260428T200830Z-3-001/k-TSP model!",
+    counts_file   = "salmon_counts_Combined_FINAL.rds",
+    meta_file     = "salmon_metadata_Combined_FINAL.csv",
+    gene_list_file = "ECMExplainer_GeneList.csv",
+    feature_method = "binary_tsp",
+    description = paste(
+      "Binary k-TSP model trained on 96 human fibroblast samples (10 GEO studies).",
+      "Features: sign(log\u2082CPM_A \u2212 log\u2082CPM_B) for each ECM ratio pair.",
+      "Phenotypes: Fibrosis, Hypoxia, Inflammation, Proliferating, Quiescence, Senescence.",
+      "Batch-robust encoding — no ComBat required.",
+      "Species: Human  |  Method: binary_tsp  |  Ratios: V19 feature set (10 AD + 9 SIG)"
+    )
   )
 
 )
@@ -49,6 +67,72 @@ ECM_DEFAULT_MODELS <- list(
 # the foundation files.
 # ---------------------------------------------------------------------------
 .load_default_bundle <- function(entry, training_data_dir) {
+
+  # ---- Case 0: k-TSP entry — raw counts + metadata in ktsp_data_dir ----
+  if (!is.null(entry$ktsp_data_dir)) {
+    kdir <- entry$ktsp_data_dir
+    counts_path <- file.path(kdir, entry$counts_file)
+    meta_path   <- file.path(kdir, entry$meta_file)
+    gene_path   <- file.path(kdir, entry$gene_list_file %||% "ECMExplainer_GeneList.csv")
+
+    if (!file.exists(counts_path))
+      stop("[DefaultModels] k-TSP counts file not found: ", counts_path)
+    if (!file.exists(meta_path))
+      stop("[DefaultModels] k-TSP metadata file not found: ", meta_path)
+
+    counts_mat <- readRDS(counts_path)           # genes × samples raw counts
+    meta_df    <- read.csv(meta_path, row.names = NULL, stringsAsFactors = FALSE)
+    gene_list  <- if (file.exists(gene_path))
+                    read.csv(gene_path, stringsAsFactors = FALSE)
+                  else NULL
+
+    # ---- Harmonise metadata column names to app standard ----
+    # k-TSP CSV uses SampleID/Study; the app expects Sample_ID/Study_ID
+    if ("SampleID" %in% colnames(meta_df) && !"Sample_ID" %in% colnames(meta_df))
+      names(meta_df)[names(meta_df) == "SampleID"] <- "Sample_ID"
+    if ("Study"    %in% colnames(meta_df) && !"Study_ID"  %in% colnames(meta_df))
+      names(meta_df)[names(meta_df) == "Study"]    <- "Study_ID"
+
+    # ---- Load V19 ratio pairs as the feature table ----
+    # The V19 ratios (Gene_A, Gene_B, Category) are used for sign encoding.
+    # This gives the same high-performing ratio pairs selected for the V19 model,
+    # applied with binary sign encoding to the larger 96-sample training set.
+    v19_ratios_path <- file.path(
+      dirname(dirname(kdir)),                       # back to workspace root
+      "shiny_app", "training_data", "ECMExplorer_v19_Final_Ratios.csv"
+    )
+    # Fallback search: look relative to training_data_dir if kdir path fails
+    if (!file.exists(v19_ratios_path)) {
+      v19_ratios_path <- file.path(training_data_dir, "ECMExplorer_v19_Final_Ratios.csv")
+    }
+
+    features_df <- NULL
+    if (file.exists(v19_ratios_path)) {
+      feat_raw <- read.csv(v19_ratios_path, stringsAsFactors = FALSE)
+      # Normalise column names: Category → Module
+      if ("Category" %in% colnames(feat_raw) && !"Module" %in% colnames(feat_raw))
+        names(feat_raw)[names(feat_raw) == "Category"] <- "Module"
+      # Add Ratio_ID if missing
+      if (!"Ratio_ID" %in% colnames(feat_raw))
+        feat_raw$Ratio_ID <- paste0(feat_raw$Gene_A, " / ", feat_raw$Gene_B)
+      features_df <- feat_raw[, c("Ratio_ID", "Gene_A", "Gene_B", "Module"), drop = FALSE]
+    } else {
+      message("[DefaultModels] V19 ratios CSV not found; features will be NULL.",
+              " Binary TSP requires a feature table — provide via Upload model.")
+    }
+
+    return(list(
+      train_obj        = NULL,            # not pre-trained; train on demand
+      features         = features_df,
+      train_meta       = meta_df,
+      train_expr       = counts_mat,      # raw counts; normalise in server
+      ecm_dict         = gene_list,
+      model_name       = entry$label,
+      feature_method   = entry$feature_method %||% "binary_tsp",
+      training_params  = list(feature_method = entry$feature_method %||% "binary_tsp"),
+      version          = "V3-kTSP"
+    ))
+  }
 
   # ---- Case 1: no pre-built bundle — reconstruct from foundation files ----
   if (is.null(entry$bundle_file)) {

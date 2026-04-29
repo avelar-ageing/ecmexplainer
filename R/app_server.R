@@ -1154,6 +1154,18 @@ app_server <- function(input, output, session) {
     training
   })
 
+  # ── Auto-detect feature_method from active model and update prediction_mode ─
+  shiny::observe({
+    at <- tryCatch(resolve_active_training(), error = function(e) NULL)
+    if (is.null(at)) return()
+    detected_method <- at$feature_method %||%
+                       at$training_params$feature_method %||%
+                       NULL
+    if (!is.null(detected_method)) {
+      shiny::updateRadioButtons(session, "prediction_mode", selected = detected_method)
+    }
+  })
+
   # ── Populate the default model dropdown on startup ─────────────────────────
   shiny::observe({
     shiny::updateSelectInput(session, "test_default_model",
@@ -2118,6 +2130,91 @@ app_server <- function(input, output, session) {
         rv$pred_obj         <- pred_obj
         rv$pred_obj_aligned <- NULL
         message("[DEBUG] Step 8 OK: predicted (ratio mode)")
+
+      } else if (pred_mode == "binary_tsp") {
+        # ── Binary k-TSP mode ─────────────────────────────────────────────
+        shinyWidgets::updateProgressBar(session, "pb", value = 50,
+                                        title = "Encoding binary TSP features…")
+
+        # features table must have Gene_A / Gene_B / Ratio_ID columns
+        feat_tbl <- active_training$features
+        if (is.null(feat_tbl) || !all(c("Gene_A","Gene_B") %in% colnames(feat_tbl))) {
+          shiny::showNotification(
+            "Binary TSP requires a ratio-pair feature table with Gene_A / Gene_B columns.",
+            type = "error"
+          )
+          return()
+        }
+
+        # Filter training meta to selected conditions
+        selected_conds   <- input$selected_conditions
+        train_meta_filt  <- active_training$train_meta[
+          active_training$train_meta$Phenotype %in% selected_conds, , drop = FALSE
+        ]
+        train_expr_filt  <- active_training$train_expr[, train_meta_filt$Sample_ID, drop = FALSE]
+
+        # Convert to log2(CPM+1) if the matrix contains raw counts.
+        # Heuristic: if the 99th-percentile value is > 50, treat as raw counts.
+        train_logcpm_filt <- if (quantile(train_expr_filt, 0.99) > 50) {
+          message("[BinaryTSP] Detected raw counts — converting to log2(CPM+1).")
+          to_logcpm_ktsp(train_expr_filt)
+        } else {
+          message("[BinaryTSP] Training data appears already normalised — using as-is.")
+          train_expr_filt
+        }
+
+        shinyWidgets::updateProgressBar(session, "pb", value = 65,
+                                        title = "Training k-TSP classifier…")
+        train_obj <- tryCatch(
+          train_ecmexplainer(
+            ratio_mat      = NULL,
+            avail_features = feat_tbl,
+            phenotype_vec  = factor(
+              train_meta_filt$Phenotype[
+                match(colnames(train_expr_filt), train_meta_filt$Sample_ID)
+              ]
+            ),
+            logcpm_mat     = train_logcpm_filt,
+            feature_method = "binary_tsp",
+            metadata_df    = train_meta_filt,
+            batch_col      = NULL,   # binary encoding is batch-robust
+            protect_cols   = "Phenotype"
+          ),
+          error = function(e) {
+            shiny::showNotification(paste("k-TSP training error:", e$message), type = "error")
+            NULL
+          }
+        )
+        if (is.null(train_obj)) return()
+
+        rv$train_obj       <- train_obj
+        rv$train_meta_filt <- train_meta_filt
+
+        # Build a synthetic ratio_res for downstream UI compatibility
+        rv$ratio_res <- list(
+          ratio_mat      = NULL,
+          avail_features = feat_tbl,
+          n_avail        = nrow(feat_tbl),
+          n_total        = nrow(feat_tbl)
+        )
+
+        shinyWidgets::updateProgressBar(session, "pb", value = 82,
+                                        title = "Predicting with k-TSP classifier…")
+        pred_obj <- tryCatch(
+          predict_ecmexplainer(
+            test_expr_mat  = norm_mat,
+            train_obj      = train_obj,
+            avail_features = feat_tbl
+          ),
+          error = function(e) {
+            shiny::showNotification(paste("k-TSP prediction error:", e$message), type = "error")
+            NULL
+          }
+        )
+        if (is.null(pred_obj)) return()
+        rv$pred_obj         <- pred_obj
+        rv$pred_obj_aligned <- NULL
+        message("[DEBUG] Step 8 OK: predicted (binary_tsp mode)")
 
       } else {
         # ── Gene mode (ecm_genes or all_genes) ───────────────────────────
