@@ -171,6 +171,37 @@ app_server <- function(input, output, session) {
   shiny::observeEvent(input$train_step2_back, { rv_train$step <- 1L })
   shiny::observeEvent(input$train_step3_back, { rv_train$step <- 1L })
 
+  # Custom phenotype labels — accumulate user additions
+  rv_custom_phenotypes <- shiny::reactiveVal(character(0))
+
+  shiny::observeEvent(input$train_add_phenotype_btn, {
+    new_label <- trimws(input$train_new_phenotype_name)
+    if (nchar(new_label) == 0) return()
+    current <- rv_custom_phenotypes()
+    if (new_label %in% current) {
+      shiny::showNotification(paste0("'", new_label, "' is already in the list."), type = "warning")
+      return()
+    }
+    rv_custom_phenotypes(c(current, new_label))
+    shiny::updateTextInput(session, "train_new_phenotype_name", value = "")
+    shiny::showNotification(
+      paste0("Phenotype '", new_label, "' added. Samples labelled with this value will be included."),
+      type = "message", duration = 5
+    )
+  })
+
+  output$train_custom_phenotypes_ui <- shiny::renderUI({
+    lbls <- rv_custom_phenotypes()
+    if (length(lbls) == 0) return(NULL)
+    shiny::tags$div(
+      shiny::tags$small("Custom phenotypes:", style = "color:#555; font-weight:600;"),
+      shiny::tags$ul(
+        lapply(lbls, function(l) shiny::tags$li(l, style = "font-size:0.85em;")),
+        style = "margin:2px 0 0 12px; padding:0;"
+      )
+    )
+  })
+
   # Training metadata — reactive reader
   rv_train_meta_raw <- shiny::reactive({
     shiny::req(input$train_meta_file)
@@ -404,25 +435,47 @@ app_server <- function(input, output, session) {
         })
       }
 
-      # 7. Feature selection
+      # 7. Feature selection — V19 η² greedy OR V3 TSP-Δ stratified
       shinyWidgets::updateProgressBar(session, "train_pb", value = 55,
                                       title = "Running synergy filter (this may take a moment)…")
       max_app <- if (isTRUE(input$train_max_appearances_unlimited)) NULL else
                    as.integer(input$train_max_appearances %||% 1L)
 
-      selected_features <- tryCatch(
-        run_feature_selection(
-          train_expr          = train_log_cpm,
-          ecm_dict            = ecm_dict,
-          phenotype_vec       = factor(train_meta[[ph_col]]),
-          max_ratios          = as.integer(input$train_max_ratios %||% 50),
-          candidate_pool_size = as.integer(input$train_candidate_pool %||% 100L),
-          max_appearances     = max_app,
-          eta_sq_min          = as.numeric(input$train_eta_sq_min %||% 0.30),
-          synergy_delta       = as.numeric(input$train_synergy_delta %||% 0.05)
-        ),
-        error = function(e) { shiny::showNotification(paste("Feature selection error:", e$message), type = "error"); NULL }
-      )
+      sel_method <- input$train_selection_method %||% "eta_sq"
+
+      selected_features <- if (sel_method == "tsp_delta") {
+        tryCatch(
+          run_feature_selection_tsp(
+            logcpm_mat    = train_log_cpm,
+            ecm_dict      = ecm_dict,
+            phenotype_vec = factor(train_meta[[ph_col]]),
+            n_per_pheno   = as.integer(input$train_n_per_pheno %||% 12L),
+            eta_sq_min    = as.numeric(input$train_eta_sq_min  %||% 0.10),
+            var_min       = 0.005
+          ),
+          error = function(e) {
+            shiny::showNotification(paste("TSP-Delta selection error:", e$message), type = "error")
+            NULL
+          }
+        )
+      } else {
+        tryCatch(
+          run_feature_selection(
+            train_expr          = train_log_cpm,
+            ecm_dict            = ecm_dict,
+            phenotype_vec       = factor(train_meta[[ph_col]]),
+            max_ratios          = as.integer(input$train_max_ratios %||% 50),
+            candidate_pool_size = as.integer(input$train_candidate_pool %||% 100L),
+            max_appearances     = max_app,
+            eta_sq_min          = as.numeric(input$train_eta_sq_min %||% 0.30),
+            synergy_delta       = as.numeric(input$train_synergy_delta %||% 0.05)
+          ),
+          error = function(e) {
+            shiny::showNotification(paste("Feature selection error:", e$message), type = "error")
+            NULL
+          }
+        )
+      }
       if (is.null(selected_features)) return()
 
       shiny::showNotification(
@@ -2763,6 +2816,103 @@ app_server <- function(input, output, session) {
       plot_lda_combined(rv$train_obj, rv$pred_obj, rv$train_meta_filt)
     }, error = function(e) { cat("\n[CRASH] plot_lda_combined: ", conditionMessage(e), "\n"); traceback(3); NULL })
   })
+
+  # ---- Sign matrix heatmap ----
+  output$plot_sign_heatmap <- shiny::renderPlot({
+    shiny::req(rv$train_obj, rv$pred_obj)
+    tryCatch({
+      # Determine which sign matrix to show
+      source_sel <- input$sign_heatmap_source %||% "test"
+      train_obj  <- rv$train_obj
+      pred_obj   <- rv$pred_obj
+
+      # Build sign matrix depending on source selector
+      sign_mat <- if (source_sel == "train" && !is.null(train_obj$sign_mat)) {
+        train_obj$sign_mat
+      } else if (source_sel == "both" && !is.null(pred_obj$sign_mat_val) &&
+                 !is.null(train_obj$sign_mat)) {
+        cbind(train_obj$sign_mat, pred_obj$sign_mat_val)
+      } else {
+        pred_obj$sign_mat_val
+      }
+      if (is.null(sign_mat)) {
+        plot(0, 0, type = "n", axes = FALSE, xlab = "", ylab = "",
+             main = "Sign matrix not available\n(requires binary_tsp / TSP-Delta model)")
+        return()
+      }
+
+      # Phenotype annotation
+      if (source_sel == "train") {
+        pheno_vec <- setNames(as.character(train_obj$train_phenotype),
+                              colnames(sign_mat))
+      } else if (source_sel == "both" &&
+                 !is.null(train_obj$sign_mat) && !is.null(pred_obj$sign_mat_val)) {
+        pheno_vec <- c(
+          setNames(as.character(train_obj$train_phenotype), colnames(train_obj$sign_mat)),
+          setNames(
+            if (!is.null(rv$user_meta)) {
+              rv$user_meta$Phenotype[match(colnames(pred_obj$sign_mat_val),
+                                           rv$user_meta$Sample_ID)]
+            } else rep("Test", ncol(pred_obj$sign_mat_val)),
+            colnames(pred_obj$sign_mat_val)
+          )
+        )
+      } else {
+        pheno_vec <- if (!is.null(rv$user_meta)) {
+          setNames(rv$user_meta$Phenotype[
+            match(colnames(sign_mat), rv$user_meta$Sample_ID)
+          ], colnames(sign_mat))
+        } else NULL
+      }
+      pheno_vec[is.na(pheno_vec)] <- "Unknown"
+
+      plot_sign_heatmap(sign_mat,
+                        pheno_vec    = pheno_vec,
+                        cluster_rows = isTRUE(input$sign_heatmap_cluster_rows))
+    }, error = function(e) {
+      cat("\n[CRASH] plot_sign_heatmap: ", conditionMessage(e), "\n"); traceback(3); NULL
+    })
+  })
+
+  # ---- Distance to centroids heatmap ----
+  output$plot_dist_heatmap <- shiny::renderPlot({
+    shiny::req(rv$train_obj, rv$pred_obj)
+    tryCatch({
+      train_obj <- rv$train_obj
+      pred_obj  <- rv$pred_obj
+      if (is.null(pred_obj$val_lda_coords)) {
+        plot(0, 0, type = "n", axes = FALSE, xlab = "", ylab = "",
+             main = "LDA coordinates not available for this model type.")
+        return()
+      }
+      aggregate_by_cond <- isTRUE(input$dist_heatmap_aggregate)
+      cond_vec <- if (aggregate_by_cond && !is.null(pred_obj$prediction))
+        pred_obj$prediction else NULL
+
+      plot_distance_heatmap(pred_obj$val_lda_coords, train_obj,
+                            condition_vec = cond_vec)
+    }, error = function(e) {
+      cat("\n[CRASH] plot_dist_heatmap: ", conditionMessage(e), "\n"); traceback(3); NULL
+    })
+  })
+
+  # ---- Download handlers for new heatmaps ----
+  output$dl_sign_heatmap <- shiny::downloadHandler(
+    filename = function() paste0("sign_heatmap_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".png"),
+    content  = function(file) {
+      p <- isolate(output$plot_sign_heatmap())
+      if (!is.null(p))
+        ggplot2::ggsave(file, p, width = 14, height = 8, dpi = 180)
+    }
+  )
+  output$dl_dist_heatmap <- shiny::downloadHandler(
+    filename = function() paste0("dist_heatmap_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".png"),
+    content  = function(file) {
+      p <- isolate(output$plot_dist_heatmap())
+      if (!is.null(p))
+        ggplot2::ggsave(file, p, width = 10, height = 7, dpi = 180)
+    }
+  )
 
   # ---- Step 4: filter UI ----
   output$step4_filter_col_ui <- shiny::renderUI({

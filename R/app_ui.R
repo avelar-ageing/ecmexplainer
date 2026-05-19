@@ -234,6 +234,53 @@ app_ui <- function(request) {
                                     value = 0.30, min = 0.05, max = 0.95, step = 0.05),
                 shiny::numericInput("train_synergy_delta", "Minimum synergy Δη²",
                                     value = 0.05, min = 0.00, max = 0.50, step = 0.01),
+
+                shiny::hr(style = "margin:10px 0;"),
+                shiny::tags$label("Ratio selection method", class = "control-label"),
+                shinyWidgets::radioGroupButtons(
+                  inputId  = "train_selection_method",
+                  label    = NULL,
+                  choices  = c(
+                    "V19 \u03b7\u00b2 greedy"       = "eta_sq",
+                    "V3 TSP-\u0394 stratified (k-TSP)" = "tsp_delta"
+                  ),
+                  selected  = "eta_sq",
+                  justified = TRUE,
+                  size      = "sm"
+                ),
+                shiny::conditionalPanel(
+                  condition = "input.train_selection_method == 'tsp_delta'",
+                  shiny::br(),
+                  shiny::numericInput(
+                    "train_n_per_pheno",
+                    shiny::tags$span("Ratios per phenotype per module",
+                      shiny::tags$small(" — V3 default: 12 \u00d7 6 = 72/module",
+                                        style = "color:#888;")),
+                    value = 12L, min = 2L, max = 50L, step = 1L
+                  )
+                ),
+                shiny::hr(style = "margin:10px 0;"),
+                shiny::tags$label("Add a custom phenotype label", class = "control-label"),
+                shiny::tags$small(
+                  shiny::tags$em(" — type a new label name; samples with this exact",
+                                 " value in the Phenotype column will be included"),
+                  style = "display:block; color:#777; margin-bottom:6px;"
+                ),
+                shiny::fluidRow(
+                  shiny::column(8,
+                    shiny::textInput("train_new_phenotype_name",
+                                     label       = NULL,
+                                     placeholder = "e.g. Apoptosis")
+                  ),
+                  shiny::column(4,
+                    shiny::br(),
+                    shinyWidgets::actionBttn(
+                      "train_add_phenotype_btn", "Add",
+                      style = "bordered", color = "primary", size = "sm"
+                    )
+                  )
+                ),
+                shiny::uiOutput("train_custom_phenotypes_ui"),
                 shiny::tags$label("Max gene appearances per panel",
                                   class = "control-label"),
                 shiny::tags$small(
@@ -913,6 +960,68 @@ app_ui <- function(request) {
 
           shiny::fluidRow(
             shinydashboard::box(
+              title = shiny::tags$span(shiny::icon("th"), " Sign Matrix Heatmap"),
+              width = 12, status = "info", solidHeader = TRUE,
+              collapsible = TRUE, collapsed = TRUE,
+              shiny::tags$small(
+                "Sign values {−1, 0, +1} = blue / cream / red. ",
+                "Rows = ECM ratio pairs, columns = samples ordered by phenotype.",
+                style = "color:#555;"
+              ),
+              shiny::br(),
+              shiny::fluidRow(
+                shiny::column(4,
+                  shiny::selectInput(
+                    "sign_heatmap_source",
+                    "Samples to show",
+                    choices  = c("Test samples only"         = "test",
+                                 "Training samples only"     = "train",
+                                 "Both (test + training)"    = "both"),
+                    selected = "test"
+                  )
+                ),
+                shiny::column(4,
+                  shiny::checkboxInput("sign_heatmap_cluster_rows",
+                                       "Cluster ratio rows", value = TRUE)
+                ),
+                shiny::column(4,
+                  shiny::br(),
+                  shiny::downloadButton("dl_sign_heatmap", "Download (.png)",
+                                        class = "btn-sm btn-default")
+                )
+              ),
+              shiny::plotOutput("plot_sign_heatmap", height = "500px")
+            )
+          ),
+
+          shiny::fluidRow(
+            shinydashboard::box(
+              title = shiny::tags$span(shiny::icon("map"), " Distance to Training Centroids"),
+              width = 12, status = "primary", solidHeader = TRUE,
+              collapsible = TRUE, collapsed = TRUE,
+              shiny::tags$small(
+                "Euclidean distance of each test sample to each phenotype centroid in LDA space. ",
+                "Red = close, blue = far. Predictions correspond to the closest centroid.",
+                style = "color:#555;"
+              ),
+              shiny::br(),
+              shiny::fluidRow(
+                shiny::column(4,
+                  shiny::checkboxInput("dist_heatmap_aggregate",
+                                       "Aggregate by predicted phenotype (median)", value = FALSE)
+                ),
+                shiny::column(4,
+                  shiny::br(),
+                  shiny::downloadButton("dl_dist_heatmap", "Download (.png)",
+                                        class = "btn-sm btn-default")
+                )
+              ),
+              shiny::plotOutput("plot_dist_heatmap", height = "420px")
+            )
+          ),
+
+          shiny::fluidRow(
+            shinydashboard::box(
               title = "Ratio PCA – user samples",
               width = 12, status = "primary", solidHeader = TRUE,
               collapsible = TRUE,
@@ -967,6 +1076,10 @@ app_ui <- function(request) {
               shiny::downloadButton("dl_probs_plot",     "Probability Barplot (.png)"),
               shiny::br(), shiny::br(),
               shiny::downloadButton("dl_lda_combined",   "Combined LDA Plot (.png)"),
+              shiny::br(), shiny::br(),
+              shiny::downloadButton("dl_sign_heatmap_dl","Sign Matrix Heatmap (.png)"),
+              shiny::br(), shiny::br(),
+              shiny::downloadButton("dl_dist_heatmap_dl","Distance to Centroids Heatmap (.png)"),
               shiny::br(), shiny::br(),
               shiny::downloadButton("dl_ratio_pca",      "Ratio PCA – User Samples (.png)")
             ),

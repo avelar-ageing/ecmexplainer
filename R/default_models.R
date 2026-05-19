@@ -39,7 +39,7 @@ ECM_DEFAULT_MODELS <- list(
     label       = "ECMExplainer V3 k-TSP — Human fibroblasts (96 samples, binary TSP)",
     bundle_file = NULL,
     # raw data lives in the k-TSP source folder; loaded via ktsp_data_dir
-    ktsp_data_dir = "/home/ro/Downloads/Rcode_ECMExplainer-20260309T165711Z-3-001/Rcode_ECMExplainer/k-TSP model!-20260428T200830Z-3-001/k-TSP model!",
+    ktsp_data_dir = "/home/ro/Downloads/Rcode_ECMExplainer-20260309T165711Z-3-001/Rcode_ECMExplainer/k-TSP_model/k-TSP_model_scripts",
     counts_file   = "salmon_counts_Combined_FINAL.rds",
     meta_file     = "salmon_metadata_Combined_FINAL.csv",
     gene_list_file = "ECMExplainer_GeneList.csv",
