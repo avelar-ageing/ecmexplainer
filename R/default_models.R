@@ -38,11 +38,11 @@ ECM_DEFAULT_MODELS <- list(
   "ECMExplainer V3 k-TSP — Human fibroblasts (96 samples, binary TSP)" = list(
     label       = "ECMExplainer V3 k-TSP — Human fibroblasts (96 samples, binary TSP)",
     bundle_file = NULL,
-    # raw data lives in the k-TSP source folder; loaded via ktsp_data_dir
-    ktsp_data_dir = "/home/ro/Downloads/Rcode_ECMExplainer-20260309T165711Z-3-001/Rcode_ECMExplainer/k-TSP_model/k-TSP_model_scripts",
+    # data now lives alongside V19 files in training_data/ — portable across machines
+    ktsp_data_dir = NULL,           # NULL = use training_data_dir
     counts_file   = "salmon_counts_Combined_FINAL.rds",
     meta_file     = "salmon_metadata_Combined_FINAL.csv",
-    gene_list_file = "ECMExplainer_GeneList.csv",
+    gene_list_file = NULL,          # gene list not needed; ratios come from V19 CSV
     feature_method = "binary_tsp",
     description = paste(
       "Binary k-TSP model trained on 96 human fibroblast samples (10 GEO studies).",
@@ -68,12 +68,17 @@ ECM_DEFAULT_MODELS <- list(
 # ---------------------------------------------------------------------------
 .load_default_bundle <- function(entry, training_data_dir) {
 
-  # ---- Case 0: k-TSP entry — raw counts + metadata in ktsp_data_dir ----
-  if (!is.null(entry$ktsp_data_dir)) {
-    kdir <- entry$ktsp_data_dir
+  # ---- Case 0: k-TSP entry — raw counts + metadata ----
+  if (!is.null(entry$counts_file) && !is.null(entry$feature_method) &&
+      entry$feature_method == "binary_tsp") {
+    # ktsp_data_dir: explicit override path; if NULL fall back to training_data_dir
+    kdir <- entry$ktsp_data_dir %||% training_data_dir
     counts_path <- file.path(kdir, entry$counts_file)
     meta_path   <- file.path(kdir, entry$meta_file)
-    gene_path   <- file.path(kdir, entry$gene_list_file %||% "ECMExplainer_GeneList.csv")
+    # gene_list_file is optional for binary_tsp (ratios come from V19 CSV)
+    gene_path   <- if (!is.null(entry$gene_list_file))
+                     file.path(kdir, entry$gene_list_file)
+                   else NULL
 
     if (!file.exists(counts_path))
       stop("[DefaultModels] k-TSP counts file not found: ", counts_path)
@@ -82,7 +87,7 @@ ECM_DEFAULT_MODELS <- list(
 
     counts_mat <- readRDS(counts_path)           # genes × samples raw counts
     meta_df    <- read.csv(meta_path, row.names = NULL, stringsAsFactors = FALSE)
-    gene_list  <- if (file.exists(gene_path))
+    gene_list  <- if (!is.null(gene_path) && file.exists(gene_path))
                     read.csv(gene_path, stringsAsFactors = FALSE)
                   else NULL
 
