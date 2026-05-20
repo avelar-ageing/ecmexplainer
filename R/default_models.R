@@ -42,7 +42,8 @@ ECM_DEFAULT_MODELS <- list(
     ktsp_data_dir = NULL,           # NULL = use training_data_dir
     counts_file   = "salmon_counts_Combined_FINAL.rds",
     meta_file     = "salmon_metadata_Combined_FINAL.csv",
-    gene_list_file = NULL,          # gene list not needed; ratios come from V19 CSV
+    ratios_file   = "ECMExplorer_kTSP_v3_Features.csv",  # 144 TSP-Delta selected ratios (paper V3)
+    gene_list_file = NULL,          # gene list not needed; ratios come from ratios_file
     feature_method = "binary_tsp",
     description = paste(
       "Binary k-TSP model trained on 96 human fibroblast samples (10 GEO studies).",
@@ -98,22 +99,17 @@ ECM_DEFAULT_MODELS <- list(
     if ("Study"    %in% colnames(meta_df) && !"Study_ID"  %in% colnames(meta_df))
       names(meta_df)[names(meta_df) == "Study"]    <- "Study_ID"
 
-    # ---- Load V19 ratio pairs as the feature table ----
-    # The V19 ratios (Gene_A, Gene_B, Category) are used for sign encoding.
-    # This gives the same high-performing ratio pairs selected for the V19 model,
-    # applied with binary sign encoding to the larger 96-sample training set.
-    v19_ratios_path <- file.path(
-      dirname(dirname(kdir)),                       # back to workspace root
-      "shiny_app", "training_data", "ECMExplorer_v19_Final_Ratios.csv"
-    )
-    # Fallback search: look relative to training_data_dir if kdir path fails
-    if (!file.exists(v19_ratios_path)) {
-      v19_ratios_path <- file.path(training_data_dir, "ECMExplorer_v19_Final_Ratios.csv")
-    }
+    # ---- Load k-TSP V3 ratio pairs as the feature table ----
+    # ratios_file: 144 TSP-Delta-selected ratios (paper V3, LOOCV 100%)
+    # Falls back to V19 CSV if ratios_file is absent (for backward compat).
+    ratios_csv <- if (!is.null(entry$ratios_file))
+                    file.path(training_data_dir, entry$ratios_file)
+                  else
+                    file.path(training_data_dir, "ECMExplorer_v19_Final_Ratios.csv")
 
     features_df <- NULL
-    if (file.exists(v19_ratios_path)) {
-      feat_raw <- read.csv(v19_ratios_path, stringsAsFactors = FALSE)
+    if (file.exists(ratios_csv)) {
+      feat_raw <- read.csv(ratios_csv, stringsAsFactors = FALSE)
       # Normalise column names: Category → Module
       if ("Category" %in% colnames(feat_raw) && !"Module" %in% colnames(feat_raw))
         names(feat_raw)[names(feat_raw) == "Category"] <- "Module"
@@ -121,9 +117,11 @@ ECM_DEFAULT_MODELS <- list(
       if (!"Ratio_ID" %in% colnames(feat_raw))
         feat_raw$Ratio_ID <- paste0(feat_raw$Gene_A, " / ", feat_raw$Gene_B)
       features_df <- feat_raw[, c("Ratio_ID", "Gene_A", "Gene_B", "Module"), drop = FALSE]
+      message(sprintf("[DefaultModels] Loaded %d ratio features from %s",
+                      nrow(features_df), basename(ratios_csv)))
     } else {
-      message("[DefaultModels] V19 ratios CSV not found; features will be NULL.",
-              " Binary TSP requires a feature table — provide via Upload model.")
+      message("[DefaultModels] Ratio CSV not found: ", ratios_csv,
+              " — Binary TSP requires a feature table; provide via Upload model.")
     }
 
     return(list(
