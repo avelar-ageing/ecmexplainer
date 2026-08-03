@@ -1,0 +1,97 @@
+SampleID,Study,Phenotype,CellType,AssayType
+GSM2742709_proliferating,GSE102674,Proliferating,primary,RNA-seq
+GSM2742710_proliferating,GSE102674,Proliferating,primary,RNA-seq
+GSM2742711_proliferating,GSE102674,Proliferating,primary,RNA-seq
+GSM2742712_proliferating,GSE102674,Proliferating,primary,RNA-seq
+GSM2742713_fibrosis,GSE102674,Fibrosis,primary,RNA-seq
+GSM2742714_fibrosis,GSE102674,Fibrosis,primary,RNA-seq
+GSM2742715_fibrosis,GSE102674,Fibrosis,primary,RNA-seq
+GSM2742716_fibrosis,GSE102674,Fibrosis,primary,RNA-seq
+GSM3291218_proliferating,GSE117337,Proliferating,primary,RNA-seq
+GSM3291219_proliferating,GSE117337,Proliferating,primary,RNA-seq
+GSM3291220_proliferating,GSE117337,Proliferating,primary,RNA-seq
+GSM3291221_CQ,GSE117337,Quiescence,primary,RNA-seq
+GSM3291222_CQ,GSE117337,Quiescence,primary,RNA-seq
+GSM3291223_CQ,GSE117337,Quiescence,primary,RNA-seq
+GSM3291224_CQ,GSE117337,Quiescence,primary,RNA-seq
+GSM3291225_CQ,GSE117337,Quiescence,primary,RNA-seq
+GSM3291226_CQ,GSE117337,Quiescence,primary,RNA-seq
+GSM3294929_proliferating,GSE117444,Proliferating,primary,RNA-seq
+GSM3294930_proliferating,GSE117444,Proliferating,primary,RNA-seq
+GSM3294931_proliferating,GSE117444,Proliferating,primary,RNA-seq
+GSM3294932_CQ,GSE117444,Quiescence,primary,RNA-seq
+GSM3294933_CQ,GSE117444,Quiescence,primary,RNA-seq
+GSM3294934_CQ,GSE117444,Quiescence,primary,RNA-seq
+GSM4150583_proliferating,GSE139963,Proliferating,primary,RNA-seq
+GSM4150584_proliferating,GSE139963,Proliferating,primary,RNA-seq
+GSM4150585_proliferating,GSE139963,Proliferating,primary,RNA-seq
+GSM4150586_fibrosis,GSE139963,Fibrosis,primary,RNA-seq
+GSM4150587_fibrosis,GSE139963,Fibrosis,primary,RNA-seq
+GSM4150588_fibrosis,GSE139963,Fibrosis,primary,RNA-seq
+GSM4150589_hypoxia,GSE139963,Hypoxia,primary,RNA-seq
+GSM4150590_hypoxia,GSE139963,Hypoxia,primary,RNA-seq
+GSM4150591_hypoxia,GSE139963,Hypoxia,primary,RNA-seq
+GSM6893171_proliferating,GSE221693,Proliferating,primary,RNA-seq
+GSM6893172_proliferating,GSE221693,Proliferating,primary,RNA-seq
+GSM6893175_inflammation,GSE221693,Inflammation,primary,RNA-seq
+GSM6893176_inflammation,GSE221693,Inflammation,primary,RNA-seq
+GSM6893179_fibrosis,GSE221693,Fibrosis,primary,RNA-seq
+GSM6893180_fibrosis,GSE221693,Fibrosis,primary,RNA-seq
+GSM1553088_proliferating,GSE63577,Proliferating,BJ Fibroblast,RNA-seq
+GSM1553089_proliferating,GSE63577,Proliferating,BJ Fibroblast,RNA-seq
+GSM1553090_proliferating,GSE63577,Proliferating,BJ Fibroblast,RNA-seq
+GSM1553091_senescence,GSE63577,Senescence,BJ Fibroblast,RNA-seq
+GSM1553092_senescence,GSE63577,Senescence,BJ Fibroblast,RNA-seq
+GSM1553093_senescence,GSE63577,Senescence,BJ Fibroblast,RNA-seq
+GSM1553094_proliferating,GSE63577,Proliferating,IMR90 Fibroblast,RNA-seq
+GSM1553095_proliferating,GSE63577,Proliferating,IMR90 Fibroblast,RNA-seq
+GSM1553096_proliferating,GSE63577,Proliferating,IMR90 Fibroblast,RNA-seq
+GSM1553097_senescence,GSE63577,Senescence,IMR90 Fibroblast,RNA-seq
+GSM1553098_senescence,GSE63577,Senescence,IMR90 Fibroblast,RNA-seq
+GSM1553099_senescence,GSE63577,Senescence,IMR90 Fibroblast,RNA-seq
+GSM1553100_proliferating,GSE63577,Proliferating,WI-38,RNA-seq
+GSM1553101_proliferating,GSE63577,Proliferating,WI-38,RNA-seq
+GSM1553102_proliferating,GSE63577,Proliferating,WI-38,RNA-seq
+GSM1553104_senescence,GSE63577,Senescence,WI-38,RNA-seq
+GSM1553105_senescence,GSE63577,Senescence,WI-38,RNA-seq
+GSM1553106_proliferating,GSE63577,Proliferating,HFF Fibroblast,RNA-seq
+GSM1553107_proliferating,GSE63577,Proliferating,HFF Fibroblast,RNA-seq
+GSM1553108_proliferating,GSE63577,Proliferating,HFF Fibroblast,RNA-seq
+GSM1553109_senescence,GSE63577,Senescence,HFF Fibroblast,RNA-seq
+GSM1553110_senescence,GSE63577,Senescence,HFF Fibroblast,RNA-seq
+GSM1553111_senescence,GSE63577,Senescence,HFF Fibroblast,RNA-seq
+GSM1917137_proliferating,GSE74324,Proliferating,IMR90 Fibroblast,RNA-seq
+GSM1917138_proliferating,GSE74324,Proliferating,IMR90 Fibroblast,RNA-seq
+GSM1917139_proliferating,GSE74324,Proliferating,IMR90 Fibroblast,RNA-seq
+GSM1917140_CQ,GSE74324,Quiescence,IMR90 Fibroblast,RNA-seq
+GSM1917141_CQ,GSE74324,Quiescence,IMR90 Fibroblast,RNA-seq
+GSM1917142_CQ,GSE74324,Quiescence,IMR90 Fibroblast,RNA-seq
+GSM1917143_senescence,GSE74324,Senescence,IMR90 Fibroblast,RNA-seq
+GSM1917144_senescence,GSE74324,Senescence,IMR90 Fibroblast,RNA-seq
+GSM1917145_senescence,GSE74324,Senescence,IMR90 Fibroblast,RNA-seq
+GSM1961162_senescence,GSE75643,Senescence,TIG3,RNA-seq
+GSM1961168_senescence,GSE75643,Senescence,TIG3,RNA-seq
+GSM1961174_senescence,GSE75643,Senescence,TIG3,RNA-seq
+GSM1961176_proliferating,GSE75643,Proliferating,TIG3,RNA-seq
+GSM1961177_CQ,GSE75643,Quiescence,TIG3,RNA-seq
+GSM1961178_proliferating,GSE75643,Proliferating,TIG3,RNA-seq
+GSM1961179_CQ,GSE75643,Quiescence,TIG3,RNA-seq
+GSM1961180_proliferating,GSE75643,Proliferating,TIG3,RNA-seq
+GSM1961181_CQ,GSE75643,Quiescence,TIG3,RNA-seq
+GSE281533_HLF_Hypoxia_rep1,GSE281533,Hypoxia,HLF,RNA-seq
+GSE281533_HLF_Hypoxia_rep2,GSE281533,Hypoxia,HLF,RNA-seq
+GSE281533_HLF_Hypoxia_rep3,GSE281533,Hypoxia,HLF,RNA-seq
+GSE281533_HLF_Hypoxia_rep4,GSE281533,Hypoxia,HLF,RNA-seq
+GSE281533_HLF_Normoxia_rep1,GSE281533,Proliferating,HLF,RNA-seq
+GSE281533_HLF_Normoxia_rep2,GSE281533,Proliferating,HLF,RNA-seq
+GSE281533_HLF_Normoxia_rep3,GSE281533,Proliferating,HLF,RNA-seq
+GSE281533_HLF_Normoxia_rep4,GSE281533,Proliferating,HLF,RNA-seq
+GSE295622_HPF_LIGHT_and_IL13_24_hrs_rep1,GSE295622,Inflammation,HPF,RNA-seq
+GSE295622_HPF_LIGHT_and_IL13_24_hrs_rep2,GSE295622,Inflammation,HPF,RNA-seq
+GSE295622_HPF_LIGHT_and_IL13_24_hrs_rep3,GSE295622,Inflammation,HPF,RNA-seq
+GSE295622_HPF_LIGHT_and_IL17A_24_hrs_rep1,GSE295622,Inflammation,HPF,RNA-seq
+GSE295622_HPF_LIGHT_and_IL17A_24_hrs_rep2,GSE295622,Inflammation,HPF,RNA-seq
+GSE295622_HPF_LIGHT_and_IL17A_24_hrs_rep3,GSE295622,Inflammation,HPF,RNA-seq
+GSE295622_HPF_PBS_24_hrs_rep1,GSE295622,Proliferating,HPF,RNA-seq
+GSE295622_HPF_PBS_24_hrs_rep2,GSE295622,Proliferating,HPF,RNA-seq
+GSE295622_HPF_PBS_24_hrs_rep3,GSE295622,Proliferating,HPF,RNA-seq
