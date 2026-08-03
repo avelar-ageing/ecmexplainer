@@ -31,11 +31,12 @@ ENV ECMX_MODE=web \
     ECMX_MAX_SAMPLES=60 \
     ECMX_MAX_TRAIN=60
 
-RUN chown -R shiny:shiny /srv/shiny-server
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh && chown -R shiny:shiny /srv/shiny-server
 USER shiny
 
 EXPOSE 3838
 HEALTHCHECK --interval=30s --timeout=8s --start-period=45s --retries=3 \
   CMD ["R", "-q", "-s", "-e", "q(status = if (inherits(try(readLines('http://127.0.0.1:3838/ecm/', n = 1L, warn = FALSE), silent = TRUE), 'try-error')) 1L else 0L)"]
 
-CMD ["/usr/bin/shiny-server"]
+CMD ["/usr/local/bin/docker-entrypoint.sh"]
