@@ -77,6 +77,13 @@ reproducing the shipped panel **exactly — all 180 ratios in the same order**:
 
 ## Known discrepancies between the manuscript text and the code
 
+> **Note.** This list was written against the first manuscript draft. The revision
+> `Human_ECMExplainer_HF-1.pdf` fixes items 1 (partly), 2, 3, 4, 5 and 6 below, and
+> Supplementary Table 5 v2 adds a metric-definitions sheet. See
+> [`REVIEW_FINDINGS.md`](REVIEW_FINDINGS.md) for the current, shorter list of what
+> is still open; the entries here are retained because they explain why the app
+> exposes the *Selection ranking* and *Minimum ratios per module* controls.
+
 Recorded so anyone reading the paper alongside this repository can see where they
 diverge. **These are documentation issues, not errors in the published panel** —
 the model reproduces exactly — but the Methods text does not everywhere describe

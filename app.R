@@ -43,6 +43,9 @@ CENTROIDS <- ecmx_centroids(MODEL)
 notify_err <- function(e) showNotification(conditionMessage(e), type = "error", duration = 12)
 info_box   <- function(...) div(class = "ecmx-note", ...)
 
+# base R gained %||% in 4.4.0; define it if we are on something older.
+if (!exists("%||%")) `%||%` <- function(x, y) if (is.null(x)) y else x
+
 model_features <- function(m) {
   f <- m$features
   if (is.null(f$Ratio_ID) && !is.null(f$Ratio)) f$Ratio_ID <- f$Ratio
@@ -108,18 +111,32 @@ ui <- fluidPage(
           uiOutput("model_pick"),
           hr(),
           uiOutput("group_pick"),
+          conditionalPanel("input.viz == 'heat'", uiOutput("heat_pheno_pick")),
           hr(),
+          h4("3 · Export"),
+          fluidRow(
+            column(6, numericInput("exp_w", "Width (in)",  9, 3, 30, 0.5)),
+            column(6, numericInput("exp_h", "Height (in)", 7, 3, 40, 0.5))),
+          numericInput("exp_dpi", "DPI", 300, 72, 600, 1),
+          radioButtons("exp_fmt", NULL, c(PNG = "png", PDF = "pdf"), inline = TRUE),
+          downloadButton("dl_plot", "Download current figure", class = "btn-sm"),
+          br(), br(),
           downloadButton("dl_results", "Download results (CSV)", class = "btn-sm")
         ),
         mainPanel(
           width = 9,
           uiOutput("coverage_msg"),
           tabsetPanel(
-            tabPanel("Phenotype space",    br(), plotOutput("p_lda",  height = "540px")),
-            tabPanel("Posteriors",         br(), plotOutput("p_post", height = "440px")),
-            tabPanel("Centroid distances", br(), plotOutput("p_dist", height = "420px")),
-            tabPanel("Panel heatmap",      br(), plotOutput("p_heat", height = "700px")),
-            tabPanel("Results table",      br(), tableOutput("t_res"))
+            id = "viz",
+            tabPanel("Phenotype space",    value = "lda",  br(),
+                     plotOutput("p_lda",  height = "560px")),
+            tabPanel("Posteriors",         value = "post", br(),
+                     plotOutput("p_post", height = "440px")),
+            tabPanel("Centroid distances", value = "dist", br(),
+                     plotOutput("p_dist", height = "420px")),
+            tabPanel("Panel heatmap",      value = "heat", br(),
+                     plotOutput("p_heat", height = "760px")),
+            tabPanel("Results table",      value = "tbl",  br(), tableOutput("t_res"))
           )
         )
       )
@@ -301,27 +318,70 @@ server <- function(input, output, session) {
         else "Ratios with a missing member are neutralised to 0, per the deployment rule in Methods 5.5.")
   })
 
-  output$p_lda <- renderPlot({
+  # Figures are built in reactives, not inside renderPlot, so the download
+  # handler exports exactly the object on screen rather than rebuilding it.
+  group_label <- reactive({
+    if (is.null(input$group_col) || !nzchar(input$group_col)) "Your samples" else input$group_col
+  })
+
+  fig_lda <- reactive({
     p <- projection(); req(p)
     ecmx_fig_lda(TRAIN_COORDS, MODEL$train_phenotype, CENTROIDS,
                  new_coords = p$coords, new_label = unname(group_vec()),
+                 group_title = group_label(),
                  title = "Projection into the frozen ECM phenotype space")
   })
-
-  output$p_post <- renderPlot({
+  fig_post <- reactive({
     p <- projection(); req(p)
     ecmx_fig_posteriors(p$posterior, colnames(expr_mat()), unname(group_vec()))
   })
-
-  output$p_dist <- renderPlot({
+  fig_dist <- reactive({
     p <- projection(); req(p)
     ecmx_fig_distance_heatmap(ecmx_distances(p$coords, CENTROIDS), unname(group_vec()))
   })
-
-  output$p_heat <- renderPlot({
+  fig_heat <- reactive({
     m <- active_model()
-    ecmx_fig_panel_heatmap(m$sign_matrix_train, m$train_phenotype, model_features(m))
+    sel <- if (is.null(input$heat_pheno) || "__all__" %in% input$heat_pheno) NULL else input$heat_pheno
+    ecmx_fig_panel_heatmap(m$sign_matrix_train, m$train_phenotype,
+                           model_features(m), selecting = sel)
   })
+
+  output$heat_pheno_pick <- renderUI({
+    m <- active_model(); f <- model_features(m)
+    ph <- sort(unique(stats::na.omit(f$Selecting_Phenotype)))
+    n  <- table(f$Selecting_Phenotype)
+    lbl <- setNames(c("__all__", ph),
+                    c(sprintf("All (%d ratios, thinned)", nrow(f)),
+                      sprintf("%s (%d ratios)", ph, as.integer(n[ph]))))
+    selectizeInput("heat_pheno", "Heatmap: ratios selecting for", choices = lbl,
+                   selected = "__all__", multiple = TRUE)
+  })
+
+  output$p_lda  <- renderPlot(fig_lda())
+  output$p_post <- renderPlot(fig_post())
+  output$p_dist <- renderPlot(fig_dist())
+  output$p_heat <- renderPlot(fig_heat())
+
+  current_fig <- reactive({
+    switch(input$viz %||% "lda",
+           lda = fig_lda(), post = fig_post(), dist = fig_dist(), heat = fig_heat(),
+           NULL)
+  })
+
+  output$dl_plot <- downloadHandler(
+    filename = function() sprintf("ECMExplainer_%s_%s.%s", input$viz %||% "figure",
+                                  Sys.Date(), input$exp_fmt),
+    content = function(file) {
+      p <- current_fig()
+      validate(need(!is.null(p), "This tab has no figure to export."))
+      # Clamp so a stray value cannot ask for a 30,000-pixel canvas.
+      w <- max(3, min(30, input$exp_w %||% 9))
+      h <- max(3, min(40, input$exp_h %||% 7))
+      d <- max(72, min(600, input$exp_dpi %||% 300))
+      ggsave(file, p, width = w, height = h, dpi = d,
+             device = if (identical(input$exp_fmt, "pdf")) grDevices::cairo_pdf else "png",
+             limitsize = FALSE)
+    })
 
   results_tbl <- reactive({
     p <- projection(); req(p)

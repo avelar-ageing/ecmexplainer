@@ -64,9 +64,41 @@ g <- md$Phenotype[match(colnames(lg), md$SampleID)]
 step("LDA phenotype space", render(ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g)))
 step("posterior bars",      render(ecmx_fig_posteriors(pr$posterior, colnames(lg), g)))
 step("distance heatmap",    render(ecmx_fig_distance_heatmap(d, g)))
-step("panel heatmap",       render(ecmx_fig_panel_heatmap(
-  MODEL$sign_matrix_train, MODEL$train_phenotype,
-  transform(MODEL$features, Ratio_ID = MODEL$features$Ratio_ID))))
+step("panel heatmap (all, thinned)", render(ecmx_fig_panel_heatmap(
+  MODEL$sign_matrix_train, MODEL$train_phenotype, MODEL$features)))
+step("panel heatmap (one phenotype, unthinned)", {
+  f <- MODEL$features
+  ph <- names(sort(table(f$Selecting_Phenotype), decreasing = TRUE))[1]
+  p <- ecmx_fig_panel_heatmap(MODEL$sign_matrix_train, MODEL$train_phenotype, f,
+                              selecting = ph)
+  # every ratio for that phenotype must be present, not a thinned subset
+  n_rows <- length(unique(ggplot2::ggplot_build(p)$data[[1]]$y))
+  stopifnot(n_rows == sum(f$Selecting_Phenotype == ph))
+  render(p)
+})
+step("panel heatmap (unknown phenotype degrades gracefully)",
+     render(ecmx_fig_panel_heatmap(MODEL$sign_matrix_train, MODEL$train_phenotype,
+                                   MODEL$features, selecting = "NoSuchState")))
+step("LDA overlay differs when grouping changes", {
+  a <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g)
+  b <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords,
+                    md$Study[match(colnames(lg), md$SampleID)])
+  fa <- ggplot2::ggplot_build(a)$data; fb <- ggplot2::ggplot_build(b)$data
+  # the overlay layer is the last one; its fill must actually change
+  stopifnot(!identical(fa[[length(fa)]]$fill, fb[[length(fb)]]$fill))
+  render(a); render(b)
+})
+step("LDA panel is drawn 1:1 (not stretched)", {
+  # ggplot2 3.x gives coord_fixed() the class CoordFixed; 4.x returns a
+  # CoordCartesian carrying a `ratio` field. Assert the field, not the class.
+  co <- ggplot2::ggplot_build(
+    ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g))$layout$coord
+  stopifnot(isTRUE(all.equal(co$ratio, 1)))
+  co2 <- ggplot2::ggplot_build(
+    ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g,
+                 fixed_aspect = FALSE))$layout$coord
+  stopifnot(is.null(co2$ratio))          # opt-out still works
+})
 step("trajectory plot",     render(ecmx_fig_trajectory(d, g, "Proliferating", "Senescence",
   centroid_sep = sqrt(sum((CEN["Proliferating", ] - CEN["Senescence", ])^2)))))
 step("protractor + bootstrap", {

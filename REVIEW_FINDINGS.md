@@ -1,122 +1,90 @@
 # ECMExplainer — outstanding manuscript/code issues
 
-**Date:** 4 August 2026
-**Manuscript:** Sheekey E, Avelar RA, Fujiwara H. *ECMExplainer: a functional
-matrisome framework for decoding cellular stress states and aging trajectories.*
-**Reviewed:** `Rcode_ECMExplainer/` (app + k-TSP scripts), `final_version/`,
-`extra_for_claude/` (nested-LOSO sweep, figure scripts, Supplementary Tables 1–5).
+**Date:** 4 August 2026 (second pass)
+**Manuscript:** `Human_ECMExplainer_HF-1.pdf`
+**Code/tables:** `final_version/`, `extra_for_claude/` (2026-08-04 13:22 drop),
+Supplementary Tables 1–4 and **SuppTable5_Validation_MultiTab_v2.xlsx**
 
-Everything below is **still open**. Items already fixed in the app and repository
-have been removed.
+Everything below is still open. Items fixed in this manuscript revision, and in the
+app and repository, are listed at the end rather than repeated as findings.
 
 ## Summary
 
-The model itself is sound. Re-running the training pipeline from raw counts
-reproduces the published ADSIG-180 panel **exactly** — all 180 ratios in the same
-order, LOOCV 92.71%, macro-F1 0.921, 76 A/D + 104 SIG, and every gene-universe
-count (1,139 curated; 923 detected; 711 modelling universe = 303 A / 88 D /
-320 SIG). The nested leave-one-study-out sweep also reproduces Supplementary
-Table 5C exactly, all 14 rows.
+The model is sound and reproduces exactly: re-running the training from raw counts
+regenerates the published ADSIG-180 panel — all 180 ratios in the same order,
+LOOCV 92.71%, macro-F1 0.921, 76 A/D + 104 SIG — and the nested LOSO sweep
+reproduces Supplementary Table 5C row for row.
 
-The issues below are therefore about **what the paper says about the code**, not
-about whether the model works. One of them (A1) changes a headline number.
+This revision fixed seven of the eleven results-level issues from the first pass.
+Six remain, of which two are stale numbers left behind by the revision itself.
 
 ---
 
-## A. Issues that change reported results
+## A. Issues affecting reported numbers
 
-### A1. §5.4 — "balanced accuracy" is actually plain accuracy
+### A1. The Discussion still quotes the old benchmark figure
 
-The sweep computes LOSO as `mean(loso_pred == phenotype, na.rm = TRUE)`, an
-unweighted count of correct calls. The Methods report the result as "a peak LOSO
-balanced accuracy of 57.3%".
+§4.1 opens: "ECMExplainer achieved a mean balanced accuracy of **77%** across
+independent validation cohorts". §3.8 now reports **75.7%**, which is what
+Supplementary Table 5 v2 supports (mean of 96.8, 100.0, 61.1, 45.0 = 75.725).
+The Discussion was not updated with the Results.
+
+### A2. "100% recall (65/65)" no longer matches the sample count
+
+§3.8 states ADSIG-180 "achieved 100% recall (65/65)" for Proliferating. In
+Supplementary Table 5 v2 Proliferating is **N = 59**, not 65 — the scored set moved
+from 226 samples/21 datasets to 211/19. The recall of 100% is right; the fraction
+should read **59/59**. (POOL-120's 93.2% in the same sentence does match v2.)
+
+### A3. §5.4 promises restricted LOSO figures that appear nowhere, and reuses the term
+
+The paragraph states: "LOSO **balanced** accuracy was therefore reported both across
+all six phenotypes and restricted to phenotypes represented by ≥2 and ≥3 source
+studies." No such values appear in the manuscript or in Supplementary Table 5C,
+which carries only LOOCV, LOSO and LOSO macro-F1. Two problems:
+
+1. The sweep's LOSO column is **plain accuracy** (`mean(pred == truth)`), so calling
+   it balanced accuracy is the first-pass A1 issue surviving in this sentence —
+   four lines after the same section correctly says "peak LOSO **accuracy**".
+2. The promised restricted values are missing. For the record, computed from the
+   sweep's per-sample predictions:
 
 | ADSIG-180 LOSO | Value |
 |---|---|
-| Plain accuracy (what the code computes) | **57.29%** |
-| Balanced accuracy (mean per-class recall) | **37.60%** |
-| Balanced accuracy, ≥3-study phenotypes only | 56.39% |
+| Plain accuracy (the reported 57.3%) | 57.29% |
+| Balanced accuracy, all six phenotypes | **37.60%** |
+| Balanced accuracy, ≥2 source studies | **37.60%** |
+| Balanced accuracy, ≥3 source studies | **56.39%** |
 
-Cause: the cohort is 42% Proliferating (40/96) and Proliferating is the
-best-recovered class, so the unweighted mean sits well above the mean of per-class
-recalls. Reproduce with `scripts/loso_balanced_accuracy.R`.
+Reproduce with `scripts/loso_balanced_accuracy.R`. Either add these numbers or drop
+the sentence; as written it commits to a result the paper does not contain.
 
-**Options:** relabel 57.3% as overall accuracy; report 37.6% as the balanced
-figure; or state the ≥3-study restriction explicitly, under which 56.39% is
-defensible and close to what is written. §5.4 already mentions the ≥2/≥3-study
-restriction, so the last is probably what was intended — but as written, 57.3% is
-presented as the all-six-phenotype number.
+### A4. The η² admission filter is not computed as described
 
-### A2. Two phenotypes are never recovered cross-study
+§3.1 and §5.3 define η² on the ratio's "binary sign vector", and
+`002c_nested_loso_sweep.R` does exactly that. But
+`003_FinalTrain_TwoPanels.R` — the script that produced the released model —
+computes η² on the **continuous log-ratio** instead. Since η² gates which pairs
+enter the candidate pool at all, the deployed panel was filtered by a different
+statistic from the one described. Lower stakes now that the *ranking* is correctly
+attributed to TSP delta, but the filter description still does not match the
+released model.
 
-Per-class LOSO recall at ADSIG-180: Proliferating 92.5%, Quiescence 53.3%,
-Fibrosis 44.4%, Senescence 35.3%, **Hypoxia 0.0%, Inflammation 0.0%**. Hypoxia and
-Inflammation each have only two source studies. The paper does not state that two
-of its six reference states have zero cross-study recall.
+### A5. LOOCV cannot separate the four models, and this is not stated
 
-### A3. "Balanced accuracy" denotes two different quantities
+POOL-120, All-Genes and ECM-Genes all reach **100% LOOCV**; ADSIG-180 reaches
+92.71%. On the in-sample metric the ratio model is the weakest of the four, so the
+entire model comparison rests on LOSO and the 211-sample validation set. The
+per-model LOOCV confusion matrices are in Supplementary Table 2 but the ceiling is
+never noted in the text, which risks a reader assuming LOOCV supports the ranking.
 
-§3.8's 77.1 / 70.0 / 65.0 / 56.3% **are** correct balanced accuracies — verified as
-the mean of the four per-phenotype recalls in Supplementary Table 5B. §5.4's 57.3%
-is not. The same term is used for both.
-
-### A4. The LOSO figure describes a different panel from the deployed one
-
-`002c_nested_loso_sweep.R` sets `MODULE_FLOOR <- 5L`;
-`003_FinalTrain_TwoPanels.R` has no such constraint. Consequently:
-
-- Sweep ADSIG-180 = **77 A/D + 103 SIG**
-- Deployed ADSIG-180 = **76 A/D + 104 SIG**
-
-The manuscript reports 76/104 and attributes the 57.3% LOSO to it. Nearly the same
-panel, but not the same one.
-
-### A5. §5.3 — selection is ranked by TSP delta, not η²
-
-The text says the greedy selector adds ratios "in descending η² order". Both
-scripts rank by `TSP_Delta` — the absolute difference in the proportion of positive
-signs inside versus outside each phenotype — and use η² only as a > 0.10
-pre-filter. This is not cosmetic: at 6 ratios per phenotype the two criteria select
-**completely disjoint panels, 0 of 36 ratios shared**.
-
-### A6. The two scripts define η² differently, and only one matches the text
-
-§5.3 defines η² on the ratio's *sign vector*. `002c_nested_loso_sweep.R` does that
-(between-group variance of `P(A > B)`). `003_FinalTrain_TwoPanels.R`, which
-produced the released model, computes η² on the *continuous* log-ratio. The
-description matches the sweep, not the deployed model.
-
-### A7. §5.3 — the "at least five ratios per module" constraint is not in the final training
-
-It exists only in the sweep. The published 76/104 split satisfies it incidentally,
-not by design.
-
-### A8. §5.4 — ECM-Genes baseline gene count is wrong
-
-Text says 820 genes. The filter in `003_competing_models_TwoPanel.r` (curated list
-∩ matrix, then variance > 0.005) yields **895**. 820 appears nowhere in
-Supplementary Table 1 either. Note that 895 is also the number §5.2 gives for the
-batch-corrected universe.
-
-### A9. §5.1 — "a common feature space of 18,957 genes" is wrong
-
-The common matrix holds **19,861** genes. 18,957 is the count *after* the
-variance > 0.005 filter — the All-Genes baseline figure from §5.4, borrowed into
-§5.1.
-
-### A10. LOOCV cannot separate the four models
-
-POOL-120 100%, All-Genes 100%, ECM-Genes 100%, ADSIG-180 92.71%. On LOOCV the ratio
-model is the *worst* of the four; the model comparison rests entirely on LOSO and
-the 226-sample validation set.
-
-### A11. §5.4 — the "52–57% vs 49%" comparison may mix statistics *(unverified)*
+### A6. The "52–57% vs 49%" comparison may mix statistics *(unverified)*
 
 52–57% matches the sweep's plain LOSO accuracy range for ADSIG. The baseline
-figures (All-Genes 28→45%, ECM-Genes 40→49%) come from the separate
-reference-projection computation in `003_competing_models_TwoPanel.r`, which was
-not run here. If those are balanced accuracies, the comparison is
-apples-to-oranges. Worth checking before submission.
+figures (All-Genes 28→45%, ECM-Genes 40→49%) come from the reference-projection
+computation in `003_competing_models_TwoPanel.r`, which has not been run here for
+lack of the validation cohort data. If those are balanced accuracies, the
+comparison is not like-for-like.
 
 ---
 
@@ -132,10 +100,10 @@ Sourcing the script whole fails after the summary table.
 ### B2. The "Top-3 ratio pairs per phenotype" figure does not rank by any score
 
 In the same block: `slice_max(order_by = Ratio, n = 3)`. `Ratio` is the
-`"GENEA / GENEB"` string, so this selects the alphabetically-last three names per
+`"GENEA / GENEB"` string, so this takes the alphabetically-last three names per
 phenotype, not the top three by any statistic. The code comment even says "swap to
-TSP_Delta to rank by score". If that figure reached the manuscript, its labelling
-is wrong.
+TSP_Delta to rank by score". Note that Figure 1G is captioned "top three
+diagnostic ratios per phenotype" — if it came from this block, the caption is wrong.
 
 ### B3. `final_version/` cannot run as shipped
 
@@ -146,39 +114,60 @@ bundle.
 
 ---
 
-## C. Reproducibility and publication readiness
+## C. Publication readiness
 
-### C1. §6 Data Availability is an unfinished placeholder
+### C1. §6 Data Availability is still an unfinished placeholder
 
-"ECMExplainer can be found on GitHub…" — no URL, no accession, no DOI.
+"ECMExplainer can be found on GitHub…" — no URL, no accession, no DOI. The app is
+live at <https://apps.avelar.science/ecm> and the code is at
+`github.com/avelar-ageing/ecmexplainer`.
 
 ### C2. The GitHub repository is private
 
-Reviewers cannot currently see the code or the app source.
+Reviewers cannot see the code or the app source as things stand.
 
 ### C3. No archived snapshot
 
-No Zenodo DOI and no published container image, so the artefact does not outlive
-the server hosting it.
+No Zenodo DOI and no published container image, so the artefact does not outlive the
+server hosting it.
 
-### C4. The aging-score ratio count is not stated
+---
 
-Supplementary Table 4 shows 96 of 180 ratios passed BH FDR < 0.05; §5.9 gives no
-number.
+## Fixed in this revision
+
+- §5.4 headline now reads "peak LOSO **accuracy** of 57.3%" (was "balanced accuracy")
+- §5.3 now states the selector works "in descending **TSP delta** order", and that
+  "η² acts as a variance-based admission filter, while TSP delta provides the
+  ranking" — with the reason given
+- The five-ratio module floor is now correctly scoped to the LOSO sweep, and noted
+  as "never binding at any panel size tested"
+- Figure 1E legend now states that per-fold panels differ from the fixed ADSIG-180
+  model (76 A/D, 104 SIG), which was the first pass's panel-mismatch finding
+- ECM-Genes universe corrected from 820 to **895** throughout
+- §5.1 common feature space corrected from 18,957 to **19,861**
+- Supplementary Table 5 v2 adds a **Metric_Definitions** sheet distinguishing
+  balanced from micro and macro-per-dataset accuracy, and a `B_Model_Summary` sheet
+- The aging-score ratio count is now recoverable from §3.6 (20+20+17+16+14+9 = 96)
+- Verified correct in v2: 75.7 / 68.5 / 64.5 / 55.4% balanced accuracies, and the
+  stress-phenotype sensitivities 78.9 / 76.3 / 53.9 / 42.1% (pooled recall)
+
+App and repository issues from the first pass — the app serving the superseded V19
+model, the container environment not reaching R so the public caps were inactive,
+the stale `renv` lockfile, and a crash on empty candidate pools — are all fixed.
 
 ---
 
 ## Scope of verification
 
-**Verified by re-running from raw counts:** the training pipeline; the ADSIG-180
-panel (reproduces exactly, all 180 ratios in the same order); LOOCV 92.71%;
-macro-F1 0.921; every gene-universe count; the full nested-LOSO sweep (all 14
-rows); and §3.8's benchmark balanced accuracies against Supplementary Table 5B.
+**Re-run from raw counts:** the training pipeline; the ADSIG-180 panel (exact
+reproduction); LOOCV 92.71%; macro-F1 0.921; all gene-universe counts; the full
+nested-LOSO sweep (all 14 rows); §3.8's balanced accuracies and stress
+sensitivities against Supplementary Table 5 v2.
 
 **Read but not executed:** the validation scripts (`005b`, `007b`, `009b`, `010b`,
 `014`, SenNet), the figure scripts, `003_competing_models_TwoPanel.r`, and the
-supplementary-table compilers. Their cohort data was not available, so A11 and any
-numbers originating in those scripts remain unchecked.
+supplementary-table compilers — their cohort data is not available. A6 and any
+number originating in those scripts remain unchecked.
 
 ## Reproducing these checks
 

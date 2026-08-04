@@ -32,9 +32,19 @@ ecmx_theme <- function(base = 13) {
 
 #' Figure 1-style LDA space: training samples with 85% ellipses, centroid stars,
 #' and (optionally) projected new samples overlaid in the same frozen space.
+#'
+#' The panel is drawn with a fixed 1:1 aspect ratio. That is not only cosmetic —
+#' the LDA discriminant space is sphered, so a unit along LD1 means the same thing
+#' as a unit along LD2, and letting the browser stretch the axes independently
+#' misrepresents the distances the classifier actually uses.
+#'
+#' Projected samples are coloured by `new_label`, not merely shaped by it: with
+#' more than about five groups, recycled point shapes are indistinguishable and
+#' changing the grouping appears to do nothing.
 ecmx_fig_lda <- function(train_coords, train_pheno, centroids,
-                         new_coords = NULL, new_label = NULL,
-                         dims = c(1, 2), title = "ECM phenotype space") {
+                         new_coords = NULL, new_label = NULL, group_title = NULL,
+                         dims = c(1, 2), title = "ECM phenotype space",
+                         fixed_aspect = TRUE) {
   stopifnot(ncol(train_coords) >= max(dims))
   df <- data.frame(D1 = train_coords[, dims[1]], D2 = train_coords[, dims[2]],
                    Phenotype = factor(train_pheno))
@@ -43,26 +53,37 @@ ecmx_fig_lda <- function(train_coords, train_pheno, centroids,
                     Phenotype = rownames(centroids))
   ok <- names(which(table(df$Phenotype) >= 4))
 
+  # The ellipses carry phenotype identity through their outline, not a fill
+  # mapping. That keeps the `fill` aesthetic free for the projected-sample legend
+  # below — a second scale_fill_manual would otherwise replace this one and
+  # silently strip the ellipse colours.
   p <- ggplot(df, aes(D1, D2, colour = Phenotype)) +
-    stat_ellipse(data = df[df$Phenotype %in% ok, ], aes(fill = Phenotype),
-                 geom = "polygon", type = "norm", level = 0.85,
-                 alpha = 0.12, colour = NA, show.legend = FALSE) +
-    geom_point(size = 2.4, alpha = 0.75) +
+    stat_ellipse(data = df[df$Phenotype %in% ok, ], geom = "polygon",
+                 type = "norm", level = 0.85, fill = "grey70", alpha = 0.10,
+                 linewidth = 0.7, show.legend = FALSE) +
+    geom_point(size = 2.4, alpha = 0.7) +
     geom_point(data = cen, shape = 8, size = 4.5, stroke = 1.2, colour = "black") +
-    scale_colour_manual(values = pal, drop = FALSE) +
-    scale_fill_manual(values = pal, guide = "none", drop = FALSE) +
+    scale_colour_manual(values = pal, drop = FALSE, name = "Training phenotype") +
     ecmx_theme() +
     labs(title = title, x = paste0("LD", dims[1]), y = paste0("LD", dims[2]))
 
   if (!is.null(new_coords) && nrow(new_coords)) {
-    nd <- data.frame(D1 = new_coords[, dims[1]], D2 = new_coords[, dims[2]])
-    nd$Group <- if (is.null(new_label)) "Your samples" else new_label
+    nd <- data.frame(D1 = new_coords[, dims[1]], D2 = new_coords[, dims[2]],
+                     Group = if (is.null(new_label)) "Your samples"
+                             else as.character(new_label))
+    nd$Group <- factor(nd$Group)
+    # A deliberately darker palette, so the overlay never reads as a training
+    # phenotype even when the grouping column *is* Phenotype.
+    gcols <- grDevices::hcl(
+      h = seq(20, 380, length.out = nlevels(nd$Group) + 1)[-1], l = 42, c = 105)
     p <- p +
-      geom_point(data = nd, aes(D1, D2, shape = Group), inherit.aes = FALSE,
-                 size = 3.1, stroke = 1.1, colour = "black", fill = "white") +
-      scale_shape_manual(values = rep(c(21, 24, 22, 23, 25), length.out =
-                                        length(unique(nd$Group))), name = NULL)
+      geom_point(data = nd, aes(D1, D2, fill = Group), inherit.aes = FALSE,
+                 shape = 21, size = 3.4, stroke = 0.9, colour = "black") +
+      scale_fill_manual(values = gcols,
+                        name = if (is.null(group_title)) "Your samples" else group_title,
+                        guide = guide_legend(override.aes = list(shape = 21, size = 3.6)))
   }
+  if (fixed_aspect) p <- p + coord_fixed(ratio = 1)
   p
 }
 
@@ -185,27 +206,54 @@ ecmx_fig_aging_score <- function(scores, group) {
 
 #' Mean sign per phenotype across the panel (the Figure 1 heatmap), rendered as
 #' a ggplot so it composes with the rest of the app.
-ecmx_fig_panel_heatmap <- function(sign_matrix, phenotype, features, max_rows = 60) {
+#' @param selecting one or more phenotypes: show only the ratios selected *for*
+#'   those phenotypes. Filtering by phenotype shows all of that phenotype's
+#'   ratios, which is the point — the whole 180-row panel cannot be labelled
+#'   legibly in a browser, so an unfiltered view is necessarily thinned.
+#' @param max_rows thinning cap for the unfiltered view; set NULL for no cap.
+ecmx_fig_panel_heatmap <- function(sign_matrix, phenotype, features,
+                                   selecting = NULL, max_rows = 60) {
   z <- t(apply(sign_matrix, 1, function(x) tapply(x, phenotype, mean)))
   sel <- features$Selecting_Phenotype[match(rownames(z), features$Ratio_ID)]
+
+  if (!is.null(selecting) && length(selecting)) {
+    keep <- which(sel %in% selecting)
+    if (!length(keep))
+      return(ggplot() + ecmx_theme() +
+               labs(title = sprintf("No ratios select for %s",
+                                    paste(selecting, collapse = ", "))))
+    z <- z[keep, , drop = FALSE]; sel <- sel[keep]
+    max_rows <- NULL                        # a single phenotype fits; show it all
+  }
+
   ord <- order(factor(sel, levels = sort(unique(sel))))
   z <- z[ord, , drop = FALSE]; sel <- sel[ord]
-  if (nrow(z) > max_rows) {                 # keep it legible in a browser
+
+  thinned <- FALSE
+  if (!is.null(max_rows) && nrow(z) > max_rows) {
     keep <- round(seq(1, nrow(z), length.out = max_rows))
     z <- z[keep, , drop = FALSE]; sel <- sel[keep]
+    thinned <- TRUE
   }
+
   df <- data.frame(
     Ratio     = factor(rep(rownames(z), times = ncol(z)), levels = rev(rownames(z))),
     Phenotype = rep(colnames(z), each = nrow(z)),
     MeanSign  = as.vector(z), stringsAsFactors = FALSE
   )
+  subtitle <- if (thinned)
+    sprintf("%d of %d ratios shown (evenly thinned for legibility)", nrow(z), nrow(sign_matrix))
+  else
+    sprintf("all %d ratios%s", nrow(z),
+            if (is.null(selecting)) "" else paste0(" selecting for ", paste(selecting, collapse = ", ")))
+
   ggplot(df, aes(Phenotype, Ratio, fill = MeanSign)) +
     geom_tile() +
     scale_fill_gradientn(colours = c("#313695", "white", "#a50026"), limits = c(-1, 1)) +
     ecmx_theme(11) +
-    labs(title = sprintf("Mean sign per phenotype (%d of %d ratios shown)",
-                         nrow(z), nrow(sign_matrix)),
+    labs(title = "Mean sign per phenotype", subtitle = subtitle,
          x = NULL, y = NULL, fill = "Mean sign") +
-    theme(axis.text.y = element_text(size = 5),
-          axis.text.x = element_text(angle = 30, hjust = 1))
+    theme(axis.text.y = element_text(size = if (nrow(z) > 40) 5 else 8),
+          axis.text.x = element_text(angle = 30, hjust = 1),
+          plot.subtitle = element_text(hjust = 0.5, size = 10, colour = "grey35"))
 }
