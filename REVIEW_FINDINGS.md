@@ -1,10 +1,13 @@
-# ECMExplainer — manuscript/code review findings
+# ECMExplainer — outstanding manuscript/code issues
 
 **Date:** 4 August 2026
 **Manuscript:** Sheekey E, Avelar RA, Fujiwara H. *ECMExplainer: a functional
 matrisome framework for decoding cellular stress states and aging trajectories.*
 **Reviewed:** `Rcode_ECMExplainer/` (app + k-TSP scripts), `final_version/`,
-`extra_for_claude/` (recovered sweep script, figure scripts, Supplementary Tables 1–5).
+`extra_for_claude/` (nested-LOSO sweep, figure scripts, Supplementary Tables 1–5).
+
+Everything below is **still open**. Items already fixed in the app and repository
+have been removed.
 
 ## Summary
 
@@ -141,58 +144,24 @@ is wrong.
 and `salmon_metadata.csv` instead. The real inputs had to be taken from the older
 bundle.
 
-### B4. The LOSO sweep script was missing from both released bundles — now resolved
-
-`002c-FASTv2` / `PanelSweep_LOOCV_LOSO.csv` was absent, making every cross-study
-number unverifiable. Recovered from `extra_for_claude/`; it reproduces
-Supplementary Table 5C exactly.
-
 ---
 
-## C. App issues (all fixed)
+## C. Reproducibility and publication readiness
 
-### C1. The app served a different classifier from the paper
-
-The default model was "ECMExplainer V19": 8 studies, 19 ratios (10 AD + 9 SIG),
-LOOCV 90.4%, and **`OxidativeStress` where the manuscript has `Hypoxia`**. A
-reviewer following the paper to the app received answers from a superseded model.
-The app has been rebuilt on the frozen ADSIG-180 model; the old app is preserved
-under `legacy/v19_app/`.
-
-### C2. Shiny Server does not pass the container environment to R
-
-`ECMX_MODE=web` reached the container but not the R process, so the public instance
-was running with **no upload, sample or retraining caps**. Fixed by writing
-`.Renviron` in the container entrypoint.
-
-### C3. `renv.lock` referenced packages that were not installed
-
-This prevented the app from starting at all. renv retired in favour of a pinned
-Dockerfile.
-
-### C4. Crash on empty candidate pools
-
-`ecmx_rank_pairs` errored when no gene pair passed the η² floor (weak labels or a
-high floor). Found by testing; fixed.
-
----
-
-## D. Reproducibility and publication readiness
-
-### D1. §6 Data Availability is an unfinished placeholder
+### C1. §6 Data Availability is an unfinished placeholder
 
 "ECMExplainer can be found on GitHub…" — no URL, no accession, no DOI.
 
-### D2. The GitHub repository is private
+### C2. The GitHub repository is private
 
 Reviewers cannot currently see the code or the app source.
 
-### D3. No archived snapshot
+### C3. No archived snapshot
 
 No Zenodo DOI and no published container image, so the artefact does not outlive
 the server hosting it.
 
-### D4. The aging-score ratio count is not stated
+### C4. The aging-score ratio count is not stated
 
 Supplementary Table 4 shows 96 of 180 ratios passed BH FDR < 0.05; §5.9 gives no
 number.
