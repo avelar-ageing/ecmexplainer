@@ -59,24 +59,76 @@ model_features <- function(m) {
 # ==============================================================================
 ui <- fluidPage(
   title = "ECMExplainer",
+  # Styling is pure CSS: no JavaScript, no web fonts, no extra R packages, so it
+  # adds nothing to load time and nothing to the dependency surface. Palette
+  # carried over from the original ECMExplainer app — navy/blue gradient wordmark,
+  # #2d6a9f accent, #3c8dbc card rule, #f7f9fc page.
   tags$head(tags$style(HTML("
-    body { background:#fafafa; }
-    .ecmx-head { padding:14px 0 6px; border-bottom:2px solid #333; margin-bottom:16px; }
-    .ecmx-head h2 { margin:0; font-weight:700; letter-spacing:-.3px; }
-    .ecmx-head .sub { color:#555; font-size:13px; margin-top:4px; }
-    .ecmx-note { background:#eef3f8; border-left:4px solid #377EB8; padding:9px 12px;
-                 font-size:12.5px; margin:10px 0; border-radius:3px; }
-    .ecmx-warn { background:#fdf3e7; border-left:4px solid #FF7F00; padding:9px 12px;
-                 font-size:12.5px; margin:10px 0; border-radius:3px; }
-    .well { background:#fff; }
+    :root {
+      --ecmx-navy:#1a3a5c; --ecmx-blue:#2d6a9f; --ecmx-light:#3c8dbc;
+      --ecmx-page:#f7f9fc; --ecmx-rule:#dbe4ee;
+    }
+    body { background:var(--ecmx-page); }
+    .container-fluid { max-width:1680px; }
+
+    /* ---- Header ---- */
+    .ecmx-head {
+      background:linear-gradient(135deg, var(--ecmx-navy) 0%, var(--ecmx-blue) 100%);
+      color:#fff; padding:16px 22px; margin:-15px -15px 18px -15px;
+      border-bottom:3px solid var(--ecmx-light);
+    }
+    .ecmx-head .wordmark { font-size:1.6em; font-weight:700; letter-spacing:.05em; }
+    .ecmx-head .authors {
+      font-size:.72em; font-weight:400; font-style:italic;
+      color:#e4ebf2; margin-left:8px; white-space:nowrap;
+    }
+    .ecmx-head .sub { color:#e4ebf2; font-size:12.5px; margin-top:5px; }
+
+    /* ---- Cards ---- */
+    .well {
+      background:#fff; border:1px solid var(--ecmx-rule);
+      border-top:3px solid var(--ecmx-light); border-radius:4px;
+      box-shadow:0 1px 2px rgba(26,58,92,.06);
+    }
+    .well h4 { color:var(--ecmx-navy); font-weight:700; font-size:14px;
+               letter-spacing:.02em; margin-top:14px; }
+    .well h4:first-child { margin-top:0; }
+    .well h5 { color:var(--ecmx-blue); font-weight:700; font-size:13px; }
+    .tab-content { background:#fff; border:1px solid var(--ecmx-rule);
+                   border-top:none; border-radius:0 0 4px 4px; padding:6px 14px 14px; }
+    .nav-tabs { border-bottom:1px solid var(--ecmx-rule); }
+    .nav-tabs > li > a { color:#5a6b7d; font-weight:600; font-size:13px; }
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+      color:var(--ecmx-blue); border-top:2px solid var(--ecmx-blue);
+    }
+
+    /* ---- Callouts ---- */
+    .ecmx-note { background:#f0f7ff; border:1px solid #b8d4f0;
+                 border-left:4px solid var(--ecmx-blue); padding:9px 12px;
+                 font-size:12.5px; margin:10px 0; border-radius:3px; color:#33475b; }
+    .ecmx-warn { background:#fff8e1; border:1px solid #f5dfa8;
+                 border-left:4px solid #f39c12; padding:9px 12px;
+                 font-size:12.5px; margin:10px 0; border-radius:3px; color:#6b5320; }
+
+    /* ---- Controls ---- */
+    .btn-primary { background:var(--ecmx-blue); border-color:var(--ecmx-navy); }
+    .btn-primary:hover, .btn-primary:focus { background:var(--ecmx-navy); border-color:var(--ecmx-navy); }
+    .btn-default { border-color:#c3d1e0; color:var(--ecmx-navy); }
+    .btn-default:hover { border-color:var(--ecmx-blue); color:var(--ecmx-blue); }
+    label { color:#33475b; font-weight:600; font-size:12.5px; }
+    .help-block, .shiny-input-container > .help-block { font-size:11.5px; color:#616e78; }
     .shiny-output-error-validation { color:#8a6d1f; font-size:13px; }
+    table.data, .table { font-size:12px; }
+    .table > thead > tr > th { color:var(--ecmx-navy); border-bottom:2px solid var(--ecmx-rule); }
   "))),
 
   div(class = "ecmx-head",
-      h2("ECMExplainer"),
+      div(span(class = "wordmark", "ECMExplainer"),
+          span(class = "authors", "— Eleanor Sheekey, Roberto A. Avelar & Hironobu Fujiwara")),
       div(class = "sub",
-          "A functional matrisome framework for decoding cellular stress states and aging trajectories",
-          " · Sheekey, Avelar & Fujiwara")),
+          "A functional matrisome framework for decoding cellular stress states and aging trajectories")),
 
   if (WEB) div(class = "ecmx-warn",
     strong("Public demo instance. "),
@@ -191,10 +243,13 @@ ui <- fluidPage(
                         "POOL (unstructured control)" = "POOL")),
           numericInput("tr_npp", "Ratios per phenotype", 30, 3, LIM$max_per_pheno, 1),
           selectInput("tr_rank", "Selection ranking",
-                      c("TSP delta — reproduces the published panel" = "tsp_delta",
-                        "eta-squared — as described in Methods 5.3" = "eta2")),
+                      c("TSP delta (default)" = "tsp_delta",
+                        "eta-squared" = "eta2")),
+          helpText(paste("TSP delta ranks by one-versus-rest separation and reproduces",
+                         "the published panel; eta-squared ranks by overall",
+                         "between-phenotype variance.")),
           numericInput("tr_minmod", "Minimum ratios per module", 0, 0, 30, 1),
-          helpText("Methods 5.3 states a floor of 5; the published panel was built with none."),
+          helpText("Guarantees both A/D and SIG are represented. 0 = no floor."),
           numericInput("tr_eta", "eta-squared floor", 0.10, 0, 0.9, 0.01),
           hr(),
           actionButton("do_train", "Train model", class = "btn-primary"),
@@ -524,7 +579,8 @@ server <- function(input, output, session) {
     if (is.null(m)) return(info_box(
       "Train a model to see its cross-validated performance. The built-in cohort with ",
       strong("ADSIG / 30 per phenotype / TSP-delta"), " reproduces the published ",
-      "ADSIG-180 panel exactly: LOOCV 92.71%, macro-F1 0.921, 76 A/D + 104 SIG."))
+      "published ADSIG-180 panel exactly: LOOCV 92.71%, macro-F1 0.921, ",
+      "76 A/D + 104 SIG."))
     div(class = "ecmx-note",
         strong(sprintf("%s-%d — LOOCV %.2f%%, macro-F1 %.3f, %d PCs, %d classes, n=%d",
                        m$design, m$panel_size, m$loocv_acc, m$macro_f1, m$n_pcs,
