@@ -303,8 +303,30 @@ server <- function(input, output, session) {
     md <- meta_df()
     if (is.null(md)) return(helpText("Upload metadata to group samples by condition."))
     cols <- setdiff(names(md), "SampleID")
-    selectInput("group_col", "Group samples by", c("(none)" = "", cols),
-                selected = if ("Phenotype" %in% cols) "Phenotype" else "")
+    tagList(
+      selectInput("group_col", "Group samples by", c("(none)" = "", cols),
+                  selected = if ("Phenotype" %in% cols) "Phenotype" else ""),
+      checkboxInput("show_hulls", "Outline groups on the phenotype space", TRUE),
+      info_box("Grouping drives the ", strong("facets"), " on Posteriors, the ",
+               strong("rows"), " on Centroid distances, the ", strong("colours and "),
+               strong("outlines"), " here, and the Group column in the results table. ",
+               "It does not change the projection itself — every sample sits where the ",
+               "frozen model puts it."),
+      uiOutput("group_size_msg")
+    )
+  })
+
+  # State plainly how the current column partitions the samples. A group of one or
+  # two samples gets no hull (a convex hull needs three points), which otherwise
+  # looks like the outline setting failing to apply.
+  output$group_size_msg <- renderUI({
+    g <- group_vec(); req(length(g))
+    n <- table(g)
+    div(class = "ecmx-note",
+        sprintf("%d group%s: %d outlined, %d too small to outline (needs ≥3 samples). %s",
+                length(n), if (length(n) == 1) "" else "s",
+                sum(n >= 3), sum(n < 3),
+                paste0(names(n), " (", as.integer(n), ")", collapse = ", ")))
   })
 
   output$coverage_msg <- renderUI({
@@ -329,6 +351,7 @@ server <- function(input, output, session) {
     ecmx_fig_lda(TRAIN_COORDS, MODEL$train_phenotype, CENTROIDS,
                  new_coords = p$coords, new_label = unname(group_vec()),
                  group_title = group_label(),
+                 show_groups = isTRUE(input$show_hulls %||% TRUE),
                  title = "Projection into the frozen ECM phenotype space")
   })
   fig_post <- reactive({

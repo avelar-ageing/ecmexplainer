@@ -80,13 +80,30 @@ step("panel heatmap (unknown phenotype degrades gracefully)",
      render(ecmx_fig_panel_heatmap(MODEL$sign_matrix_train, MODEL$train_phenotype,
                                    MODEL$features, selecting = "NoSuchState")))
 step("LDA overlay differs when grouping changes", {
+  gs <- md$Study[match(colnames(lg), md$SampleID)]
   a <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g)
-  b <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords,
-                    md$Study[match(colnames(lg), md$SampleID)])
+  b <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, gs)
   fa <- ggplot2::ggplot_build(a)$data; fb <- ggplot2::ggplot_build(b)$data
-  # the overlay layer is the last one; its fill must actually change
+  # point fill must change...
   stopifnot(!identical(fa[[length(fa)]]$fill, fb[[length(fb)]]$fill))
+  # ...and so must the group hulls, which is what makes the change visible.
+  # 6 phenotypes all have >=3 samples; only 4 studies do.
+  hp <- fa[[4]]; hs <- fb[[4]]
+  stopifnot(length(unique(hp$group)) == 6, length(unique(hs$group)) == 4)
   render(a); render(b)
+})
+step("group hulls can be switched off", {
+  n_with <- length(ggplot2::ggplot_build(
+    ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g))$data)
+  n_without <- length(ggplot2::ggplot_build(
+    ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g,
+                 show_groups = FALSE))$data)
+  stopifnot(n_with == n_without + 1L)
+})
+step("groups of <3 samples are skipped, not fatal", {
+  singleton <- paste0("grp", seq_len(ncol(lg)))   # every group has exactly 1 sample
+  p <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, singleton)
+  render(p)
 })
 step("LDA panel is drawn 1:1 (not stretched)", {
   # ggplot2 3.x gives coord_fixed() the class CoordFixed; 4.x returns a

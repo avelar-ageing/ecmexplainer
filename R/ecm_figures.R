@@ -44,7 +44,7 @@ ecmx_theme <- function(base = 13) {
 ecmx_fig_lda <- function(train_coords, train_pheno, centroids,
                          new_coords = NULL, new_label = NULL, group_title = NULL,
                          dims = c(1, 2), title = "ECM phenotype space",
-                         fixed_aspect = TRUE) {
+                         fixed_aspect = TRUE, show_groups = TRUE) {
   stopifnot(ncol(train_coords) >= max(dims))
   df <- data.frame(D1 = train_coords[, dims[1]], D2 = train_coords[, dims[2]],
                    Phenotype = factor(train_pheno))
@@ -76,12 +76,28 @@ ecmx_fig_lda <- function(train_coords, train_pheno, centroids,
     # phenotype even when the grouping column *is* Phenotype.
     gcols <- grDevices::hcl(
       h = seq(20, 380, length.out = nlevels(nd$Group) + 1)[-1], l = 42, c = 105)
+
+    # Convex hull per group, drawn *under* the points. Without this, changing the
+    # grouping only recolours the same markers — which on a cohort where the
+    # grouping columns are confounded (studies that are each mostly one
+    # phenotype) is indistinguishable from a legend change. The hulls make the
+    # partition itself visible.
+    if (show_groups) {
+      hulls <- do.call(rbind, lapply(split(nd, nd$Group), function(s) {
+        if (nrow(s) < 3) return(NULL)
+        s[grDevices::chull(s$D1, s$D2), , drop = FALSE]
+      }))
+      if (!is.null(hulls) && nrow(hulls))
+        p <- p + geom_polygon(data = hulls, aes(D1, D2, fill = Group),
+                              inherit.aes = FALSE, alpha = 0.16, colour = NA)
+    }
+
     p <- p +
       geom_point(data = nd, aes(D1, D2, fill = Group), inherit.aes = FALSE,
                  shape = 21, size = 3.4, stroke = 0.9, colour = "black") +
       scale_fill_manual(values = gcols,
                         name = if (is.null(group_title)) "Your samples" else group_title,
-                        guide = guide_legend(override.aes = list(shape = 21, size = 3.6)))
+                        guide = guide_legend(override.aes = list(shape = 21, size = 3.6, alpha = 1)))
   }
   if (fixed_aspect) p <- p + coord_fixed(ratio = 1)
   p
