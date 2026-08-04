@@ -205,13 +205,13 @@ ecmx_tsp_delta <- function(ranked, expr, phenotype) {
 #' to: (i) no gene may appear in more than one selected ratio (max_appear); and
 #' (ii) optionally, each module must contribute at least `min_per_module` ratios.
 #'
-#' `rank_by` selects the ordering statistic and is the one place where the
-#' shipped code and the manuscript text disagree:
-#'   "tsp_delta" — what the published ADSIG-180 panel was actually built with,
-#'                 and what reproduces it exactly. This is the default.
-#'   "eta2"      — what Methods 5.3 describes ("in descending eta-squared
-#'                 order"). Produces a different panel.
-#' See METHODS_DISCREPANCIES.md.
+#' `rank_by` selects the ordering statistic:
+#'   "tsp_delta" — one-versus-rest sign-frequency separation for the tagged
+#'                 phenotype. Matches the phenotype-stratified quota architecture,
+#'                 and reproduces the published ADSIG-180 panel. The default.
+#'   "eta2"      — overall between-phenotype variance in the ratio. Selects a
+#'                 different panel; eta-squared is otherwise used only as the
+#'                 admission filter.
 ecmx_greedy_select <- function(delta_df, n_per_pheno, max_appear = 1L,
                                rank_by = c("tsp_delta", "eta2"),
                                min_per_module = 0L) {

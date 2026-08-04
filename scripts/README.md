@@ -19,21 +19,21 @@ exactly, all 14 rows — ADSIG peak 57.29% at 180 ratios, range 45.83–57.29%.
 exactly. `tests/test_manuscript_numbers.R` verifies the same thing through the
 app's own `R/ecm_core.R`.
 
-## Read this before quoting a LOSO number
+## Which accuracy the sweep reports
 
 The sweep writes its `LOSO` column as `mean(loso_pred == phenotype)` — **plain,
-unweighted accuracy**. Methods 5.4 refers to the resulting 57.3% as a balanced
-accuracy, which it is not. Because the cohort is 42% Proliferating and
-Proliferating is the best-recovered class, the unweighted mean is much higher than
-the mean of per-class recalls:
+unweighted accuracy**. That is not the same as balanced accuracy, and on this
+cohort the difference is large: 42% of the 96 samples are Proliferating, which is
+also the best-recovered class, so the unweighted mean sits well above the mean of
+per-class recalls.
 
 ```
 ADSIG-180   plain accuracy 57.29%   balanced accuracy 37.60%
 ```
 
 `loso_balanced_accuracy.R` prints both for every panel size, plus per-class
-recalls and the number of source studies behind each phenotype. Decide which
-statistic you mean, then make the Methods text and the table agree.
+recalls and the number of source studies behind each phenotype. Be explicit about
+which one you are quoting.
 
 ## Two notes on running them
 
@@ -41,6 +41,6 @@ statistic you mean, then make the Methods text and the table agree.
 are dead code referencing out-of-scope variables and absent files. Everything up
 to the summary is sound; stop there.
 
-The two scripts do not compute η² the same way — the sweep uses the sign vector
-(as Methods 5.3 describes), the final training uses the continuous log-ratio.
-Neither uses η² to *rank* the greedy selection; both rank by TSP delta.
+The two scripts do not compute η² the same way: the sweep uses the ratio's sign
+vector, the final training uses the continuous log-ratio. In both, η² is the
+admission filter only — the greedy selection is ranked by TSP delta.

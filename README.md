@@ -44,7 +44,7 @@ public instance sets `ECMX_MODE=web`; nothing scientific differs between them.
 | **Trajectories** | Medoid-based condition trajectories in any two-centroid plane, plus protractor angles with a 2,000-resample bootstrap CI |
 | **Retrain** | Train a new panel on your own data with **your own phenotype labels** — the six reference states are not required. Choose design, panel size, ranking criterion and module floor; download the model bundle |
 | **ECM Aging Score** | Fit per-ratio age slopes by OLS with BH FDR control, then score samples |
-| **Methods** | The implemented method, model provenance, and the manuscript/code discrepancy record |
+| **Methods** | The implemented method and the provenance of the bundled model |
 
 ## Input format
 
@@ -74,10 +74,6 @@ The first retrains ADSIG-180 from raw counts through this repository's own code
 and asserts every published number. It reproduces the shipped model exactly —
 all 180 ratios in the same order, LOOCV 92.71%, macro-F1 0.921.
 
-`METHODS.md` records eight places where the manuscript text and the released code
-disagree, including one that matters scientifically: the panel is selected by TSP
-delta, not by the η² ordering the Methods describe, and the two criteria pick
-disjoint panels.
 
 ## Layout
 

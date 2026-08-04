@@ -16,3 +16,6 @@ renv/python/
 # ── OS / editor noise ─────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# working notes, not for distribution
+REVIEW_FINDINGS.md
