@@ -167,43 +167,65 @@ ecmx_eta_sq <- function(A_mat, D_mat, phenotype) {
 #' Candidate pool: all pairs above the eta-squared floor, ranked descending.
 #' @param sym TRUE for within-module (SIG/SIG) pairs, which are unordered and
 #'   are therefore deduplicated by alphabetical ordering (Methods 5.3).
-ecmx_rank_pairs <- function(eta, sym, eta_min = 0.10, category = NA_character_) {
-  df <- data.frame(
-    Gene_A = rep(rownames(eta), times = ncol(eta)),
-    Gene_B = rep(colnames(eta), each  = nrow(eta)),
-    eta_sq = as.vector(eta),
-    stringsAsFactors = FALSE
-  )
-  if (sym) df <- df[df$Gene_A < df$Gene_B, , drop = FALSE]
-  df <- df[df$eta_sq > eta_min, , drop = FALSE]
-  df <- df[order(-df$eta_sq), , drop = FALSE]
+#' @param orient how an unordered pair is oriented when `sym` is TRUE:
+#'   "alpha" keeps Gene_A < Gene_B alphabetically (ADSIG SIG/SIG and POOL, as
+#'   003_FinalTrain_TwoPanels.R); "index" keeps the pair whose Gene_A comes
+#'   first in the matrix row order (ALLGENE, as allgenes2.r, whose rows are
+#'   sorted by decreasing variance, so Gene_A is the more variable gene).
+ecmx_rank_pairs <- function(eta, sym, eta_min = 0.10, category = NA_character_,
+                            orient = c("alpha", "index")) {
+  orient <- match.arg(orient)
+  # Work on column-major cell indices and build gene names only for the pairs
+  # that pass the floor; the row order is the same as filtering a full frame.
+  idx <- which(as.vector(eta) > eta_min)
+  i <- (idx - 1L) %% nrow(eta) + 1L
+  j <- (idx - 1L) %/% nrow(eta) + 1L
+  if (sym) {
+    keep <- if (orient == "alpha") rownames(eta)[i] < colnames(eta)[j] else i < j
+    idx <- idx[keep]; i <- i[keep]; j <- j[keep]
+  }
+  o <- order(-eta[idx])
+  df <- data.frame(Gene_A = rownames(eta)[i[o]], Gene_B = colnames(eta)[j[o]],
+                   eta_sq = eta[idx[o]], stringsAsFactors = FALSE)
   # A zero-row frame is a legitimate outcome (weak labels, high floor); assigning
   # a length-1 column to it would error, so build the column at the right length.
   df$Category <- rep(category, nrow(df))
   df
 }
 
-#' TSP delta: |P(A>B | in phenotype) - P(A>B | out of phenotype)| per phenotype.
-ecmx_tsp_delta <- function(ranked, expr, phenotype) {
-  rl <- paste0(ranked$Gene_A, " / ", ranked$Gene_B)
-  sm <- ecmx_sign_matrix(expr, rl)$sign
-  up <- sm > 0
-  do.call(rbind, lapply(levels(phenotype), function(p) {
-    inp   <- phenotype == p
-    delta <- rowMeans(up[, inp, drop = FALSE]) - rowMeans(up[, !inp, drop = FALSE])
-    data.frame(Phenotype = p, Gene_A = ranked$Gene_A, Gene_B = ranked$Gene_B,
-               Ratio = rl, eta_sq = ranked$eta_sq, Category = ranked$Category,
-               TSP_Delta = abs(delta),
-               Direction = ifelse(delta > 0, "Up", ifelse(delta < 0, "Down", "Flat")),
-               stringsAsFactors = FALSE)
-  }))
+#' TSP delta for every candidate ratio and phenotype (Methods 5.3):
+#' P(A>B | in phenotype) - P(A>B | out of phenotype), signed.
+#'
+#' Returns a ratios x phenotypes matrix in the row order of `ranked`. Counts of
+#' A>B are exact integers, so dividing them by the group sizes gives the same
+#' doubles as rowMeans() of the 0/1 indicator; the panel is unchanged. Computed
+#' in row chunks, so a genome-wide universe (ALLGENE: ~1.8 million candidate
+#' pairs) never needs its full sign matrix in memory.
+ecmx_tsp_delta <- function(ranked, expr, phenotype, chunk = 200000L) {
+  ia <- match(ranked$Gene_A, rownames(expr)); ib <- match(ranked$Gene_B, rownames(expr))
+  ind <- stats::model.matrix(~ phenotype - 1)          # samples x phenotypes, 0/1
+  n_in <- colSums(ind); n_out <- nrow(ind) - n_in
+  out <- matrix(NA_real_, nrow(ranked), ncol(ind),
+                dimnames = list(NULL, levels(phenotype)))
+  for (s in seq(1L, nrow(ranked), by = chunk)) {
+    k  <- seq.int(s, min(s + chunk - 1L, nrow(ranked)))
+    up <- (expr[ia[k], , drop = FALSE] - expr[ib[k], , drop = FALSE]) > 0
+    storage.mode(up) <- "double"
+    in_cnt  <- up %*% ind
+    tot     <- rowSums(up)
+    out[k, ] <- sweep(in_cnt, 2, n_in, "/") - sweep(tot - in_cnt, 2, n_out, "/")
+  }
+  out
 }
 
 #' Phenotype-stratified greedy panel selection (Methods 5.3).
 #'
-#' Cycles through phenotypes adding each one's next-best available ratio subject
-#' to: (i) no gene may appear in more than one selected ratio (max_appear); and
-#' (ii) optionally, each module must contribute at least `min_per_module` ratios.
+#' Candidates are the (ratio, phenotype) combinations, visited in descending
+#' order of the ranking statistic. Ties keep phenotype-block order, then the
+#' eta-squared order of `ranked`, which is exactly the stable sort of the
+#' manuscript pipeline (003_FinalTrain_TwoPanels.R). A candidate is taken when
+#' its phenotype's quota is not yet full, the ratio has not been taken for
+#' another phenotype, and neither gene already appears in `max_appear` ratios.
 #'
 #' `rank_by` selects the ordering statistic:
 #'   "tsp_delta" — one-versus-rest sign-frequency separation for the tagged
@@ -212,58 +234,67 @@ ecmx_tsp_delta <- function(ranked, expr, phenotype) {
 #'   "eta2"      — overall between-phenotype variance in the ratio. Selects a
 #'                 different panel; eta-squared is otherwise used only as the
 #'                 admission filter.
-ecmx_greedy_select <- function(delta_df, n_per_pheno, max_appear = 1L,
+#' `min_per_module` > 0 first reserves that many ratios for each module
+#' (Methods 5.3: "each module must contribute at least five ratios"). Off by
+#' default so the published panel reproduces exactly.
+#'
+#' Works on integer indices throughout and stops as soon as every quota is
+#' full, so ALLGENE selection takes well under a second.
+#' @param ranked candidate pairs (Gene_A, Gene_B, eta_sq, Category), eta-descending
+#' @param delta ratios x phenotypes TSP-delta matrix from ecmx_tsp_delta()
+#' @return one row per selected ratio, in selection-rank order
+ecmx_greedy_select <- function(ranked, delta, n_per_pheno, max_appear = 1L,
                                rank_by = c("tsp_delta", "eta2"),
                                min_per_module = 0L) {
-  rank_by  <- match.arg(rank_by)
-  ord_stat <- if (rank_by == "tsp_delta") delta_df$TSP_Delta else delta_df$eta_sq
-  delta_df <- delta_df[order(-ord_stat), , drop = FALSE]
+  rank_by <- match.arg(rank_by)
+  N <- nrow(ranked); K <- ncol(delta)
+  stat <- if (rank_by == "tsp_delta") abs(as.vector(delta)) else rep(ranked$eta_sq, K)
+  ord  <- order(-stat)                                   # stable
+  row  <- (ord - 1L) %% N + 1L                           # candidate -> ratio
+  phe  <- (ord - 1L) %/% N + 1L                          # candidate -> phenotype
 
-  phenos <- unique(delta_df$Phenotype)
-  counts <- setNames(integer(length(phenos)), phenos)
-  gene_used <- new.env(hash = TRUE, parent = emptyenv())
-  claimed <- new.env(hash = TRUE, parent = emptyenv())
-  keep <- logical(nrow(delta_df))
+  genes <- unique(c(ranked$Gene_A, ranked$Gene_B))
+  ga <- match(ranked$Gene_A, genes); gb <- match(ranked$Gene_B, genes)
+  used    <- integer(length(genes))
+  claimed <- logical(N)
+  counts  <- integer(K)
+  keep    <- logical(length(ord))
 
-  hits <- function(g) if (exists(g, envir = gene_used)) get(g, envir = gene_used) else 0L
+  usable <- function(r) !claimed[r] && used[ga[r]] < max_appear && used[gb[r]] < max_appear
   take <- function(i) {
-    keep[i] <<- TRUE
-    p <- delta_df$Phenotype[i]
-    counts[p] <<- counts[p] + 1L
-    assign(delta_df$Ratio[i], TRUE, envir = claimed)
-    assign(delta_df$Gene_A[i], hits(delta_df$Gene_A[i]) + 1L, envir = gene_used)
-    assign(delta_df$Gene_B[i], hits(delta_df$Gene_B[i]) + 1L, envir = gene_used)
-  }
-  usable <- function(i) {
-    !exists(delta_df$Ratio[i], envir = claimed) &&
-      hits(delta_df$Gene_A[i]) < max_appear &&
-      hits(delta_df$Gene_B[i]) < max_appear
+    r <- row[i]
+    keep[i] <<- TRUE; claimed[r] <<- TRUE
+    counts[phe[i]] <<- counts[phe[i]] + 1L
+    used[ga[r]] <<- used[ga[r]] + 1L; used[gb[r]] <<- used[gb[r]] + 1L
   }
 
-  # Pass 1 — module quota (Methods 5.3: "each module must contribute at least
-  # five ratios"). Off by default so the published panel reproduces byte-exactly.
-  if (min_per_module > 0L && !all(is.na(delta_df$Category))) {
-    for (mod in unique(stats::na.omit(delta_df$Category))) {
+  if (min_per_module > 0L && !all(is.na(ranked$Category))) {
+    cat_c <- ranked$Category[row]
+    for (mod in unique(stats::na.omit(cat_c))) {
       got <- 0L
-      for (i in which(delta_df$Category == mod)) {
+      for (i in which(cat_c == mod)) {
         if (got >= min_per_module) break
-        if (counts[delta_df$Phenotype[i]] >= n_per_pheno) next
-        if (!usable(i)) next
+        if (counts[phe[i]] >= n_per_pheno || !usable(row[i])) next
         take(i); got <- got + 1L
       }
     }
   }
 
-  # Pass 2 — fill each phenotype's quota in rank order.
-  for (i in seq_len(nrow(delta_df))) {
-    if (keep[i]) next
-    if (counts[delta_df$Phenotype[i]] >= n_per_pheno) next
-    if (!usable(i)) next
+  for (i in seq_along(ord)) {
+    if (all(counts >= n_per_pheno)) break
+    if (keep[i] || counts[phe[i]] >= n_per_pheno || !usable(row[i])) next
     take(i)
   }
 
-  sel <- delta_df[keep, , drop = FALSE]
-  sel[!duplicated(sel$Ratio), , drop = FALSE]
+  i <- which(keep); r <- row[i]; d <- delta[cbind(r, phe[i])]
+  data.frame(
+    Phenotype = colnames(delta)[phe[i]],
+    Gene_A = ranked$Gene_A[r], Gene_B = ranked$Gene_B[r],
+    Ratio = paste0(ranked$Gene_A[r], " / ", ranked$Gene_B[r]),
+    eta_sq = ranked$eta_sq[r], Category = ranked$Category[r],
+    TSP_Delta = abs(d),
+    Direction = ifelse(d > 0, "Up", ifelse(d < 0, "Down", "Flat")),
+    stringsAsFactors = FALSE)
 }
 
 #' Number of PCs: >=95% cumulative variance, capped (Methods 5.4).
@@ -279,18 +310,23 @@ ecmx_n_pcs <- function(pca, cap = 10L) {
 #' @param counts raw gene x sample count matrix
 #' @param meta   data frame with SampleID, Phenotype and (optionally) Study,
 #'   in any row order; matched to the count columns by SampleID
-#' @param genelist curated panel: a Gene column plus a function column whose
-#'   values are ASSEMBLY / DESTRUCTION / SIGNALLING
+#' @param genelist gene universe: a Gene column, plus (for ADSIG) a function
+#'   column whose values are ASSEMBLY / DESTRUCTION / SIGNALLING. Any list of
+#'   symbols works for POOL. Ignored for ALLGENE.
 #' @param design "ADSIG" (A/D cross-module + SIG/SIG within-module, the
-#'   manuscript model) or "POOL" (unstructured control)
-#' @param n_per_pheno ratios per phenotype; panel size is 6 x this
+#'   manuscript model), "POOL" (all pairs within the gene list, unstructured
+#'   control) or "ALLGENE" (all pairs within the `top_n` most variable expressed
+#'   genes genome-wide, the genome-wide control of allgenes2.r)
+#' @param n_per_pheno ratios per phenotype; panel size is (number of
+#'   phenotypes) x this
+#' @param top_n ALLGENE universe size
 #' @param progress optional function(fraction, message) for UI feedback
-ecmx_train <- function(counts, meta, genelist,
-                       design = c("ADSIG", "POOL"),
+ecmx_train <- function(counts, meta, genelist = NULL,
+                       design = c("ADSIG", "POOL", "ALLGENE"),
                        n_per_pheno = 30L,
                        eta_min = 0.10, max_appear = 1L, max_pcs = 10L,
                        rank_by = c("tsp_delta", "eta2"), min_per_module = 0L,
-                       var_min = 0.005, progress = NULL) {
+                       var_min = 0.005, top_n = 2000L, progress = NULL) {
   design  <- match.arg(design)
   rank_by <- match.arg(rank_by)
   say <- function(f, m) if (is.function(progress)) progress(f, m)
@@ -313,25 +349,41 @@ ecmx_train <- function(counts, meta, genelist,
   keep_expr <- rowSums(cpm > 1) >= min(table(phenotype))
   logcpm <- logcpm[keep_expr, , drop = FALSE]
 
-  say(0.15, "Selecting the ECM gene universe")
-  fn_col <- intersect(c("Function", "ECMExplained_Function", "ECMExplainer_Function"),
-                      names(genelist))[1]
-  if (is.na(fn_col)) stop("Gene list needs a Function column.")
-  genelist <- genelist[!duplicated(genelist$Gene), , drop = FALSE]
-  genelist$FN <- toupper(trimws(genelist[[fn_col]]))
-
-  ecm_in <- intersect(genelist$Gene, rownames(logcpm))
-  train_expr <- logcpm[ecm_in, , drop = FALSE]
+  say(0.15, "Selecting the gene universe")
+  if (design == "ALLGENE") {
+    gv <- apply(logcpm, 1, stats::var)
+    pool <- names(sort(gv, decreasing = TRUE))[seq_len(min(top_n, sum(gv > 0)))]
+    train_expr <- logcpm[pool, , drop = FALSE]
+  } else {
+    if (is.null(genelist) || !"Gene" %in% names(genelist))
+      stop("The gene list needs a column named Gene.")
+    genelist <- genelist[!is.na(genelist$Gene) & nzchar(genelist$Gene), , drop = FALSE]
+    genelist <- genelist[!duplicated(genelist$Gene), , drop = FALSE]
+    fn_col <- intersect(c("Function", "ECMExplained_Function", "ECMExplainer_Function",
+                          "Module"), names(genelist))[1]
+    genelist$FN <- if (is.na(fn_col)) NA_character_ else toupper(trimws(genelist[[fn_col]]))
+    # Accept the British and American spellings of the signalling module.
+    genelist$FN[genelist$FN %in% "SIGNALING"] <- "SIGNALLING"
+    if (design == "ADSIG" && all(is.na(genelist$FN)))
+      stop("ADSIG needs a Function (or Module) column with Assembly / Destruction / ",
+           "Signalling values. Use the POOL design for a plain gene list.")
+    train_expr <- logcpm[intersect(genelist$Gene, rownames(logcpm)), , drop = FALSE]
+  }
   train_expr <- train_expr[apply(train_expr, 1, stats::var) > var_min, , drop = FALSE]
   if (nrow(train_expr) < 20L)
-    stop("Only ", nrow(train_expr), " ECM genes survived filtering — check that ",
+    stop("Only ", nrow(train_expr), " genes survived filtering — check that ",
          "your gene identifiers are HGNC symbols.")
 
-  g <- function(fn) intersect(genelist$Gene[genelist$FN == fn], rownames(train_expr))
-  a_genes <- g("ASSEMBLY"); d_genes <- g("DESTRUCTION"); s_genes <- g("SIGNALLING")
+  if (design == "ADSIG") {
+    g <- function(fn) intersect(genelist$Gene[genelist$FN %in% fn], rownames(train_expr))
+    a_genes <- g("ASSEMBLY"); d_genes <- g("DESTRUCTION"); s_genes <- g("SIGNALLING")
+  }
 
   say(0.30, "Scoring candidate ratios")
-  if (design == "ADSIG") {
+  if (design == "ALLGENE") {
+    ranked <- ecmx_rank_pairs(ecmx_eta_sq(train_expr, train_expr, phenotype),
+                              sym = TRUE, eta_min, "ALLGENE", orient = "index")
+  } else if (design == "ADSIG") {
     if (!length(a_genes) || !length(d_genes) || !length(s_genes))
       stop("ADSIG needs Assembly, Destruction and Signalling genes to survive filtering.")
     ranked <- rbind(
@@ -349,7 +401,7 @@ ecmx_train <- function(counts, meta, genelist,
   if (!nrow(ranked)) stop("No gene pair exceeded the eta-squared floor of ", eta_min, ".")
 
   say(0.55, "Selecting the panel")
-  sel <- ecmx_greedy_select(ecmx_tsp_delta(ranked, train_expr, phenotype),
+  sel <- ecmx_greedy_select(ranked, ecmx_tsp_delta(ranked, train_expr, phenotype),
                             n_per_pheno, max_appear, rank_by, min_per_module)
   features <- data.frame(
     Gene_A = sel$Gene_A, Gene_B = sel$Gene_B, Ratio_ID = sel$Ratio,
