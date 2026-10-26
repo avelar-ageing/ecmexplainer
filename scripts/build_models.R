@@ -27,6 +27,7 @@ expect <- list(
   ALLGENE = list(ratios = si("SI_Table5.xlsx", "I_ALLGENE180_Ratios", 2)$Ratio,
                  loocv = 100.00, loso = 42.71))
 
+cv <- list()
 for (d in names(expect)) {
   prep <- ecmx_prepare(counts, meta, genelist, design = d)
   fit  <- ecmx_train(design = d, n_per_pheno = 30L, prep = prep)
@@ -39,6 +40,13 @@ for (d in names(expect)) {
               lo$accuracy, lo$restricted))
   if (!ok) stop(d, "-180 does not reproduce the supplementary tables.")
   fit$loso <- lo[c("accuracy", "restricted", "balanced", "macro_f1", "per_class")]
+  cv[[d]] <- data.frame(Panel = c(ADSIG = "ADSIG-180 (ECMExplainer)", POOL = "POOL-180",
+                                  ALLGENE = "ALLGENE-180")[[d]],
+                        Ratios = fit$panel_size, PCs = fit$n_pcs,
+                        `LOOCV (%)` = round(fit$loocv_acc, 2),
+                        `Nested LOSO (%)` = round(lo$accuracy, 2),
+                        `Nested LOSO, phenotypes in >= 3 studies (%)` = round(lo$restricted, 2),
+                        `Nested LOSO macro-F1` = round(lo$macro_f1, 3), check.names = FALSE)
   fit$label <- c(ADSIG = "ADSIG-180 (ECMExplainer)", POOL = "POOL-180",
                  ALLGENE = "ALLGENE-180")[[d]]
   if (d == "ADSIG") {
@@ -49,4 +57,5 @@ for (d in names(expect)) {
     saveRDS(fit, sprintf("data/TrainedModel_%s_180.rds", d))
   }
 }
-cat("Models written to data/.\n")
+write.csv(do.call(rbind, cv), "data/panel_cross_validation.csv", row.names = FALSE)
+cat("Models and data/panel_cross_validation.csv written.\n")

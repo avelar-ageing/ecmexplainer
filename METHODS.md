@@ -20,7 +20,8 @@ per-gene length factor that shifts the two members of a ratio unequally and does
 **Deployment projection (5.5).** A ratio is computed only when both members are
 present in your data; ratios with a missing member are neutralised to `0`,
 contributing neither a positive nor a negative vote. Symbol matching is
-case-insensitive. Duplicate symbols are collapsed to the highest-variance row
+case-insensitive (the manuscript's scripts matched case-sensitively; on every
+validation cohort the two give identical results). Duplicate symbols are collapsed to the highest-variance row
 within your cohort. Each sample's sign vector is passed through the **frozen**
 training PCA (`predict.prcomp` with the stored centre, scale and eigenvectors,
 retaining the stored number of components) and then the **frozen** LDA. Nothing
@@ -28,8 +29,17 @@ is re-estimated on your data, so your samples land in the same coordinate system
 as the published figures and distances are directly comparable.
 
 The app reports **ratio coverage** — the fraction of panel ratios with both genes
-present. All 21 validation cohorts in the manuscript exceeded 85%; below that the
-app warns you.
+present. Every one of the 18 validation cohorts in the manuscript had at least 90%
+for each panel; below 85% the app warns you.
+
+**Confidence and out-of-distribution measures.** For each sample and panel the
+app reports the largest posterior, the margin to the second largest, the Shannon
+entropy of the posterior, the nearest training centroid and its distance, and the
+Mahalanobis distance of the sample's PC scores from the training PC scores, with
+a flag when it exceeds the 95th percentile of χ² on the number of PCs (SI Table 6,
+sheet O). On the manuscript's validation cohorts that flag is raised for every
+sample under every panel (median distance ≈ 900 against a threshold of 18.3), so
+it does not separate typical from atypical samples and should not be read as one.
 
 **Centroid geometry (5.6).** Training phenotype centroids are per-class means of
 the training LDA scores. In this sphered discriminant space within-class
@@ -50,15 +60,51 @@ the sign features. Because β is an age slope, the score increases with age by
 construction — a lower score is oriented as younger.
 
 **Retraining (5.2–5.4).** Expression filter CPM > 1 in at least as many samples as
-the smallest class; ECM-panel intersection; variance > 0.005; η² scoring of
-candidate pairs with a floor of 0.10; phenotype-stratified greedy selection with
-each gene usable at most once; PCA (centred and scaled, ≥95% cumulative variance,
-capped at 10 components); LDA; leave-one-out cross-validation.
+the smallest class; gene-universe intersection; variance > 0.005; η² of the
+continuous log-ratio with a floor of 0.10; TSP delta (one-versus-rest difference
+in how often gene A exceeds gene B); one global phenotype-stratified greedy pass
+in descending TSP delta, each gene usable at most once; PCA (centred and scaled,
+≥95% cumulative variance, capped at 10 components); LDA; leave-one-out
+cross-validation. Three designs share this pipeline and differ only in which
+pairs are candidates:
 
-## Provenance of the bundled model
+| Design | Candidate pairs | Bundled panel |
+|---|---|---|
+| ADSIG | Assembly × Destruction, and Signalling × Signalling, from the gene list | ADSIG-180 (ECMExplainer) |
+| POOL | Any two genes in the gene list | POOL-180 |
+| ALLGENE | Any two of the 2,000 most variable expressed genes genome-wide | ALLGENE-180 |
+
+Any gene list can be supplied; ADSIG additionally needs each gene's module.
+
+**Nested leave-one-study-out (019_PanelSweep_Fast.r).** The gene universe is fixed
+on all samples; then for each study in turn, η², TSP delta, selection, PCA and LDA
+are recomputed on the other studies and the held-out study is classified. LOOCV
+saturates near 100% because selection sees every sample; nested LOSO does not.
+"Restricted" accuracy counts only phenotypes present in at least three training
+studies, the ones a held-out study can test fairly.
+
+## Provenance of the bundled models
 
 `data/TrainedModel_ADSIG_180.rds` is the model from the manuscript, produced by
 `003_FinalTrain_TwoPanels.R` from `salmon_counts_Combined_FINAL.rds`.
+`data/TrainedModel_POOL_180.rds` and `data/TrainedModel_ALLGENE_180.rds` are built
+by `scripts/build_models.R` with this repository's code and stop the build unless
+they reproduce Supplementary Tables 3 and 5:
+
+| Panel | LOOCV | Nested LOSO (all / restricted) | Ratios |
+|---|---|---|---|
+| ADSIG-180 | 92.71% | 47.92% / 56.79% | identical to SI Table 3 A |
+| POOL-180 | 97.92% | 41.67% / 49.38% | identical to SI Table 5 A |
+| ALLGENE-180 | 100.00% | 42.71% / 50.62% | identical to SI Table 5 I |
+
+`data/validation_expr.rds` holds the 769 genes used by any of the three panels for
+the 327 validation samples of Supplementary Table 6, each cohort on its own scale
+(log2-CPM, or the batch-corrected VST of the collaborator cohorts).
+`tests/test_validation.R` scores them and asserts that every prediction, nearest
+centroid and confidence value, and the headline accuracies, equal SI Table 6.
+Gene symbols for the recount3 cohorts come from `org.Hs.eg.db` 3.20.0; later
+releases rename a few non-matrisome genes in ALLGENE-180 and change 10 of its
+predictions, while ADSIG-180 and POOL-180 are unaffected.
 
 `tests/test_manuscript_numbers.R` retrains it from raw counts through this
 repository's own `R/ecm_core.R` and asserts the published values. It passes,

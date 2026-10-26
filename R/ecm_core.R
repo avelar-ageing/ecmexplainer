@@ -59,13 +59,18 @@ ecmx_sign_matrix <- function(expr, ratio_ids) {
   out <- matrix(0, nrow = length(ratio_ids), ncol = ncol(expr),
                 dimnames = list(ratio_ids, colnames(expr)))
   ok <- !is.na(idx) & !is.na(jdx)
+  per_sample <- rep(0, ncol(expr))
   if (any(ok)) {
     r <- expr[idx[ok], , drop = FALSE] - expr[jdx[ok], , drop = FALSE]
+    per_sample <- colSums(!is.na(r)) / length(ratio_ids)
     r[is.na(r)] <- 0                       # an NA member cannot vote either way
     out[ok, ] <- sign(r)
   }
+  # Coverage counts a ratio as present in a sample only when both genes have a
+  # value there, so a gene row that is NA for some samples lowers their coverage.
   list(sign     = out,
-       coverage = mean(ok),
+       coverage = mean(per_sample),
+       coverage_per_sample = stats::setNames(per_sample, colnames(expr)),
        missing  = ratio_ids[!ok])
 }
 
@@ -100,6 +105,7 @@ ecmx_project <- function(model, expr) {
     pcs       = pcs,
     sign      = sm$sign,
     coverage  = sm$coverage,
+    coverage_per_sample = sm$coverage_per_sample,
     missing   = sm$missing
   )
 }
@@ -507,6 +513,13 @@ ecmx_train <- function(counts, meta, genelist = NULL,
   ), class = "ecmx_model")
 }
 
+#' Cores for parallel cross-validation: ECMX_CORES if set, else all but one.
+ecmx_cores <- function() {
+  n <- suppressWarnings(as.integer(Sys.getenv("ECMX_CORES", "")))
+  if (is.na(n)) n <- max(1L, parallel::detectCores(logical = FALSE) - 1L, na.rm = TRUE)
+  max(1L, n)
+}
+
 #' Nested leave-one-study-out accuracy (019_PanelSweep_Fast.r). For each study,
 #' the panel is re-selected and re-fitted on the other studies only, then the
 #' held-out study is classified. Unlike LOOCV, no held-out sample influences
@@ -517,25 +530,31 @@ ecmx_train <- function(counts, meta, genelist = NULL,
 #'   predicted for a held-out study by construction; `restricted` reports
 #'   accuracy over the other phenotypes only (SI Table 3 tab C)
 #' @return list(per_sample, accuracy, restricted, balanced, macro_f1, per_class)
-ecmx_loso <- function(prep, n_per_pheno = 30L, min_studies = 3L, progress = NULL, ...) {
+ecmx_loso <- function(prep, n_per_pheno = 30L, min_studies = 3L, progress = NULL,
+                      cores = ecmx_cores(), ...) {
   if (is.null(prep$study)) stop("Leave-one-study-out needs a Study column in the metadata.")
   study <- factor(prep$study); ph <- prep$phenotype
   if (nlevels(study) < 2L) stop("Leave-one-study-out needs at least two studies.")
   ex <- prep$train_expr
-  pred <- rep(NA_character_, length(ph))
-  for (k in seq_along(levels(study))) {
-    s <- levels(study)[k]
-    if (is.function(progress)) progress(k / nlevels(study), paste("Holding out", s))
+  # Folds are independent and deterministic, so they run in parallel where the
+  # platform can fork; the result is identical to the sequential loop.
+  one_fold <- function(s) {
     tr <- which(study != s); te <- which(study == s)
-    if (nlevels(droplevels(ph[tr])) < 2L) next
+    if (nlevels(droplevels(ph[tr])) < 2L) return(NULL)
     f <- tryCatch(ecmx_fit_panel(prep, tr, n_per_pheno = n_per_pheno, ...),
                   error = function(e) NULL)
-    if (is.null(f)) next
+    if (is.null(f)) return(NULL)
     sm <- ecmx_sign_matrix(ex[, te, drop = FALSE], f$features$Ratio_ID)$sign
     pc <- stats::predict(f$pca, t(sm))[, seq_len(f$n_pcs), drop = FALSE]
     colnames(pc) <- paste0("PC", seq_len(f$n_pcs))
-    pred[te] <- as.character(stats::predict(f$lda, as.data.frame(pc))$class)
+    list(te = te, pred = as.character(stats::predict(f$lda, as.data.frame(pc))$class))
   }
+  if (is.function(progress)) progress(0.1, sprintf("%d folds", nlevels(study)))
+  folds <- if (cores > 1L && .Platform$OS.type == "unix")
+    parallel::mclapply(levels(study), one_fold, mc.cores = cores)
+  else lapply(levels(study), one_fold)
+  pred <- rep(NA_character_, length(ph))
+  for (r in folds) if (is.list(r)) pred[r$te] <- r$pred
   truth <- as.character(ph)
   n_st <- tapply(as.character(study), truth, function(x) length(unique(x)))
   well <- names(n_st)[n_st >= min_studies]
