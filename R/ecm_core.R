@@ -129,6 +129,30 @@ ecmx_distances <- function(coords, centroids) {
   d
 }
 
+#' Per-sample confidence and out-of-distribution measures, defined as in the
+#' manuscript's validation scripts (SI Table 6 sheet O):
+#'   MaxPost  largest posterior; Margin = largest minus second largest;
+#'   Entropy  Shannon entropy of the posterior, natural log;
+#'   Closest / MinDist  nearest training centroid in LDA space and its distance;
+#'   Mahal    Mahalanobis distance of the sample's PC scores from the training
+#'            PC scores (training mean and covariance);
+#'   OOD95    Mahal above the 95th percentile of chi-squared on n_pcs df.
+ecmx_confidence <- function(model, proj) {
+  post <- as.matrix(proj$posterior)
+  top2 <- t(apply(post, 1, function(r) sort(r, decreasing = TRUE)[1:2]))
+  ent  <- apply(post, 1, function(p) { p <- p[p > 0]; -sum(p * log(p)) })
+  d    <- ecmx_distances(proj$coords, ecmx_centroids(model))
+  trp  <- model$pca$x[, seq_len(model$n_pcs), drop = FALSE]
+  S    <- stats::cov(trp)
+  Si   <- tryCatch(solve(S), error = function(e) MASS::ginv(S))
+  mah  <- stats::mahalanobis(as.matrix(proj$pcs), colMeans(trp), Si)
+  data.frame(MaxPost = top2[, 1], Margin = top2[, 1] - top2[, 2], Entropy = ent,
+             Closest = colnames(d)[max.col(-d, ties.method = "first")],
+             MinDist = apply(d, 1, min), Mahal = mah,
+             OOD95 = mah > stats::qchisq(0.95, model$n_pcs),
+             row.names = rownames(post), stringsAsFactors = FALSE)
+}
+
 #' Medoid of a set of samples: the real sample minimising total distance to the
 #' others (Methods 5.6/5.7). Used instead of a mean so every plotted trajectory
 #' point is an actual sample and respects the LDA triangle inequality.
@@ -305,9 +329,13 @@ ecmx_n_pcs <- function(pca, cap = 10L) {
   min(npc, cap, ncol(pca$x))
 }
 
-#' Train an ECMExplainer model end to end (Methods 5.2–5.4).
+#' Prepare a training cohort: normalise, filter, and fix the gene universe and
+#' the candidate pair structure (Methods 5.2). Done once on all samples; the
+#' manuscript's nested leave-one-study-out (019_PanelSweep_Fast.r) keeps this
+#' universe fixed and re-runs only selection and fitting inside each fold.
 #'
-#' @param counts raw gene x sample count matrix
+#' @param counts gene x sample matrix of raw counts, or log2-CPM (detected as
+#'   for classification; the CPM filter is then applied to 2^x - 1)
 #' @param meta   data frame with SampleID, Phenotype and (optionally) Study,
 #'   in any row order; matched to the count columns by SampleID
 #' @param genelist gene universe: a Gene column, plus (for ADSIG) a function
@@ -317,20 +345,12 @@ ecmx_n_pcs <- function(pca, cap = 10L) {
 #'   manuscript model), "POOL" (all pairs within the gene list, unstructured
 #'   control) or "ALLGENE" (all pairs within the `top_n` most variable expressed
 #'   genes genome-wide, the genome-wide control of allgenes2.r)
-#' @param n_per_pheno ratios per phenotype; panel size is (number of
-#'   phenotypes) x this
 #' @param top_n ALLGENE universe size
-#' @param progress optional function(fraction, message) for UI feedback
-ecmx_train <- function(counts, meta, genelist = NULL,
-                       design = c("ADSIG", "POOL", "ALLGENE"),
-                       n_per_pheno = 30L,
-                       eta_min = 0.10, max_appear = 1L, max_pcs = 10L,
-                       rank_by = c("tsp_delta", "eta2"), min_per_module = 0L,
-                       var_min = 0.005, top_n = 2000L, progress = NULL) {
-  design  <- match.arg(design)
-  rank_by <- match.arg(rank_by)
-  say <- function(f, m) if (is.function(progress)) progress(f, m)
-
+ecmx_prepare <- function(counts, meta, genelist = NULL,
+                         design = c("ADSIG", "POOL", "ALLGENE"),
+                         var_min = 0.005, top_n = 2000L) {
+  design <- match.arg(design)
+  counts <- as.matrix(counts)
   meta <- meta[match(colnames(counts), meta$SampleID), , drop = FALSE]
   if (anyNA(meta$SampleID))
     stop("Every column of the count matrix needs a matching SampleID in the metadata.")
@@ -340,16 +360,16 @@ ecmx_train <- function(counts, meta, genelist = NULL,
     stop("Every phenotype needs at least 2 samples; smallest class has ",
          min(table(phenotype)), ".")
 
-  say(0.05, "Normalising")
-  logcpm <- ecmx_logcpm(counts)
-
+  if (ecmx_looks_logged(counts)) {
+    logcpm <- counts; cpm <- 2^counts - 1
+  } else {
+    logcpm <- ecmx_logcpm(counts)
+    cpm <- sweep(counts, 2, colSums(counts) / 1e6, "/")
+  }
   # Expression filter: CPM > 1 in at least as many samples as the smallest
   # phenotype class (Methods 5.2).
-  cpm <- sweep(as.matrix(counts), 2, colSums(counts) / 1e6, "/")
-  keep_expr <- rowSums(cpm > 1) >= min(table(phenotype))
-  logcpm <- logcpm[keep_expr, , drop = FALSE]
+  logcpm <- logcpm[rowSums(cpm > 1) >= min(table(phenotype)), , drop = FALSE]
 
-  say(0.15, "Selecting the gene universe")
   if (design == "ALLGENE") {
     gv <- apply(logcpm, 1, stats::var)
     pool <- names(sort(gv, decreasing = TRUE))[seq_len(min(top_n, sum(gv > 0)))]
@@ -374,34 +394,42 @@ ecmx_train <- function(counts, meta, genelist = NULL,
     stop("Only ", nrow(train_expr), " genes survived filtering — check that ",
          "your gene identifiers are HGNC symbols.")
 
-  if (design == "ADSIG") {
+  blocks <- if (design == "ADSIG") {
     g <- function(fn) intersect(genelist$Gene[genelist$FN %in% fn], rownames(train_expr))
-    a_genes <- g("ASSEMBLY"); d_genes <- g("DESTRUCTION"); s_genes <- g("SIGNALLING")
+    a <- g("ASSEMBLY"); d <- g("DESTRUCTION"); s <- g("SIGNALLING")
+    if (!length(a) || !length(d) || !length(s))
+      stop("ADSIG needs Assembly, Destruction and Signalling genes to survive filtering.")
+    list(list(A = a, B = d, sym = FALSE, cat = "AD", orient = "alpha"),
+         list(A = s, B = s, sym = TRUE,  cat = "SIG", orient = "alpha"))
+  } else {
+    p <- rownames(train_expr)
+    list(list(A = p, B = p, sym = TRUE, cat = design,
+              orient = if (design == "ALLGENE") "index" else "alpha"))
   }
+  list(design = design, train_expr = train_expr, phenotype = phenotype,
+       study = if ("Study" %in% names(meta)) as.character(meta$Study) else NULL,
+       blocks = blocks, sample_ids = colnames(counts))
+}
+
+#' Select a panel and fit PCA -> LDA on a subset of the prepared samples
+#' (Methods 5.3-5.4). With `cols` = all samples this is the deployed model; the
+#' nested leave-one-study-out passes the training studies of each fold.
+ecmx_fit_panel <- function(prep, cols = seq_along(prep$phenotype), n_per_pheno = 30L,
+                           eta_min = 0.10, max_appear = 1L, max_pcs = 10L,
+                           rank_by = "tsp_delta", min_per_module = 0L, say = NULL) {
+  say <- if (is.function(say)) say else function(f, m) NULL
+  ex <- prep$train_expr[, cols, drop = FALSE]
+  ph <- droplevels(prep$phenotype[cols])
 
   say(0.30, "Scoring candidate ratios")
-  if (design == "ALLGENE") {
-    ranked <- ecmx_rank_pairs(ecmx_eta_sq(train_expr, train_expr, phenotype),
-                              sym = TRUE, eta_min, "ALLGENE", orient = "index")
-  } else if (design == "ADSIG") {
-    if (!length(a_genes) || !length(d_genes) || !length(s_genes))
-      stop("ADSIG needs Assembly, Destruction and Signalling genes to survive filtering.")
-    ranked <- rbind(
-      ecmx_rank_pairs(ecmx_eta_sq(train_expr[a_genes, ], train_expr[d_genes, ], phenotype),
-                      sym = FALSE, eta_min, "AD"),
-      ecmx_rank_pairs(ecmx_eta_sq(train_expr[s_genes, ], train_expr[s_genes, ], phenotype),
-                      sym = TRUE,  eta_min, "SIG")
-    )
-  } else {
-    pool <- rownames(train_expr)
-    ranked <- ecmx_rank_pairs(ecmx_eta_sq(train_expr[pool, ], train_expr[pool, ], phenotype),
-                              sym = TRUE, eta_min, "POOL")
-  }
+  ranked <- do.call(rbind, lapply(prep$blocks, function(b)
+    ecmx_rank_pairs(ecmx_eta_sq(ex[b$A, , drop = FALSE], ex[b$B, , drop = FALSE], ph),
+                    sym = b$sym, eta_min, b$cat, orient = b$orient)))
   ranked <- ranked[order(-ranked$eta_sq), , drop = FALSE]
   if (!nrow(ranked)) stop("No gene pair exceeded the eta-squared floor of ", eta_min, ".")
 
   say(0.55, "Selecting the panel")
-  sel <- ecmx_greedy_select(ranked, ecmx_tsp_delta(ranked, train_expr, phenotype),
+  sel <- ecmx_greedy_select(ranked, ecmx_tsp_delta(ranked, ex, ph),
                             n_per_pheno, max_appear, rank_by, min_per_module)
   features <- data.frame(
     Gene_A = sel$Gene_A, Gene_B = sel$Gene_B, Ratio_ID = sel$Ratio,
@@ -411,19 +439,48 @@ ecmx_train <- function(counts, meta, genelist = NULL,
   )
 
   say(0.75, "Fitting PCA and LDA")
-  sm <- ecmx_sign_matrix(train_expr, features$Ratio_ID)$sign
+  sm <- ecmx_sign_matrix(ex, features$Ratio_ID)$sign
   informative <- apply(sm, 1, function(x) length(unique(x)) > 1)
   sm <- sm[informative, , drop = FALSE]
   features <- features[informative, , drop = FALSE]
+  if (nrow(sm) < 2L) stop("Fewer than 2 informative ratios were selected.")
 
   pca <- stats::prcomp(t(sm), center = TRUE, scale. = TRUE)
   n_pcs <- ecmx_n_pcs(pca, max_pcs)
   train_pcs <- as.data.frame(pca$x[, seq_len(n_pcs), drop = FALSE])
   colnames(train_pcs) <- paste0("PC", seq_len(n_pcs))
-  lda_model <- MASS::lda(phenotype ~ ., data = train_pcs)
+  list(features = features, sign_matrix_train = sm, pca = pca, n_pcs = n_pcs,
+       train_pcs = train_pcs, phenotype = ph,
+       # Matrix interface: a formula would capture this function's environment
+       # (the whole training matrix) in the saved model.
+       lda = MASS::lda(train_pcs, grouping = ph))
+}
+
+#' Train an ECMExplainer model end to end (Methods 5.2–5.4).
+#'
+#' Arguments as ecmx_prepare() and ecmx_fit_panel(); `n_per_pheno` ratios are
+#' selected per phenotype, so the panel has (phenotypes x n_per_pheno) ratios.
+#' @param progress optional function(fraction, message) for UI feedback
+ecmx_train <- function(counts, meta, genelist = NULL,
+                       design = c("ADSIG", "POOL", "ALLGENE"),
+                       n_per_pheno = 30L,
+                       eta_min = 0.10, max_appear = 1L, max_pcs = 10L,
+                       rank_by = c("tsp_delta", "eta2"), min_per_module = 0L,
+                       var_min = 0.005, top_n = 2000L, progress = NULL,
+                       prep = NULL) {
+  design  <- match.arg(design)
+  rank_by <- match.arg(rank_by)
+  say <- function(f, m) if (is.function(progress)) progress(f, m)
+
+  say(0.05, "Normalising and selecting the gene universe")
+  if (is.null(prep)) prep <- ecmx_prepare(counts, meta, genelist, design, var_min, top_n)
+  phenotype <- prep$phenotype
+  fit <- ecmx_fit_panel(prep, n_per_pheno = n_per_pheno, eta_min = eta_min,
+                        max_appear = max_appear, max_pcs = max_pcs, rank_by = rank_by,
+                        min_per_module = min_per_module, say = say)
 
   say(0.9, "Cross-validating")
-  cv <- suppressWarnings(MASS::lda(train_pcs, grouping = phenotype, CV = TRUE))
+  cv <- suppressWarnings(MASS::lda(fit$train_pcs, grouping = phenotype, CV = TRUE))
   loocv <- mean(cv$class == phenotype) * 100
   cm   <- table(Predicted = cv$class, True = phenotype)
   prec <- diag(cm) / pmax(rowSums(cm), 1)
@@ -433,12 +490,14 @@ ecmx_train <- function(counts, meta, genelist = NULL,
   say(1, "Done")
   structure(list(
     encoding = "sign", design = design, max_appear = max_appear,
-    rank_by = rank_by, min_per_module = min_per_module,
-    n_training = ncol(counts), panel_size = nrow(features),
+    rank_by = rank_by, min_per_module = min_per_module, eta_min = eta_min,
+    n_per_pheno = n_per_pheno, top_n = if (design == "ALLGENE") top_n else NULL,
+    n_training = length(phenotype), panel_size = nrow(fit$features),
     phenotypes = levels(phenotype), train_phenotype = phenotype,
-    train_study = if ("Study" %in% names(meta)) meta$Study else NULL,
-    features = features, sign_matrix_train = sm,
-    pca = pca, n_pcs = n_pcs, lda = lda_model,
+    train_study = prep$study, train_samples = prep$sample_ids,
+    universe = rownames(prep$train_expr),
+    features = fit$features, sign_matrix_train = fit$sign_matrix_train,
+    pca = fit$pca, n_pcs = fit$n_pcs, lda = fit$lda,
     loocv_acc = loocv, macro_f1 = mean(f1), loocv_class = cv$class,
     confusion = cm,
     per_class = data.frame(Phenotype = levels(phenotype),
@@ -446,6 +505,104 @@ ecmx_train <- function(counts, meta, genelist = NULL,
                            F1 = round(f1, 3), row.names = NULL),
     trained_at = Sys.time()
   ), class = "ecmx_model")
+}
+
+#' Nested leave-one-study-out accuracy (019_PanelSweep_Fast.r). For each study,
+#' the panel is re-selected and re-fitted on the other studies only, then the
+#' held-out study is classified. Unlike LOOCV, no held-out sample influences
+#' which ratios are chosen, so this estimates how the *procedure* generalises
+#' to a new study.
+#'
+#' @param min_studies phenotypes present in fewer studies than this cannot be
+#'   predicted for a held-out study by construction; `restricted` reports
+#'   accuracy over the other phenotypes only (SI Table 3 tab C)
+#' @return list(per_sample, accuracy, restricted, balanced, macro_f1, per_class)
+ecmx_loso <- function(prep, n_per_pheno = 30L, min_studies = 3L, progress = NULL, ...) {
+  if (is.null(prep$study)) stop("Leave-one-study-out needs a Study column in the metadata.")
+  study <- factor(prep$study); ph <- prep$phenotype
+  if (nlevels(study) < 2L) stop("Leave-one-study-out needs at least two studies.")
+  ex <- prep$train_expr
+  pred <- rep(NA_character_, length(ph))
+  for (k in seq_along(levels(study))) {
+    s <- levels(study)[k]
+    if (is.function(progress)) progress(k / nlevels(study), paste("Holding out", s))
+    tr <- which(study != s); te <- which(study == s)
+    if (nlevels(droplevels(ph[tr])) < 2L) next
+    f <- tryCatch(ecmx_fit_panel(prep, tr, n_per_pheno = n_per_pheno, ...),
+                  error = function(e) NULL)
+    if (is.null(f)) next
+    sm <- ecmx_sign_matrix(ex[, te, drop = FALSE], f$features$Ratio_ID)$sign
+    pc <- stats::predict(f$pca, t(sm))[, seq_len(f$n_pcs), drop = FALSE]
+    colnames(pc) <- paste0("PC", seq_len(f$n_pcs))
+    pred[te] <- as.character(stats::predict(f$lda, as.data.frame(pc))$class)
+  }
+  truth <- as.character(ph)
+  n_st <- tapply(as.character(study), truth, function(x) length(unique(x)))
+  well <- names(n_st)[n_st >= min_studies]
+  ok <- pred == truth
+  rec <- tapply(ok, truth, mean, na.rm = TRUE)
+  cm <- table(Predicted = factor(pred, levels = levels(ph)), True = ph)
+  pr <- diag(cm) / pmax(rowSums(cm), 1); re <- diag(cm) / pmax(colSums(cm), 1)
+  list(per_sample = data.frame(SampleID = prep$sample_ids, Study = as.character(study),
+                               True = truth, LOSO_pred = pred, stringsAsFactors = FALSE),
+       accuracy = 100 * mean(ok, na.rm = TRUE),
+       restricted = 100 * mean(ok[truth %in% well], na.rm = TRUE),
+       balanced = 100 * mean(rec),
+       macro_f1 = mean(ifelse(pr + re > 0, 2 * pr * re / (pr + re), 0)),
+       per_class = data.frame(Phenotype = names(rec), Recall = round(100 * rec, 1),
+                              Studies = as.integer(n_st[names(rec)]), row.names = NULL),
+       confusion = cm)
+}
+
+# ---- accuracy against known labels (SI Table 6) ------------------------------
+
+#' Wilson score interval for k successes in n trials, in percent.
+ecmx_wilson <- function(k, n, conf = 0.95) {
+  if (!n) return(c(NA_real_, NA_real_))
+  p <- k / n; z <- stats::qnorm(1 - (1 - conf) / 2); den <- 1 + z^2 / n
+  ctr <- (p + z^2 / (2 * n)) / den
+  hw  <- z * sqrt(p * (1 - p) / n + z^2 / (4 * n^2)) / den
+  100 * c(max(0, ctr - hw), min(1, ctr + hw))
+}
+
+#' Two-sided exact McNemar test: binomial test on the discordant pairs.
+ecmx_mcnemar <- function(correct_a, correct_b) {
+  only_a <- sum(correct_a & !correct_b); only_b <- sum(!correct_a & correct_b)
+  nd <- only_a + only_b
+  list(only_a = only_a, only_b = only_b, discordant = nd,
+       p = if (nd == 0) 1 else stats::binom.test(only_b, nd, 0.5)$p.value)
+}
+
+#' Validation metrics for one panel's predictions, as in SI Table 6 sheets B-D:
+#' micro accuracy with Wilson 95% CI, balanced accuracy (unweighted mean of
+#' per-phenotype recall), control specificity (recall on `control`), stress
+#' sensitivity (exact-class accuracy on every other truth label), and the
+#' unweighted mean and SD of per-dataset accuracy. Rows with no truth are skipped.
+ecmx_metrics <- function(pred, truth, dataset = NULL, control = "Proliferating") {
+  keep <- !is.na(truth) & nzchar(truth) & !is.na(pred)
+  pred <- as.character(pred[keep]); truth <- as.character(truth[keep])
+  ok <- pred == truth
+  rec <- tapply(ok, truth, mean)
+  ci <- ecmx_wilson(sum(ok), length(ok))
+  per_ds <- if (!is.null(dataset)) tapply(ok, as.character(dataset[keep]), mean) else NULL
+  lev <- sort(unique(c(truth, pred)))
+  list(
+    summary = data.frame(
+      N_scored = length(ok), Micro_accuracy_pct = 100 * mean(ok),
+      Micro_CI95_low = ci[1], Micro_CI95_high = ci[2],
+      Balanced_accuracy_pct = 100 * mean(rec),
+      Control_specificity_pct = if (control %in% truth) 100 * rec[[control]] else NA_real_,
+      Stress_sensitivity_pct = if (any(truth != control)) 100 * mean(ok[truth != control]) else NA_real_,
+      N_datasets = if (is.null(per_ds)) NA_integer_ else length(per_ds),
+      Mean_perDataset_accuracy_pct = if (is.null(per_ds)) NA_real_ else 100 * mean(per_ds),
+      SD_perDataset_accuracy = if (length(per_ds) > 1) 100 * stats::sd(per_ds) else NA_real_),
+    recall = data.frame(Phenotype = names(rec), N = as.integer(table(truth)[names(rec)]),
+                        Recall_pct = 100 * as.numeric(rec), row.names = NULL),
+    per_dataset = if (is.null(per_ds)) NULL else
+      data.frame(Dataset = names(per_ds), N = as.integer(table(dataset[keep])[names(per_ds)]),
+                 Accuracy_pct = 100 * as.numeric(per_ds), row.names = NULL),
+    confusion = table(Truth = factor(truth, levels = lev), Predicted = factor(pred, levels = lev)),
+    correct = stats::setNames(ok, which(keep)))
 }
 
 # ---- ECM Aging Score (Methods 5.9) ------------------------------------------
