@@ -231,7 +231,7 @@ ecmx_rank_pairs <- function(eta, sym, eta_min = 0.10, category = NA_character_,
 #' doubles as rowMeans() of the 0/1 indicator; the panel is unchanged. Computed
 #' in row chunks, so a genome-wide universe (ALLGENE: ~1.8 million candidate
 #' pairs) never needs its full sign matrix in memory.
-ecmx_tsp_delta <- function(ranked, expr, phenotype, chunk = 200000L) {
+ecmx_tsp_delta <- function(ranked, expr, phenotype, chunk = 25000L) {
   ia <- match(ranked$Gene_A, rownames(expr)); ib <- match(ranked$Gene_B, rownames(expr))
   ind <- stats::model.matrix(~ phenotype - 1)          # samples x phenotypes, 0/1
   n_in <- colSums(ind); n_out <- nrow(ind) - n_in
@@ -279,16 +279,37 @@ ecmx_greedy_select <- function(ranked, delta, n_per_pheno, max_appear = 1L,
   rank_by <- match.arg(rank_by)
   N <- nrow(ranked); K <- ncol(delta)
   stat <- if (rank_by == "tsp_delta") abs(as.vector(delta)) else rep(ranked$eta_sq, K)
-  ord  <- order(-stat)                                   # stable
-  row  <- (ord - 1L) %% N + 1L                           # candidate -> ratio
-  phe  <- (ord - 1L) %/% N + 1L                          # candidate -> phenotype
+
+  # Ordering all N x K candidates is the memory peak for a genome-wide universe.
+  # Restricting a stable sort to every candidate at or above a value threshold
+  # yields exactly the leading part of the full ordering, so try a generous
+  # prefix first and fall back to the full ordering only if quotas are unmet.
+  head_n <- max(50000L, 400L * n_per_pheno * K)
+  run <- function(cand) {
+    ord <- cand[order(-stat[cand])]                      # stable
+    row <- (ord - 1L) %% N + 1L                          # candidate -> ratio
+    phe <- (ord - 1L) %/% N + 1L                         # candidate -> phenotype
+    ecmx_greedy_pass(ranked, delta, row, phe, n_per_pheno, max_appear, min_per_module)
+  }
+  if (length(stat) > 2L * head_n) {
+    thr <- -sort(-stat, partial = head_n)[head_n]
+    res <- run(which(stat >= thr))
+    if (all(res$counts >= n_per_pheno) && is.null(res$module_short)) return(res$sel)
+  }
+  run(seq_along(stat))$sel
+}
+
+# The greedy pass over candidates already in rank order; see ecmx_greedy_select.
+ecmx_greedy_pass <- function(ranked, delta, row, phe, n_per_pheno, max_appear,
+                             min_per_module) {
+  K <- ncol(delta)
 
   genes <- unique(c(ranked$Gene_A, ranked$Gene_B))
   ga <- match(ranked$Gene_A, genes); gb <- match(ranked$Gene_B, genes)
   used    <- integer(length(genes))
-  claimed <- logical(N)
+  claimed <- logical(nrow(ranked))
   counts  <- integer(K)
-  keep    <- logical(length(ord))
+  keep    <- logical(length(row))
 
   usable <- function(r) !claimed[r] && used[ga[r]] < max_appear && used[gb[r]] < max_appear
   take <- function(i) {
@@ -298,6 +319,7 @@ ecmx_greedy_select <- function(ranked, delta, n_per_pheno, max_appear = 1L,
     used[ga[r]] <<- used[ga[r]] + 1L; used[gb[r]] <<- used[gb[r]] + 1L
   }
 
+  module_short <- NULL
   if (min_per_module > 0L && !all(is.na(ranked$Category))) {
     cat_c <- ranked$Category[row]
     for (mod in unique(stats::na.omit(cat_c))) {
@@ -307,24 +329,25 @@ ecmx_greedy_select <- function(ranked, delta, n_per_pheno, max_appear = 1L,
         if (counts[phe[i]] >= n_per_pheno || !usable(row[i])) next
         take(i); got <- got + 1L
       }
+      if (got < min_per_module) module_short <- c(module_short, mod)
     }
   }
 
-  for (i in seq_along(ord)) {
+  for (i in seq_along(row)) {
     if (all(counts >= n_per_pheno)) break
     if (keep[i] || counts[phe[i]] >= n_per_pheno || !usable(row[i])) next
     take(i)
   }
 
   i <- which(keep); r <- row[i]; d <- delta[cbind(r, phe[i])]
-  data.frame(
+  list(counts = counts, module_short = module_short, sel = data.frame(
     Phenotype = colnames(delta)[phe[i]],
     Gene_A = ranked$Gene_A[r], Gene_B = ranked$Gene_B[r],
     Ratio = paste0(ranked$Gene_A[r], " / ", ranked$Gene_B[r]),
     eta_sq = ranked$eta_sq[r], Category = ranked$Category[r],
     TSP_Delta = abs(d),
     Direction = ifelse(d > 0, "Up", ifelse(d < 0, "Down", "Flat")),
-    stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE))
 }
 
 #' Number of PCs: >=95% cumulative variance, capped (Methods 5.4).
