@@ -96,7 +96,7 @@ Rscript scripts/build_models.R            # rebuilds POOL-180 and ALLGENE-180, g
 `data/validation_expr.rds` holds, for the 327 validation samples, the 769 genes any
 of the three panels uses, each cohort on its own scale. The cohorts were rebuilt
 from recount3, GEO and the collaborator matrix exactly as the manuscript's
-validation scripts built them, with gene symbols from `org.Hs.eg.db` 3.20.0.
+validation scripts built them, with gene symbols from `org.Hs.eg.db` 3.18 (3.19 and 3.20 give identical results).
 
 ## Layout
 

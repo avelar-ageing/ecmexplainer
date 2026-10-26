@@ -102,7 +102,7 @@ the 327 validation samples of Supplementary Table 6, each cohort on its own scal
 (log2-CPM, or the batch-corrected VST of the collaborator cohorts).
 `tests/test_validation.R` scores them and asserts that every prediction, nearest
 centroid and confidence value, and the headline accuracies, equal SI Table 6.
-Gene symbols for the recount3 cohorts come from `org.Hs.eg.db` 3.20.0; later
+Gene symbols for the recount3 cohorts come from `org.Hs.eg.db` 3.18 (as in the manuscript; 3.19 and 3.20 give the same result); later
 releases rename a few non-matrisome genes in ALLGENE-180 and change 10 of its
 predictions, while ADSIG-180 and POOL-180 are unaffected.
 
