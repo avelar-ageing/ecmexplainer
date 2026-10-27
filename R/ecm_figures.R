@@ -30,6 +30,22 @@ ecmx_theme <- function(base = 13) {
           legend.title = element_text(face = "bold"))
 }
 
+#' Facet strips that stay readable with many or long group names. Labels are
+#' vertical and wrapped, because a facet is only as wide as its samples and a
+#' horizontal label does not fit a small group. Above 20 groups no label can fit,
+#' so strips are left blank and a caption says so. Add AFTER ecmx_theme(): a
+#' complete theme added later would reset these settings.
+ecmx_facet_strips <- function(n_groups) {
+  many <- n_groups > 20
+  list(facet_grid(~ Group, scales = "free_x", space = "free_x",
+                  labeller = labeller(Group = label_wrap_gen(width = 22))),
+       theme(strip.text = if (many) element_blank() else element_text(angle = 90, size = 9, hjust = 0),
+             strip.background = if (many) element_blank() else element_rect(colour = "black"),
+             strip.clip = "off", panel.spacing = unit(if (many) 0.5 else 2, "pt")),
+       if (many) labs(caption = sprintf(
+         "%d groups: too many to label. Group by a column with fewer values, or filter samples.", n_groups)))
+}
+
 #' Figure 1-style LDA space: training samples with 85% ellipses, centroid stars,
 #' and (optionally) projected new samples overlaid in the same frozen space.
 #'
@@ -114,15 +130,23 @@ ecmx_fig_posteriors <- function(posterior, sample_ids, group = NULL) {
     stringsAsFactors = FALSE
   )
   df$Phenotype <- factor(df$Phenotype)
+  # Within each group, order samples by their most likely phenotype and its
+  # posterior, so blocks of the same call sit together.
+  top <- colnames(posterior)[max.col(posterior, ties.method = "first")]
+  ord <- order(if (is.null(group)) rep("All", length(sample_ids)) else group, top, -apply(posterior, 1, max))
+  df$SampleID <- factor(df$SampleID, levels = unique(sample_ids[ord]))
+  n <- length(sample_ids); show_names <- n <= 50
   ggplot(df, aes(SampleID, P, fill = Phenotype)) +
     geom_col(width = 0.9) +
-    facet_grid(~ Group, scales = "free_x", space = "free_x") +
     scale_fill_manual(values = ecmx_palette(levels(df$Phenotype))) +
     scale_y_continuous(expand = c(0, 0)) +
     ecmx_theme() +
-    labs(title = "Posterior probability per sample", x = NULL, y = "Posterior") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6),
-          panel.spacing = unit(2, "pt"))
+    labs(title = "Posterior probability per sample", x = NULL, y = "Posterior",
+         caption = if (!show_names) sprintf("%d samples; names omitted for legibility (see the Results table).", n)) +
+    ecmx_facet_strips(length(unique(df$Group))) +
+    theme(axis.text.x = if (show_names) element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6) else element_blank(),
+          axis.ticks.x = if (show_names) element_line() else element_blank(),
+          legend.position = "bottom")
 }
 
 #' Six-column distance heatmap: median distance per condition to each training
@@ -269,8 +293,8 @@ ecmx_fig_panel_heatmap <- function(sign_matrix, phenotype, features,
     ecmx_theme(11) +
     labs(title = "Mean sign per phenotype", subtitle = subtitle,
          x = NULL, y = NULL, fill = "Mean sign") +
-    theme(axis.text.y = element_text(size = if (nrow(z) > 40) 5 else 8),
-          axis.text.x = element_text(angle = 30, hjust = 1),
+    theme(axis.text.y = element_text(size = if (nrow(z) > 40) 7 else 10),
+          axis.text.x = element_text(angle = 30, hjust = 1, size = 13, face = "bold"),
           plot.subtitle = element_text(hjust = 0.5, size = 10, colour = "grey35"))
 }
 
@@ -383,11 +407,10 @@ ecmx_fig_panel_agreement <- function(preds) {
   ph <- sort(unique(preds$Predicted))
   ggplot(preds, aes(SampleID, Panel, fill = Predicted)) +
     geom_tile(colour = "white", linewidth = 0.25) +
-    facet_grid(~ Group, scales = "free_x", space = "free_x") +
     scale_fill_manual(values = ecmx_palette(ph), name = "Predicted") +
     ecmx_theme(11) +
     labs(title = "Prediction per sample and panel", x = NULL, y = NULL) +
+    ecmx_facet_strips(length(unique(preds$Group))) +
     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
-          strip.text = element_text(size = 8), panel.spacing = unit(2, "pt"),
           legend.position = "bottom")
 }

@@ -342,13 +342,13 @@ ui <- fluidPage(
           tabsetPanel(
             id = "viz",
             tabPanel("Phenotype space",    value = "lda",  br(), plotOutput("p_lda",  height = "580px")),
-            tabPanel("Posteriors",         value = "post", br(), plotOutput("p_post", height = "460px")),
+            tabPanel("Posteriors",         value = "post", br(), plotOutput("p_post", height = "560px")),
             tabPanel("Centroid distances", value = "dist", br(), plotOutput("p_dist", height = "440px")),
             tabPanel("Compare panels",     value = "cmp",  br(), uiOutput("cmp_msg"),
-                     plotOutput("p_cmp", height = "360px"), div(class = "ecmx-scroll", tableOutput("t_agree"))),
+                     plotOutput("p_cmp", height = "460px"), div(class = "ecmx-scroll", tableOutput("t_agree"))),
             tabPanel("Accuracy",           value = "acc",  br(), uiOutput("acc_body")),
             tabPanel("Panel heatmap",      value = "heat", br(), uiOutput("heat_pheno_pick"),
-                     plotOutput("p_heat", height = "760px")),
+                     plotOutput("p_heat", height = "820px")),
             tabPanel("Results table",      value = "tbl",  br(), div(class = "ecmx-scroll", tableOutput("t_res")))
           )
         )
@@ -663,7 +663,7 @@ server <- function(input, output, session) {
   group_vec <- reactive({
     g <- col_vec(input$group_col)
     if (is.null(g)) g <- rep("All samples", ncol(expr_mat()))
-    g[is.na(g) | !nzchar(g)] <- "unassigned"
+    g[is.na(g) | !nzchar(g)] <- "no label"
     g
   })
   truth_vec <- reactive({
@@ -838,8 +838,10 @@ server <- function(input, output, session) {
     r <- results_tbl()
     keep <- c("SampleID", "Group", intersect("Known_phenotype", names(r)),
               grep("^(Pred|MaxPost|Margin|Closest|MinDist)_", names(r), value = TRUE))
+    if ("Known_phenotype" %in% names(r))
+      r$Known_phenotype[is.na(r$Known_phenotype)] <- "not scored"
     r[, keep, drop = FALSE]
-  }, striped = TRUE, spacing = "xs", digits = 3)
+  }, striped = TRUE, spacing = "xs", digits = 3, na = "—")
   output$dl_results <- downloadHandler(
     filename = function() paste0("ECMExplainer_results_", Sys.Date(), ".csv"),
     content  = function(f) write.csv(results_tbl(), f, row.names = FALSE))
