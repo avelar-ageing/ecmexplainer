@@ -273,3 +273,121 @@ ecmx_fig_panel_heatmap <- function(sign_matrix, phenotype, features,
           axis.text.x = element_text(angle = 30, hjust = 1),
           plot.subtitle = element_text(hjust = 0.5, size = 10, colour = "grey35"))
 }
+
+# ---- panel comparison and validation figures (Figure 7, SI Table 6) ----------
+
+ECMX_PANEL_COLORS <- c("ADSIG-180 (ECMExplainer)" = "#1a3a5c", "POOL-180" = "#8c96a0",
+                       "ALLGENE-180" = "#d4823a")
+ecmx_panel_palette <- function(labels) {
+  known <- intersect(labels, names(ECMX_PANEL_COLORS))
+  extra <- setdiff(labels, names(ECMX_PANEL_COLORS))
+  pal <- ECMX_PANEL_COLORS[known]
+  if (length(extra))
+    pal <- c(pal, setNames(grDevices::hcl(seq(150, 330, length.out = length(extra) + 1)[-1],
+                                          l = 50, c = 80), extra))
+  pal[labels]
+}
+
+#' Figure 7B: recall per truth phenotype for each panel, as a radar chart.
+#' @param recall data frame with Panel, Phenotype, Recall_pct
+#' Drawn in Cartesian coordinates so the edges between spokes are straight.
+ecmx_fig_recall_radar <- function(recall) {
+  recall$Panel <- factor(recall$Panel, levels = unique(recall$Panel))
+  ph <- sort(unique(recall$Phenotype)); k <- length(ph)
+  ang <- pi / 2 - 2 * pi * (seq_len(k) - 1) / k
+  xy <- function(r, i) data.frame(x = r * cos(ang[i]), y = r * sin(ang[i]))
+  recall$i <- match(recall$Phenotype, ph)
+  pts <- cbind(recall, xy(recall$Recall_pct, recall$i))
+  pts <- pts[order(pts$Panel, pts$i), ]
+  rings <- do.call(rbind, lapply(c(25, 50, 75, 100), function(r)
+    cbind(xy(r, c(seq_len(k), 1)), r = r)))
+  spokes <- data.frame(x = 0, y = 0, xend = 100 * cos(ang), yend = 100 * sin(ang))
+  lab <- cbind(xy(118, seq_len(k)), Phenotype = ph)
+  ggplot() +
+    geom_path(data = rings, aes(x, y, group = r), colour = "grey85") +
+    geom_segment(data = spokes, aes(x, y, xend = xend, yend = yend), colour = "grey85") +
+    annotate("text", x = 3, y = c(25, 50, 75, 100), label = c("25", "50", "75", "100%"),
+             hjust = 0, size = 2.8, colour = "grey50") +
+    geom_polygon(data = pts, aes(x, y, colour = Panel, fill = Panel, group = Panel),
+                 alpha = 0.08, linewidth = 0.9) +
+    geom_point(data = pts, aes(x, y, colour = Panel), size = 2.4) +
+    geom_text(data = lab, aes(x, y, label = Phenotype), size = 3.6) +
+    scale_colour_manual(values = ecmx_panel_palette(levels(recall$Panel)), name = NULL) +
+    scale_fill_manual(values = ecmx_panel_palette(levels(recall$Panel)), name = NULL) +
+    coord_fixed(xlim = c(-135, 135), ylim = c(-135, 135)) +
+    theme_void(base_size = 12) +
+    labs(title = "Recall per phenotype") +
+    theme(plot.title = element_text(face = "bold", hjust = 0.5), legend.position = "bottom")
+}
+
+#' Accuracy per panel with Wilson 95% intervals, micro and balanced side by side.
+#' @param summary data frame with Panel, Micro_accuracy_pct, Micro_CI95_low,
+#'   Micro_CI95_high, Balanced_accuracy_pct, N_scored
+ecmx_fig_accuracy <- function(summary) {
+  summary$Panel <- factor(summary$Panel, levels = rev(unique(summary$Panel)))
+  ggplot(summary, aes(y = Panel)) +
+    geom_errorbar(aes(xmin = Micro_CI95_low, xmax = Micro_CI95_high), width = 0.18,
+                  orientation = "y", colour = "grey45") +
+    geom_point(aes(x = Micro_accuracy_pct, colour = "Micro accuracy (95% CI)"), size = 3.4) +
+    geom_point(aes(x = Balanced_accuracy_pct, colour = "Balanced accuracy"), size = 3.4, shape = 18) +
+    scale_colour_manual(values = c("Micro accuracy (95% CI)" = "#1a3a5c",
+                                   "Balanced accuracy" = "#d4823a"), name = NULL) +
+    scale_x_continuous(limits = c(0, 100)) +
+    ecmx_theme(12) +
+    labs(title = sprintf("Accuracy on %d labelled samples", max(summary$N_scored)),
+         x = "%", y = NULL) +
+    theme(legend.position = "bottom")
+}
+
+#' Truth x prediction counts, one facet per panel (SI Table 6 sheet F).
+#' @param conf data frame with Panel, Truth, Predicted, Freq
+ecmx_fig_confusion <- function(conf) {
+  conf$Panel <- factor(conf$Panel, levels = unique(conf$Panel))
+  has_truth <- tapply(conf$Freq, conf$Truth, sum) > 0       # drop label rows nobody carries
+  conf <- conf[conf$Truth %in% names(has_truth)[has_truth], , drop = FALSE]
+  conf <- do.call(rbind, lapply(split(conf, list(conf$Panel, conf$Truth), drop = TRUE), function(d) {
+    d$Share <- if (sum(d$Freq)) d$Freq / sum(d$Freq) else 0; d }))
+  ggplot(conf, aes(Predicted, Truth, fill = Share)) +
+    geom_tile(colour = "white", linewidth = 0.6) +
+    geom_text(aes(label = ifelse(Freq > 0, Freq, "")), size = 3.3,
+              colour = ifelse(conf$Share > 0.55, "white", "black")) +
+    facet_wrap(~ Panel) +
+    scale_fill_gradient(low = "#f4f7fb", high = "#1a3a5c", limits = c(0, 1),
+                        name = "Share of\ntruth row") +
+    ecmx_theme(11) +
+    labs(title = "Confusion matrices", x = "Predicted", y = "Truth") +
+    theme(axis.text.x = element_text(angle = 35, hjust = 1))
+}
+
+#' Accuracy within each dataset for each panel (SI Table 6 sheet D).
+#' @param per_ds data frame with Panel, Dataset, N, Accuracy_pct
+ecmx_fig_dataset_accuracy <- function(per_ds) {
+  per_ds$Panel <- factor(per_ds$Panel, levels = unique(per_ds$Panel))
+  per_ds$Label <- sprintf("%s (n=%d)", per_ds$Dataset, per_ds$N)
+  per_ds$Label <- factor(per_ds$Label, levels = rev(sort(unique(per_ds$Label))))
+  ggplot(per_ds, aes(Panel, Label, fill = Accuracy_pct)) +
+    geom_tile(colour = "white", linewidth = 0.6) +
+    geom_text(aes(label = sprintf("%.0f", Accuracy_pct)), size = 3.2,
+              colour = ifelse(per_ds$Accuracy_pct > 60, "white", "black")) +
+    scale_fill_gradient(low = "#f4f7fb", high = "#1a3a5c", limits = c(0, 100), name = "Accuracy\n(%)") +
+    ecmx_theme(11) +
+    labs(title = "Accuracy per dataset", x = NULL, y = NULL) +
+    theme(axis.text.x = element_text(angle = 20, hjust = 1))
+}
+
+#' Predicted phenotype for every sample under every panel, so disagreements
+#' between panels are visible sample by sample.
+#' @param preds data frame with SampleID, Group, Panel, Predicted
+ecmx_fig_panel_agreement <- function(preds) {
+  preds$Panel <- factor(preds$Panel, levels = rev(unique(preds$Panel)))
+  ph <- sort(unique(preds$Predicted))
+  ggplot(preds, aes(SampleID, Panel, fill = Predicted)) +
+    geom_tile(colour = "white", linewidth = 0.25) +
+    facet_grid(~ Group, scales = "free_x", space = "free_x") +
+    scale_fill_manual(values = ecmx_palette(ph), name = "Predicted") +
+    ecmx_theme(11) +
+    labs(title = "Prediction per sample and panel", x = NULL, y = NULL) +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+          strip.text = element_text(size = 8), panel.spacing = unit(2, "pt"),
+          legend.position = "bottom")
+}

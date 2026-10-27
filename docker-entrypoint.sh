@@ -6,14 +6,16 @@
 # container environment into that file before starting the server.
 set -eu
 
-APP_DIR=/srv/shiny-server/ecm
+APP_DIR=/srv/shiny-server/ecmexplainer
 
 {
   echo "ECMX_MODE=${ECMX_MODE:-web}"
-  echo "ECMX_MAX_UPLOAD_MB=${ECMX_MAX_UPLOAD_MB:-20}"
-  echo "ECMX_MAX_SAMPLES=${ECMX_MAX_SAMPLES:-60}"
-  echo "ECMX_MAX_TRAIN=${ECMX_MAX_TRAIN:-60}"
-  echo "ECMX_MAX_PER_PHENO=${ECMX_MAX_PER_PHENO:-30}"
+  echo "ECMX_MAX_UPLOAD_MB=${ECMX_MAX_UPLOAD_MB:-50}"
+  echo "ECMX_MAX_SAMPLES=${ECMX_MAX_SAMPLES:-500}"
+  echo "ECMX_MAX_TRAIN=${ECMX_MAX_TRAIN:-200}"
+  echo "ECMX_MAX_PER_PHENO=${ECMX_MAX_PER_PHENO:-60}"
+  echo "ECMX_WORKERS=${ECMX_WORKERS:-2}"
+  echo "ECMX_CORES=${ECMX_CORES:-2}"
 } > "$APP_DIR/.Renviron"
 
 echo "ECMExplainer starting in ${ECMX_MODE:-web} mode:"

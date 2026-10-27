@@ -1,0 +1,4 @@
+"Panel","Ratios","PCs","LOOCV (%)","Nested LOSO (%)","Nested LOSO, phenotypes in >= 3 studies (%)","Nested LOSO macro-F1"
+"ADSIG-180 (ECMExplainer)",180,10,92.71,47.92,56.79,0.282
+"POOL-180",180,10,97.92,41.67,49.38,0.199
+"ALLGENE-180",180,10,100,42.71,50.62,0.154
