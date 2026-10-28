@@ -206,43 +206,54 @@ ui <- fluidPage(
       "ECMExplainer: a functional matrisome framework for decoding cellular stress",
       "states and aging trajectories. Sheekey, Avelar & Fujiwara.")),
     tags$style(HTML("
+    @font-face {
+      font-family:'Space Grotesk'; font-style:normal; font-weight:300 700; font-display:swap;
+      src:url('fonts/SpaceGrotesk-Variable.woff2') format('woff2');
+    }
     :root {
-      --ecmx-navy:#1a3a5c; --ecmx-blue:#2d6a9f; --ecmx-light:#3c8dbc;
-      --ecmx-page:#f7f9fc; --ecmx-rule:#dbe4ee;
+      --ecmx-navy:#22224a; --ecmx-blue:#3b4cca; --ecmx-deep:#1f2a6b;
+      --ecmx-pink:#d6336c; --ecmx-pink-dark:#a61e4d; --ecmx-pink-soft:#ffb3cf;
+      --ecmx-light:var(--ecmx-pink); --ecmx-page:#fbf8fb; --ecmx-rule:#ecdfe8;
     }
     body { background:var(--ecmx-page); }
     .container-fluid { max-width:1680px; }
 
     .ecmx-head {
-      background:linear-gradient(135deg, var(--ecmx-navy) 0%, var(--ecmx-blue) 100%);
+      background:linear-gradient(115deg, var(--ecmx-deep) 0%, var(--ecmx-blue) 55%, var(--ecmx-pink) 100%);
       color:#fff; padding:16px 22px 14px; margin:-15px -15px 18px -15px;
-      border-bottom:3px solid var(--ecmx-light);
+      border-bottom:4px solid var(--ecmx-pink);
     }
-    .ecmx-head .wordmark { font-size:1.6em; font-weight:700; letter-spacing:.05em; }
-    .ecmx-head .tagline  { color:#e4ebf2; font-size:13px; margin-left:10px; }
+    .ecmx-head .wordmark {
+      font-family:'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      font-size:2.15em; font-weight:700; letter-spacing:-.02em; line-height:1;
+    }
+    .ecmx-head .wordmark .ecm { color:#fff; }
+    .ecmx-head .wordmark .explainer { color:var(--ecmx-pink-soft); font-weight:500; }
+    .ecmx-head .wordmark .dot { color:var(--ecmx-pink-soft); }
+    .ecmx-head .tagline  { color:#eef0fb; font-size:13px; margin-left:12px; }
     .ecmx-head .authors  { color:#fff; font-size:13px; margin-top:7px; }
-    .ecmx-head .affil    { color:#cfdbe8; font-size:11.5px; margin-top:3px; line-height:1.5; }
+    .ecmx-head .affil    { color:#e3e5f5; font-size:11.5px; margin-top:3px; line-height:1.5; }
     .ecmx-head sup { font-size:70%; }
     .ecmx-head a { color:#fff; text-decoration:underline; }
 
     .well {
       background:#fff; border:1px solid var(--ecmx-rule);
       border-top:3px solid var(--ecmx-light); border-radius:4px;
-      box-shadow:0 1px 2px rgba(26,58,92,.06);
+      box-shadow:0 1px 2px rgba(34,34,74,.06);
     }
     .well h4 { color:var(--ecmx-navy); font-weight:700; font-size:14px;
                letter-spacing:.02em; margin-top:14px; }
     .well h4:first-child { margin-top:0; }
-    .well h5 { color:var(--ecmx-blue); font-weight:700; font-size:13px; }
+    .well h5 { color:var(--ecmx-pink-dark); font-weight:700; font-size:13px; }
     .tab-content { background:#fff; border:1px solid var(--ecmx-rule);
                    border-top:none; border-radius:0 0 4px 4px; padding:6px 14px 14px; }
     .tab-content .tab-content { border:none; padding:6px 0 0; }
     .nav-tabs { border-bottom:1px solid var(--ecmx-rule); }
     .nav-tabs > li > a { color:#5a6b7d; font-weight:600; font-size:13px; }
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-      color:var(--ecmx-blue); border-top:2px solid var(--ecmx-blue);
+      color:var(--ecmx-pink-dark); border-top:2px solid var(--ecmx-pink);
     }
-    .ecmx-note { background:#f0f7ff; border:1px solid #b8d4f0;
+    .ecmx-note { background:#f4f5fd; border:1px solid #d3d7f3;
                  border-left:4px solid var(--ecmx-blue); padding:9px 12px;
                  font-size:12.5px; margin:10px 0; border-radius:3px; color:#33475b; }
     .ecmx-warn { background:#fff8e1; border:1px solid #f5dfa8;
@@ -251,10 +262,13 @@ ui <- fluidPage(
     .ecmx-ok   { background:#eef8f0; border:1px solid #bfe3c7;
                  border-left:4px solid #2e8b57; padding:9px 12px;
                  font-size:12.5px; margin:10px 0; border-radius:3px; color:#24513a; }
-    .btn-primary { background:var(--ecmx-blue); border-color:var(--ecmx-navy); }
-    .btn-primary:hover, .btn-primary:focus { background:var(--ecmx-navy); border-color:var(--ecmx-navy); }
-    .btn-default { border-color:#c3d1e0; color:var(--ecmx-navy); }
-    .btn-default:hover { border-color:var(--ecmx-blue); color:var(--ecmx-blue); }
+    .btn-primary { background:var(--ecmx-pink); border-color:var(--ecmx-pink-dark); }
+    .btn-primary:hover, .btn-primary:focus { background:var(--ecmx-pink-dark); border-color:var(--ecmx-pink-dark); }
+    .btn-default { border-color:#e2c6d4; color:var(--ecmx-navy); }
+    .btn-default:hover { border-color:var(--ecmx-pink); color:var(--ecmx-pink-dark); }
+    a { color:var(--ecmx-pink-dark); } a:hover, a:focus { color:var(--ecmx-blue); }
+    .ecmx-head a { color:#fff; }
+    .checkbox input[type=checkbox], .radio input[type=radio] { accent-color:var(--ecmx-pink); }
     label { color:#33475b; font-weight:600; font-size:12.5px; }
     .help-block { font-size:11.5px; color:#616e78; }
     .shiny-output-error-validation { color:#8a6d1f; font-size:13px; }
@@ -267,7 +281,8 @@ ui <- fluidPage(
   "))),
 
   div(class = "ecmx-head",
-      div(span(class = "wordmark", "ECMExplainer"),
+      # One string, so no whitespace separates the two halves of the name.
+      div(span(class = "wordmark", HTML('<span class="ecm">ECM</span><span class="explainer">Explainer</span>')),
           span(class = "tagline",
                "A functional matrisome framework for decoding cellular stress states and aging trajectories")),
       div(class = "authors",

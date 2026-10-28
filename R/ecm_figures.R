@@ -300,8 +300,9 @@ ecmx_fig_panel_heatmap <- function(sign_matrix, phenotype, features,
 
 # ---- panel comparison and validation figures (Figure 7, SI Table 6) ----------
 
-ECMX_PANEL_COLORS <- c("ADSIG-180 (ECMExplainer)" = "#1a3a5c", "POOL-180" = "#8c96a0",
-                       "ALLGENE-180" = "#d4823a")
+# App palette: ECMExplainer pink, controls blue and grey.
+ECMX_PANEL_COLORS <- c("ADSIG-180 (ECMExplainer)" = "#d6336c", "POOL-180" = "#8c96a0",
+                       "ALLGENE-180" = "#3b4cca")
 ecmx_panel_palette <- function(labels) {
   known <- intersect(labels, names(ECMX_PANEL_COLORS))
   extra <- setdiff(labels, names(ECMX_PANEL_COLORS))
@@ -326,7 +327,9 @@ ecmx_fig_recall_radar <- function(recall) {
   rings <- do.call(rbind, lapply(c(25, 50, 75, 100), function(r)
     cbind(xy(r, c(seq_len(k), 1)), r = r)))
   spokes <- data.frame(x = 0, y = 0, xend = 100 * cos(ang), yend = 100 * sin(ang))
-  lab <- cbind(xy(118, seq_len(k)), Phenotype = ph)
+  lab <- cbind(xy(112, seq_len(k)), Phenotype = ph)
+  # Anchor side labels outward so they never sit on the 100% point.
+  lab$hjust <- ifelse(cos(ang) > 0.3, 0, ifelse(cos(ang) < -0.3, 1, 0.5))
   ggplot() +
     geom_path(data = rings, aes(x, y, group = r), colour = "grey85") +
     geom_segment(data = spokes, aes(x, y, xend = xend, yend = yend), colour = "grey85") +
@@ -335,10 +338,10 @@ ecmx_fig_recall_radar <- function(recall) {
     geom_polygon(data = pts, aes(x, y, colour = Panel, fill = Panel, group = Panel),
                  alpha = 0.08, linewidth = 0.9) +
     geom_point(data = pts, aes(x, y, colour = Panel), size = 2.4) +
-    geom_text(data = lab, aes(x, y, label = Phenotype), size = 3.6) +
+    geom_text(data = lab, aes(x, y, label = Phenotype, hjust = hjust), size = 3.6) +
     scale_colour_manual(values = ecmx_panel_palette(levels(recall$Panel)), name = NULL) +
     scale_fill_manual(values = ecmx_panel_palette(levels(recall$Panel)), name = NULL) +
-    coord_fixed(xlim = c(-135, 135), ylim = c(-135, 135)) +
+    coord_fixed(xlim = c(-165, 165), ylim = c(-135, 135), clip = "off") +
     theme_void(base_size = 12) +
     labs(title = "Recall per phenotype") +
     theme(plot.title = element_text(face = "bold", hjust = 0.5), legend.position = "bottom")
@@ -354,8 +357,8 @@ ecmx_fig_accuracy <- function(summary) {
                   orientation = "y", colour = "grey45") +
     geom_point(aes(x = Micro_accuracy_pct, colour = "Micro accuracy (95% CI)"), size = 3.4) +
     geom_point(aes(x = Balanced_accuracy_pct, colour = "Balanced accuracy"), size = 3.4, shape = 18) +
-    scale_colour_manual(values = c("Micro accuracy (95% CI)" = "#1a3a5c",
-                                   "Balanced accuracy" = "#d4823a"), name = NULL) +
+    scale_colour_manual(values = c("Micro accuracy (95% CI)" = "#3b4cca",
+                                   "Balanced accuracy" = "#d6336c"), name = NULL) +
     scale_x_continuous(limits = c(0, 100)) +
     ecmx_theme(12) +
     labs(title = sprintf("Accuracy on %d labelled samples", max(summary$N_scored)),
@@ -376,7 +379,7 @@ ecmx_fig_confusion <- function(conf) {
     geom_text(aes(label = ifelse(Freq > 0, Freq, "")), size = 3.3,
               colour = ifelse(conf$Share > 0.55, "white", "black")) +
     facet_wrap(~ Panel) +
-    scale_fill_gradient(low = "#f4f7fb", high = "#1a3a5c", limits = c(0, 1),
+    scale_fill_gradient(low = "#fbf3f7", high = "#a61e4d", limits = c(0, 1),
                         name = "Share of\ntruth row") +
     ecmx_theme(11) +
     labs(title = "Confusion matrices", x = "Predicted", y = "Truth") +
@@ -393,7 +396,7 @@ ecmx_fig_dataset_accuracy <- function(per_ds) {
     geom_tile(colour = "white", linewidth = 0.6) +
     geom_text(aes(label = sprintf("%.0f", Accuracy_pct)), size = 3.2,
               colour = ifelse(per_ds$Accuracy_pct > 60, "white", "black")) +
-    scale_fill_gradient(low = "#f4f7fb", high = "#1a3a5c", limits = c(0, 100), name = "Accuracy\n(%)") +
+    scale_fill_gradient(low = "#fbf3f7", high = "#a61e4d", limits = c(0, 100), name = "Accuracy\n(%)") +
     ecmx_theme(11) +
     labs(title = "Accuracy per dataset", x = NULL, y = NULL) +
     theme(axis.text.x = element_text(angle = 20, hjust = 1))
