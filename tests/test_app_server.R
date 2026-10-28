@@ -56,6 +56,27 @@ testServer(app, {
                     anchor_b = "Fibrosis", prot_from = "Untreated", prot_to = "TGFb_Treated",
                     n_boot = 200)
   check("protractor angles computed", nrow(angles_tbl()) == 6)
+  session$setInputs(traj_ds = "SRP117883")
+  check("trajectory scoped to one dataset (SRP117883, 20 samples)",
+        length(traj_idx()) == 20 && length(traj_groups()) == length(traj_idx()))
+  session$setInputs(traj_ds = "__all__")
+
+  cat("\n== Defaults, example, aging score without ages ==\n")
+  check("only ADSIG-180 ticked by default", identical(panel_sel(), "ADSIG180"))
+  session$setInputs(group_col = "Truth_Phenotype")
+  check("legend title reads 'Known phenotype'", group_label() == "Known phenotype")
+  session$setInputs(age_src = "si4", age_group = "Truth_Phenotype")
+  sc <- age_scores()
+  check("published aging score needs no age column (327 scored)",
+        nrow(sc) == 327 && all(is.finite(sc$ECM_Aging_Score)) && "Unlabelled" %in% sc$Group)
+  session$setInputs(age_ref = TRUE)
+  check("aging figure with GSE113957 reference renders",
+        renders(ecmx_fig_aging_score(sc$ECM_Aging_Score, sc$Group, reference = read.csv("data/aging_reference_bins.csv"))))
+  session$setInputs(src = "example", group_col = "Condition")
+  check("example cohort SRP113329 loads (6 samples)", ncol(expr_mat()) == 6)
+  check("example: ADSIG-180 calls all 6 correctly",
+        acc_tables()$summary$Micro_accuracy_pct[1] == 100)
+  session$setInputs(src = "validation")
 
   cat("\n== Upload ==\n")
   session$setInputs(src = "upload", expr_file = upload("data/examples/example_expression.csv"),

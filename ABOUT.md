@@ -10,6 +10,10 @@
 states and aging trajectories.* Manuscript in preparation; the citation and link
 will appear here on publication.
 
+**Cite as:** Sheekey E, Avelar RA, Fujiwara H. ECMExplainer: a functional matrisome
+framework for decoding cellular stress states and aging trajectories. Manuscript in
+preparation, 2026.
+
 ## What it does
 
 ECMExplainer places a fibroblast transcriptome in a phenotype space defined by
@@ -29,12 +33,16 @@ The app carries the manuscript's three panels:
 
 1. **Classify** — upload a gene × sample table (raw counts or log2-CPM; HGNC
    symbols in the first column) and, optionally, a metadata table with a
-   `SampleID` column. Filter samples by any metadata column, tick the panels to
-   run, and pick a known-phenotype column to score accuracy. Example files are
-   linked under *Upload my own*.
-2. **Retrain** — train a new panel on the manuscript cohort or your own data,
-   with your own labels and your own gene list, then test it on the Classify tab.
-3. **Manuscript** — the published validation, recomputed live, and the
+   `SampleID` column, or press *Load example*. Filter samples by any metadata
+   column and pick a known-phenotype column to score accuracy. ADSIG-180 runs by
+   default; *Advanced* adds the control panels. Example files are linked under
+   *Upload my own*.
+2. **Train a new model** — train a separate model on the manuscript cohort or
+   your own data, with your own labels and gene list, then test it on the
+   Classify tab. The published model is never changed.
+3. **ECM Aging Score** — score any samples with the published weights; no age
+   column needed.
+4. **Manuscript** — the published validation, recomputed live, and the
    supplementary tables.
 
 ## Run it on your own computer

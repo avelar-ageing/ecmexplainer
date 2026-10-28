@@ -676,6 +676,40 @@ ecmx_aging_score <- function(expr, betas) {
   as.vector(t(sm) %*% betas$beta)
 }
 
+# ---- lineage QC (Methods 6.1, Supplementary Figure 2A) ----------------------
+
+#' Marker panels for the fibroblast-identity check: fibroblast markers from
+#' Buechler 2021 / Muhl 2020, the others from Tabula Sapiens (smooth muscle
+#' restricted to the contractile set, pluripotency to the OSKM factors).
+ECMX_LINEAGE_PANELS <- list(
+  Fibroblast    = c("COL1A1", "COL1A2", "COL3A1", "PDGFRA", "PDGFRB", "VIM", "DCN", "LUM",
+                    "FAP", "S100A4", "THY1", "FN1"),
+  Epithelial    = c("EPCAM", "KRT8", "KRT18", "KRT5", "CDH1"),
+  Endothelial   = c("PECAM1", "CDH5", "VWF", "KDR"),
+  Immune        = c("PTPRC", "CD3D", "CD68", "CD14", "ITGAM"),
+  Smooth_muscle = c("MYH11", "CNN1", "TAGLN"),
+  Pluripotent   = c("POU5F1", "NANOG", "SOX2"))
+
+#' Mean log2(CPM + 1) per lineage panel and sample, and the fibroblast margin
+#' (fibroblast score minus the highest other score). In the training cohort the
+#' fibroblast score dominates in all 96 samples, with a minimum margin of 0.54.
+#' Returns NULL when too few markers are measured to judge (fewer than half of
+#' the fibroblast markers, or fewer than three non-fibroblast panels with any
+#' marker) — e.g. on a panel-genes-only matrix.
+ecmx_lineage_scores <- function(logexpr, panels = ECMX_LINEAGE_PANELS) {
+  found <- lapply(panels, intersect, rownames(logexpr))
+  if (length(found$Fibroblast) < length(panels$Fibroblast) / 2) return(NULL)
+  others <- setdiff(names(found)[lengths(found) > 0], "Fibroblast")
+  if (length(others) < 3) return(NULL)
+  sc <- sapply(c("Fibroblast", others), function(p)
+    colMeans(logexpr[found[[p]], , drop = FALSE], na.rm = TRUE))
+  sc <- matrix(sc, ncol = length(others) + 1, dimnames = list(colnames(logexpr), c("Fibroblast", others)))
+  top_other <- apply(sc[, others, drop = FALSE], 1, max)
+  data.frame(SampleID = rownames(sc), sc, Fibroblast_margin = sc[, "Fibroblast"] - top_other,
+             Top_other = others[apply(sc[, others, drop = FALSE], 1, which.max)],
+             check.names = FALSE, stringsAsFactors = FALSE)
+}
+
 # ---- trajectory geometry (Methods 5.6) --------------------------------------
 
 #' Angle in degrees between an observed trajectory and each phenotype direction,
