@@ -13,9 +13,13 @@ offset — library-size rescaling, TMM — cancels inside the difference, and an
 monotone within-sample transform preserves rank order. This is why log2-CPM and
 log2-RPM inputs are interchangeable here.
 
-**Length-normalised units are rejected by design.** RPKM, FPKM and TPM apply a
-per-gene length factor that shifts the two members of a ratio unequally and does
-*not* cancel. Do not feed them to this app.
+**Length-normalised units are approximate.** RPKM, FPKM and TPM divide each gene by
+its length, which shifts a ratio by the constant log₂(L_B / L_A). The shift is the
+same in every sample, so differences between samples keep their direction, but
+ratios near zero can flip sign. Measured on GSE113957, deposited on GEO as FPKM and available as read counts in recount3
+(SRP144355), the same 143 samples agreed on 84.8% of ratio signs and 136 of 143
+calls (ADSIG-180), and centroid distances correlated at r = 0.97. Counts, CPM or VST are
+preferred; FPKM/TPM are usable when nothing else is available.
 
 **Deployment projection (5.5).** A ratio is computed only when both members are
 present in your data; ratios with a missing member are neutralised to `0`,
@@ -54,7 +58,11 @@ independent per-axis medians can violate. Protractor angles are
 `θ = arccos((v·d)/(‖v‖‖d‖))` from a shared origin, with a 2,000-resample
 percentile bootstrap CI and a minimum of 2 samples per group.
 
-**ECM Aging Score (5.9).** Per-ratio age slopes are fitted by OLS on the
+**ECM Aging Score (5.9).** The app scores samples with the published weights
+(SI Table 4: 96 ratios fitted on GSE113957 healthy dermal fibroblasts) and needs no
+age information. The reference lines are the median score per GSE113957 age group
+(Young < 20, Adult 20–45, Middle 45–70, Aged > 70 years; HGPS), shading the Young
+interquartile range. To fit your own weights: per-ratio age slopes are fitted by OLS on the
 continuous log-ratio, retained at Benjamini–Hochberg FDR < 0.05, and applied to
 the sign features. Because β is an age slope, the score increases with age by
 construction — a lower score is oriented as younger.

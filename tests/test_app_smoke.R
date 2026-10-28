@@ -81,8 +81,8 @@ step("panel heatmap (unknown phenotype degrades gracefully)",
                                    MODEL$features, selecting = "NoSuchState")))
 step("LDA overlay differs when grouping changes", {
   gs <- md$Study[match(colnames(lg), md$SampleID)]
-  a <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g)
-  b <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, gs)
+  a <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g, show_groups = TRUE)
+  b <- ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, gs, show_groups = TRUE)
   fa <- ggplot2::ggplot_build(a)$data; fb <- ggplot2::ggplot_build(b)$data
   # point fill must change...
   stopifnot(!identical(fa[[length(fa)]]$fill, fb[[length(fb)]]$fill))
@@ -92,13 +92,26 @@ step("LDA overlay differs when grouping changes", {
   stopifnot(length(unique(hp$group)) == 6, length(unique(hs$group)) == 4)
   render(a); render(b)
 })
-step("group hulls can be switched off", {
-  n_with <- length(ggplot2::ggplot_build(
+step("group hulls are off by default and can be switched on", {
+  n_default <- length(ggplot2::ggplot_build(
     ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g))$data)
-  n_without <- length(ggplot2::ggplot_build(
+  n_with <- length(ggplot2::ggplot_build(
     ecmx_fig_lda(TRC, MODEL$train_phenotype, CEN, pr$coords, g,
-                 show_groups = FALSE))$data)
-  stopifnot(n_with == n_without + 1L)
+                 show_groups = TRUE))$data)
+  stopifnot(n_with == n_default + 1L)
+})
+step("lineage QC: fibroblasts pass, a non-fibroblast profile is flagged", {
+  ls <- ecmx_lineage_scores(lg)
+  stopifnot(!is.null(ls), nrow(ls) == ncol(lg), all(ls$Fibroblast_margin > 0.5))
+  fake <- lg[, 1:2]; fake[c("PTPRC", "CD68", "CD14"), 2] <- 14
+  fake[intersect(ECMX_LINEAGE_PANELS$Fibroblast, rownames(fake)), 2] <- 1
+  stopifnot(ecmx_lineage_scores(fake)$Fibroblast_margin[2] < 0)
+  stopifnot(is.null(ecmx_lineage_scores(lg[c("COL1A1", "MMP2"), ])))
+})
+step("aging score: published weights plus reference figure", {
+  b <- read.csv("data/aging_weights_SI4.csv"); ref <- read.csv("data/aging_reference_bins.csv")
+  stopifnot(nrow(b) == 96, nrow(ref) == 5)
+  render(ecmx_fig_aging_score(ecmx_aging_score(lg, b), g, reference = ref))
 })
 step("groups of <3 samples are skipped, not fatal", {
   singleton <- paste0("grp", seq_len(ncol(lg)))   # every group has exactly 1 sample

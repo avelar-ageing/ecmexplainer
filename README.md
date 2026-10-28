@@ -46,10 +46,10 @@ The local app has no upload, sample or training caps. The public instance sets
 
 | Tab | |
 |---|---|
-| **Classify** | Score samples with the three manuscript panels side by side — **ADSIG-180** (the ECMExplainer model), **POOL-180** and **ALLGENE-180** (controls) — and with any model you train. Phenotype space, posteriors, centroid distances, panel agreement, panel heatmap, a results table with confidence and out-of-distribution measures, and CSV/PNG/PDF downloads. Filter samples by any metadata column. With a known-phenotype column, the **Accuracy** view gives micro and balanced accuracy with Wilson CIs, recall per phenotype (Figure 7B), confusion matrices, accuracy per dataset and McNemar tests between panels. Opens on the manuscript's 327 validation samples. |
-| **Trajectories** | Medoid trajectories between two training centroids and protractor angles with bootstrap CIs. |
-| **Retrain** | Train a panel on the manuscript cohort or your own data, with **your own labels** and **your own gene list** (upload or paste), as ADSIG, POOL or ALLGENE; filter the training samples; estimate nested leave-one-study-out accuracy. The new model joins the Classify tab for testing, and can be downloaded and loaded again later. |
-| **ECM Aging Score** | Fit per-ratio age slopes (OLS, BH FDR) and score samples. |
+| **Classify** | Score samples with **ADSIG-180** (the ECMExplainer model); tick *Advanced* to compare the manuscript's control panels **POOL-180** and **ALLGENE-180**, and any model you train. *Load example* opens one validation cohort (SRP113329). Uploads get a fibroblast-identity check (Supplementary Figure 2A markers). Phenotype space, posteriors, centroid distances, panel agreement, panel heatmap, a results table with confidence and out-of-distribution measures, and CSV/PNG/PDF downloads. Filter samples by any metadata column. With a known-phenotype column, the **Accuracy** view gives micro and balanced accuracy with Wilson CIs, recall per phenotype (Figure 7B), confusion matrices, accuracy per dataset and McNemar tests between panels. Opens on the manuscript's 327 validation samples. |
+| **Trajectories** | Medoid trajectories between two training centroids, one dataset at a time, and protractor angles with bootstrap CIs. |
+| **Train a new model** | Train a panel on the manuscript cohort or your own data, with **your own labels** and **your own gene list** (upload or paste), as ADSIG, POOL or ALLGENE; filter the training samples; estimate nested leave-one-study-out accuracy. The new model joins the Classify tab for testing, and can be downloaded and loaded again later. |
+| **ECM Aging Score** | Score any samples with the published weights (SI Table 4, 96 ratios) against the GSE113957 age reference; no age column needed. Optionally fit your own weights from an age column (OLS, BH FDR). |
 | **Manuscript** | The published validation recomputed live (SI Table 6), training cross-validation (SI Tables 3, 5), and Supplementary Tables 1–6 to download. |
 
 ## Input format
@@ -63,9 +63,12 @@ COL1A1,1420,980,...
 MMP2,311,455,...
 ```
 
-Raw counts, log2-CPM or VST all work, because each ratio compares two genes within
-one sample. **TPM, FPKM and RPKM are not valid inputs**: length normalisation applies
-a per-gene factor that does not cancel inside a ratio. Symbols are matched
+Raw counts, log2-CPM or VST are best, because each ratio compares two genes within
+one sample. **FPKM, RPKM and TPM work, approximately**: length normalisation shifts
+each ratio by a fixed per-pair amount, which can flip ratios close to zero. Measured
+on GSE113957, deposited on GEO as FPKM and available as read counts in recount3
+(SRP144355), the same 143 samples agreed on 84.8% of ratio signs and 136 of 143
+calls (ADSIG-180), and centroid distances correlated at r = 0.97. Symbols are matched
 case-insensitively; duplicates collapse to the highest-variance row.
 
 Metadata is optional: a `SampleID` column plus any columns to group, filter or

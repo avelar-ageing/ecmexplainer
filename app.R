@@ -70,6 +70,21 @@ TRAIN_CNT <- "data/salmon_counts_Combined_FINAL.rds"
 TRAIN_MET <- "data/salmon_metadata_Combined_FINAL.csv"
 VAL_EXPR  <- readRDS("data/validation_expr.rds")
 VAL_META  <- read.csv("data/validation_metadata.csv", stringsAsFactors = FALSE)
+EXAMPLE_DS <- "SRP113329"     # "Load example": one validation cohort, proliferating vs RAS-induced senescence
+CONTROL_KEYS <- c("POOL180", "ALLGENE180")
+AGE_WEIGHTS <- read.csv("data/aging_weights_SI4.csv", stringsAsFactors = FALSE)
+AGE_REF     <- read.csv("data/aging_reference_bins.csv", stringsAsFactors = FALSE)
+# Set CITATION_URL once the preprint or paper has a DOI; until then no link is shown.
+CITATION     <- paste("Sheekey E, Avelar RA, Fujiwara H. ECMExplainer: a functional matrisome framework",
+                      "for decoding cellular stress states and aging trajectories. Manuscript in preparation, 2026.")
+CITATION_URL <- ""
+# Column names shown to people, not R identifiers.
+pretty_col <- function(x) {
+  map <- c(Truth_Phenotype = "Known phenotype", Expected_Phenotype = "Expected phenotype",
+           Exclusion_Status = "Exclusion status")
+  ifelse(x %in% names(map), map[x], gsub("_", " ", x))
+}
+col_choices <- function(cols) setNames(cols, pretty_col(cols))
 SI_FILES  <- c("SI_Table1.xlsx" = "Curated matrisome gene list",
                "SI_Table2.xlsx" = "Training samples (n = 96)",
                "SI_Table3.xlsx" = "ADSIG-180 ratio panel, panel-size sweep, gene-level shifts",
@@ -206,43 +221,55 @@ ui <- fluidPage(
       "ECMExplainer: a functional matrisome framework for decoding cellular stress",
       "states and aging trajectories. Sheekey, Avelar & Fujiwara.")),
     tags$style(HTML("
+    @font-face {
+      font-family:'Space Grotesk'; font-style:normal; font-weight:300 700; font-display:swap;
+      src:url('fonts/SpaceGrotesk-Variable.woff2') format('woff2');
+    }
     :root {
-      --ecmx-navy:#1a3a5c; --ecmx-blue:#2d6a9f; --ecmx-light:#3c8dbc;
-      --ecmx-page:#f7f9fc; --ecmx-rule:#dbe4ee;
+      --ecmx-navy:#22224a; --ecmx-blue:#3b4cca; --ecmx-deep:#1f2a6b;
+      --ecmx-pink:#d6336c; --ecmx-pink-dark:#a61e4d; --ecmx-pink-soft:#ffb3cf;
+      --ecmx-light:var(--ecmx-pink); --ecmx-page:#fbf8fb; --ecmx-rule:#ecdfe8;
     }
     body { background:var(--ecmx-page); }
     .container-fluid { max-width:1680px; }
 
     .ecmx-head {
-      background:linear-gradient(135deg, var(--ecmx-navy) 0%, var(--ecmx-blue) 100%);
+      background:linear-gradient(115deg, var(--ecmx-deep) 0%, var(--ecmx-blue) 55%, var(--ecmx-pink) 100%);
       color:#fff; padding:16px 22px 14px; margin:-15px -15px 18px -15px;
-      border-bottom:3px solid var(--ecmx-light);
+      border-bottom:4px solid var(--ecmx-pink);
     }
-    .ecmx-head .wordmark { font-size:1.6em; font-weight:700; letter-spacing:.05em; }
-    .ecmx-head .tagline  { color:#e4ebf2; font-size:13px; margin-left:10px; }
+    .ecmx-head .wordmark {
+      font-family:'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      font-size:2.15em; font-weight:700; letter-spacing:-.02em; line-height:1;
+    }
+    .ecmx-head .wordmark .ecm { color:#fff; }
+    .ecmx-head .wordmark .explainer { color:var(--ecmx-pink-soft); font-weight:500; }
+    .ecmx-head .wordmark .dot { color:var(--ecmx-pink-soft); }
+    .ecmx-head .tagline  { color:#eef0fb; font-size:13px; margin-left:12px; }
     .ecmx-head .authors  { color:#fff; font-size:13px; margin-top:7px; }
-    .ecmx-head .affil    { color:#cfdbe8; font-size:11.5px; margin-top:3px; line-height:1.5; }
+    .ecmx-head .affil    { color:#e3e5f5; font-size:11.5px; margin-top:3px; line-height:1.5; }
+    .ecmx-head .cite     { opacity:.85; font-style:italic; }
     .ecmx-head sup { font-size:70%; }
     .ecmx-head a { color:#fff; text-decoration:underline; }
 
     .well {
       background:#fff; border:1px solid var(--ecmx-rule);
       border-top:3px solid var(--ecmx-light); border-radius:4px;
-      box-shadow:0 1px 2px rgba(26,58,92,.06);
+      box-shadow:0 1px 2px rgba(34,34,74,.06);
     }
     .well h4 { color:var(--ecmx-navy); font-weight:700; font-size:14px;
                letter-spacing:.02em; margin-top:14px; }
     .well h4:first-child { margin-top:0; }
-    .well h5 { color:var(--ecmx-blue); font-weight:700; font-size:13px; }
+    .well h5 { color:var(--ecmx-pink-dark); font-weight:700; font-size:13px; }
     .tab-content { background:#fff; border:1px solid var(--ecmx-rule);
                    border-top:none; border-radius:0 0 4px 4px; padding:6px 14px 14px; }
     .tab-content .tab-content { border:none; padding:6px 0 0; }
     .nav-tabs { border-bottom:1px solid var(--ecmx-rule); }
     .nav-tabs > li > a { color:#5a6b7d; font-weight:600; font-size:13px; }
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-      color:var(--ecmx-blue); border-top:2px solid var(--ecmx-blue);
+      color:var(--ecmx-pink-dark); border-top:2px solid var(--ecmx-pink);
     }
-    .ecmx-note { background:#f0f7ff; border:1px solid #b8d4f0;
+    .ecmx-note { background:#f4f5fd; border:1px solid #d3d7f3;
                  border-left:4px solid var(--ecmx-blue); padding:9px 12px;
                  font-size:12.5px; margin:10px 0; border-radius:3px; color:#33475b; }
     .ecmx-warn { background:#fff8e1; border:1px solid #f5dfa8;
@@ -251,10 +278,13 @@ ui <- fluidPage(
     .ecmx-ok   { background:#eef8f0; border:1px solid #bfe3c7;
                  border-left:4px solid #2e8b57; padding:9px 12px;
                  font-size:12.5px; margin:10px 0; border-radius:3px; color:#24513a; }
-    .btn-primary { background:var(--ecmx-blue); border-color:var(--ecmx-navy); }
-    .btn-primary:hover, .btn-primary:focus { background:var(--ecmx-navy); border-color:var(--ecmx-navy); }
-    .btn-default { border-color:#c3d1e0; color:var(--ecmx-navy); }
-    .btn-default:hover { border-color:var(--ecmx-blue); color:var(--ecmx-blue); }
+    .btn-primary { background:var(--ecmx-pink); border-color:var(--ecmx-pink-dark); }
+    .btn-primary:hover, .btn-primary:focus { background:var(--ecmx-pink-dark); border-color:var(--ecmx-pink-dark); }
+    .btn-default { border-color:#e2c6d4; color:var(--ecmx-navy); }
+    .btn-default:hover { border-color:var(--ecmx-pink); color:var(--ecmx-pink-dark); }
+    a { color:var(--ecmx-pink-dark); } a:hover, a:focus { color:var(--ecmx-blue); }
+    .ecmx-head a { color:#fff; }
+    .checkbox input[type=checkbox], .radio input[type=radio] { accent-color:var(--ecmx-pink); }
     label { color:#33475b; font-weight:600; font-size:12.5px; }
     .help-block { font-size:11.5px; color:#616e78; }
     .shiny-output-error-validation { color:#8a6d1f; font-size:13px; }
@@ -267,7 +297,8 @@ ui <- fluidPage(
   "))),
 
   div(class = "ecmx-head",
-      div(span(class = "wordmark", "ECMExplainer"),
+      # One string, so no whitespace separates the two halves of the name.
+      div(span(class = "wordmark", HTML('<span class="ecm">ECM</span><span class="explainer">Explainer</span>')),
           span(class = "tagline",
                "A functional matrisome framework for decoding cellular stress states and aging trajectories")),
       div(class = "authors",
@@ -278,7 +309,11 @@ ui <- fluidPage(
             "<sup>2</sup> Institute for Biostatistics and Informatics in Medicine and Ageing Research, ",
             "Rostock University Medical Center, Germany &nbsp;·&nbsp; ",
             "<sup>3</sup> Corresponding author &nbsp;·&nbsp; ",
-            "<a href='", REPO_URL, "' target='_blank' rel='noopener'>Code and local install</a>")))),
+            "<a href='", REPO_URL, "' target='_blank' rel='noopener'>Code and local install</a>"))),
+      div(class = "affil cite",
+          HTML(paste0("<b>Cite:</b> ", htmltools::htmlEscape(CITATION),
+                      if (nzchar(CITATION_URL)) paste0(" <a href='", CITATION_URL,
+                                                       "' target='_blank' rel='noopener'>", CITATION_URL, "</a>"))))),
 
   if (WEB) warn_box(
     strong("Shared public instance. "),
@@ -299,15 +334,19 @@ ui <- fluidPage(
           h4("1 · Expression data"),
           radioButtons("src", NULL,
                        c("Manuscript validation cohorts (327 samples, 18 studies)" = "validation",
+                         "Example: one cohort (SRP113329, proliferating vs RAS senescence)" = "example",
                          "Upload my own" = "upload")),
+          actionButton("load_example", "Load example (SRP113329)", class = "btn-sm btn-default"),
+          br(), br(),
           conditionalPanel(
             "input.src == 'upload'",
             fileInput("expr_file", "Expression CSV (genes x samples)", accept = c(".csv", ".gz", ".tsv", ".txt")),
             info_box("HGNC symbols in the first column, one sample per remaining column. ",
-                     "Raw counts, log2-CPM or VST all work — each ratio compares two genes ",
-                     "within one sample. ",
-                     strong("TPM/FPKM/RPKM are not valid"),
-                     ": per-gene length factors do not cancel inside a ratio."),
+                     "Raw counts, log2-CPM or VST are best — each ratio compares two genes ",
+                     "within one sample. ", strong("FPKM/TPM work, approximately"),
+                     ": gene-length normalisation shifts every ratio by a fixed amount, which can ",
+                     "flip ratios close to zero. On GSE113957 (143 samples deposited as FPKM, ",
+                     "also available as counts) 85% of ratio signs and 136 of 143 calls agreed."),
             fileInput("meta_file", "Sample metadata CSV (optional)", accept = ".csv"),
             helpText("A SampleID column plus anything you want to group, filter or score by ",
                      "(e.g. Condition, Dataset, Truth)."),
@@ -321,6 +360,7 @@ ui <- fluidPage(
           uiOutput("n_samples_msg"),
           h4("3 · Panels"),
           uiOutput("panel_pick"),
+          checkboxInput("adv_panels", "Advanced: compare control panels (POOL-180, ALLGENE-180)", FALSE),
           uiOutput("primary_pick"),
           h4("4 · Labels"),
           uiOutput("label_picks"),
@@ -339,6 +379,7 @@ ui <- fluidPage(
         mainPanel(
           width = 9,
           uiOutput("coverage_msg"),
+          uiOutput("lineage_msg"),
           tabsetPanel(
             id = "viz",
             tabPanel("Phenotype space",    value = "lda",  br(), plotOutput("p_lda",  height = "580px")),
@@ -365,6 +406,7 @@ ui <- fluidPage(
                    " (a real sample), placed by its distance to two training centroids. ",
                    "Protractor angles carry a bootstrap 95% CI. Uses the primary panel and ",
                    "the samples selected on the Classify tab."),
+          uiOutput("traj_ds_pick"),
           uiOutput("traj_group"),
           uiOutput("traj_anchors"),
           uiOutput("traj_order"),
@@ -383,12 +425,15 @@ ui <- fluidPage(
       )
     ),
 
-    # ---- Retrain -----------------------------------------------------------------
+    # ---- Train a new model ----------------------------------------------------------
     tabPanel(
-      "Retrain",
+      "Train a new model",
       sidebarLayout(
         sidebarPanel(
           width = 3,
+          info_box("Builds a ", strong("separate"), " model from your samples, labels and genes, ",
+                   "for this session. The published ADSIG-180 model is never changed; your model ",
+                   "is added next to it on the Classify tab."),
           h4("1 · Training data"),
           radioButtons("tr_src", NULL,
                        c("Manuscript training cohort (96 samples, 10 studies)" = "builtin",
@@ -458,14 +503,24 @@ ui <- fluidPage(
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          info_box("Per-ratio age slopes are fitted by OLS on the continuous log-ratio, ",
-                   "filtered at BH FDR, then applied to the sign features. Higher score = older. ",
-                   "Uses the primary panel and the samples selected on the Classify tab."),
-          uiOutput("age_col_pick"),
-          numericInput("age_fdr", "BH FDR threshold", 0.05, 0.001, 0.5, 0.005),
-          actionButton("do_age", "Fit age weights", class = "btn-primary"),
+          info_box("Scores any sample — no age information needed. The published score uses ",
+                   "96 age-associated ratios with frozen weights (SI Table 4), fitted on healthy ",
+                   "dermal fibroblasts aged 1–94 years (GSE113957). Higher score = older-like matrisome. ",
+                   "Uses the samples selected on the Classify tab."),
+          radioButtons("age_src", "Weights",
+                       c("Published (SI Table 4, 96 ratios)" = "si4",
+                         "Fit my own from an age column" = "fit")),
+          conditionalPanel("input.age_src == 'fit'",
+            helpText("Per-ratio age slopes are fitted by OLS on the continuous log-ratio of the ",
+                     "primary panel's ratios, filtered at BH FDR, then applied to the sign features."),
+            uiOutput("age_col_pick"),
+            numericInput("age_fdr", "BH FDR threshold", 0.05, 0.001, 0.5, 0.005),
+            actionButton("do_age", "Fit age weights", class = "btn-primary")),
           hr(),
           uiOutput("age_group_pick"),
+          conditionalPanel("input.age_src == 'si4'",
+            checkboxInput("age_ref", "Show the GSE113957 age reference", TRUE)),
+          downloadButton("dl_age_scores", "Download scores (CSV)", class = "btn-sm"), br(), br(),
           downloadButton("dl_betas", "Download weights (CSV)", class = "btn-sm")
         ),
         mainPanel(
@@ -536,8 +591,15 @@ server <- function(input, output, session) {
   all_panels <- reactive(c(PANELS, session_models()))
 
   # ---- data -----------------------------------------------------------------------------
+  example_ids <- function() VAL_META$SampleID[VAL_META$Dataset == EXAMPLE_DS]
+  observeEvent(input$load_example, {
+    updateRadioButtons(session, "src", selected = "example")
+    updateTabsetPanel(session, "viz", selected = "lda")
+  })
+
   expr_raw <- reactive({
     if (identical(input$src, "validation")) return(VAL_EXPR)
+    if (identical(input$src, "example")) return(VAL_EXPR[, example_ids(), drop = FALSE])
     req(input$expr_file)
     m <- tryCatch(ecmx_read_expression(input$expr_file$datapath),
                   error = function(e) { notify_err(e); NULL })
@@ -551,6 +613,7 @@ server <- function(input, output, session) {
 
   meta_raw <- reactive({
     if (identical(input$src, "validation")) return(VAL_META)
+    if (identical(input$src, "example")) return(VAL_META[VAL_META$Dataset == EXAMPLE_DS, , drop = FALSE])
     if (is.null(input$meta_file)) return(NULL)
     tryCatch(read_meta(input$meta_file$datapath), error = function(e) { notify_err(e); NULL })
   })
@@ -587,18 +650,21 @@ server <- function(input, output, session) {
 
   # ---- panels -----------------------------------------------------------------------------
   output$panel_pick <- renderUI({
-    ap <- all_panels()
-    labs <- vapply(ap, function(m) m$label, character(1))
-    sel <- intersect(isolate(panel_sel()), names(ap))
+    ap <- all_panels(); adv <- isTRUE(input$adv_panels)
+    # The two control panels are the manuscript's comparison, not alternatives to
+    # use: they appear only under "Advanced", and arrive ticked when it is opened.
+    show <- if (adv) names(ap) else setdiff(names(ap), CONTROL_KEYS)
+    labs <- vapply(ap[show], function(m) m$label, character(1))
+    sel <- isolate(panel_sel()); if (adv) sel <- union(sel, CONTROL_KEYS)
     tagList(
-      checkboxGroupInput("panels", NULL, setNames(names(ap), labs), selected = sel),
-      helpText(HTML(paste0("<b>ADSIG-180</b> is the ECMExplainer model. ",
-                           "<b>POOL-180</b> and <b>ALLGENE-180</b> are the manuscript's controls; ",
-                           "models you train or load are added here."))))
+      checkboxGroupInput("panels", NULL, setNames(show, labs), selected = intersect(sel, show)),
+      helpText(HTML(paste0("<b>ADSIG-180</b> is the ECMExplainer model",
+                           if (adv) "; <b>POOL-180</b> and <b>ALLGENE-180</b> are the manuscript's controls",
+                           ". Models you train or load are added here."))))
   })
   # The ticked panels, kept outside the widget so a newly trained or loaded
   # model can arrive already ticked when the picker is redrawn.
-  panel_sel <- reactiveVal(names(PANELS))
+  panel_sel <- reactiveVal("ADSIG180")
   observeEvent(input$panels, panel_sel(input$panels), ignoreNULL = FALSE, ignoreInit = TRUE)
   add_model <- function(m, key) {
     session_models(c(session_models(), setNames(list(m), key)))
@@ -644,15 +710,15 @@ server <- function(input, output, session) {
     pick <- function(cands) { h <- cands[cands %in% cols]; if (length(h)) h[1] else "" }
     # 47 conditions across 18 cohorts make an unreadable legend; the validation
     # cohorts open grouped by their known phenotype instead.
-    grp <- if (identical(input$src, "validation")) c("Truth_Phenotype", "Condition")
-           else c("Condition", "Group", "Phenotype", "Dataset", "Study")
+    grp <- switch(input$src %||% "", validation = c("Truth_Phenotype", "Condition"),
+                  example = "Condition", c("Condition", "Group", "Phenotype", "Dataset", "Study"))
     tagList(
-      selectInput("group_col", "Group samples by", c("(none)" = "", cols), selected = pick(grp)),
-      selectInput("truth_col", "Known phenotype (to score accuracy)", c("(none)" = "", cols),
+      selectInput("group_col", "Group samples by", c("(none)" = "", col_choices(cols)), selected = pick(grp)),
+      selectInput("truth_col", "Known phenotype (to score accuracy)", c("(none)" = "", col_choices(cols)),
                   selected = pick(c("Truth_Phenotype", "Truth", "Phenotype", "Expected_Phenotype"))),
-      selectInput("ds_col", "Dataset / study", c("(none)" = "", cols),
+      selectInput("ds_col", "Dataset / study", c("(none)" = "", col_choices(cols)),
                   selected = pick(c("Dataset", "Study", "Cohort"))),
-      checkboxInput("show_hulls", "Outline groups in the phenotype space", TRUE))
+      checkboxInput("show_hulls", "Shade each group's area in the phenotype space", FALSE))
   })
 
   col_vec <- function(col) {
@@ -663,7 +729,7 @@ server <- function(input, output, session) {
   group_vec <- reactive({
     g <- col_vec(input$group_col)
     if (is.null(g)) g <- rep("All samples", ncol(expr_mat()))
-    g[is.na(g) | !nzchar(g)] <- "no label"
+    g[is.na(g) | !nzchar(g)] <- "Unlabelled"
     g
   })
   truth_vec <- reactive({
@@ -673,7 +739,7 @@ server <- function(input, output, session) {
   })
   ds_vec <- reactive(col_vec(input$ds_col))
   group_label <- reactive({
-    if (is.null(input$group_col) || !nzchar(input$group_col)) "Your samples" else input$group_col
+    if (is.null(input$group_col) || !nzchar(input$group_col)) "Your samples" else pretty_col(input$group_col)
   })
 
   output$coverage_msg <- renderUI({
@@ -689,6 +755,32 @@ server <- function(input, output, session) {
         else "Ratios with a missing gene vote 0, as in the manuscript.")
   })
 
+  # Fibroblast-identity check (Methods 6.1). The bundled cohorts carry panel genes
+  # only, so it runs on uploads.
+  output$lineage_msg <- renderUI({
+    if (!identical(input$src, "upload")) return(NULL)
+    ls <- ecmx_lineage_scores(expr_mat())
+    if (is.null(ls)) return(div(class = "ecmx-note",
+      "Fibroblast identity check skipped: too few lineage markers in your file ",
+      "(it needs at least half of the 12 fibroblast markers and three other lineages)."))
+    low <- ls$Fibroblast_margin < 0.54
+    if (!any(low)) return(div(class = "ecmx-note", sprintf(
+      "Fibroblast identity check: fibroblast markers dominate in all %d samples (smallest margin %.2f).",
+      nrow(ls), min(ls$Fibroblast_margin))))
+    worst <- ls[low, ][order(ls$Fibroblast_margin[low]), ]
+    div(class = "ecmx-warn",
+        strong(sprintf("Fibroblast identity check: %d of %d samples look less fibroblast-like than any training sample. ",
+                       sum(low), nrow(ls))),
+        "ECMExplainer was trained on fibroblasts; in all 96 training samples the fibroblast marker score ",
+        "exceeded every other lineage by at least 0.54 log2-CPM. ",
+        sprintf("Lowest: %s.", paste(sprintf("%s (margin %.2f, top other lineage %s)",
+                                             head(worst$SampleID, 5), head(worst$Fibroblast_margin, 5),
+                                             gsub("_", " ", head(worst$Top_other, 5))), collapse = "; ")),
+        " Interpret their calls with caution.",
+        if (any(worst$Top_other == "Smooth_muscle"))
+          " A high smooth-muscle score can also mean myofibroblast activation, as in the training Fibrosis samples.")
+  })
+
   # ---- figures ------------------------------------------------------------------------
   fig_lda <- reactive({
     s <- primary_scored(); m <- s$panel
@@ -696,7 +788,7 @@ server <- function(input, output, session) {
     ecmx_fig_lda(m$train_coords, m$train_phenotype, m$centroids,
                  new_coords = s$proj$coords, new_label = group_vec(),
                  group_title = group_label(),
-                 show_groups = isTRUE(input$show_hulls %||% TRUE),
+                 show_groups = isTRUE(input$show_hulls),
                  title = sprintf("%s phenotype space", m$label))
   })
   fig_post <- reactive({
@@ -851,7 +943,7 @@ server <- function(input, output, session) {
     md <- meta_raw()
     validate(need(!is.null(md), "Add sample metadata to build trajectories."))
     cols <- setdiff(names(md), "SampleID")
-    selectInput("tr_group_col", "Condition column", cols,
+    selectInput("tr_group_col", "Condition column", col_choices(cols),
                 selected = intersect(c("Condition", "Phenotype", cols), cols)[1])
   })
   output$traj_anchors <- renderUI({
@@ -862,9 +954,23 @@ server <- function(input, output, session) {
       selectInput("anchor_b", "Anchor B", ph,
                   selected = if ("Senescence" %in% ph) "Senescence" else ph[min(2, length(ph))]))
   })
+  # One dataset at a time by default: the 18 validation cohorts carry about 40
+  # conditions, which make an unreadable trajectory.
+  output$traj_ds_pick <- renderUI({
+    d <- ds_vec(); if (is.null(d)) return(NULL)
+    ds <- sort(unique(stats::na.omit(d)))
+    if (length(ds) < 2) return(NULL)
+    selectInput("traj_ds", "Dataset", c("All datasets" = "__all__", ds),
+                selected = if ("SRP117883" %in% ds) "SRP117883" else ds[1])
+  })
+  traj_idx <- reactive({
+    d <- ds_vec(); n <- ncol(expr_mat())
+    if (is.null(d) || is.null(input$traj_ds) || input$traj_ds == "__all__") return(seq_len(n))
+    which(d == input$traj_ds)
+  })
   traj_groups <- reactive({
     req(input$tr_group_col)
-    col_vec(input$tr_group_col)
+    col_vec(input$tr_group_col)[traj_idx()]
   })
   output$traj_order <- renderUI({
     g <- unique(stats::na.omit(traj_groups())); req(length(g))
@@ -882,15 +988,15 @@ server <- function(input, output, session) {
     cen <- s$panel$centroids
     req(all(c(input$anchor_a, input$anchor_b) %in% rownames(cen)))
     sep <- sqrt(sum((cen[input$anchor_a, ] - cen[input$anchor_b, ])^2))
-    ecmx_fig_trajectory(ecmx_distances(s$proj$coords, cen), traj_groups(),
+    ecmx_fig_trajectory(ecmx_distances(s$proj$coords[traj_idx(), , drop = FALSE], cen), traj_groups(),
                         input$anchor_a, input$anchor_b,
                         order_levels = input$traj_seq, centroid_sep = sep)
   })
   angles_tbl <- reactive({
     s <- primary_scored(); req(input$prot_from, input$prot_to)
-    g <- traj_groups()
-    from <- s$proj$coords[which(g == input$prot_from), , drop = FALSE]
-    to   <- s$proj$coords[which(g == input$prot_to),   , drop = FALSE]
+    g <- traj_groups(); xy <- s$proj$coords[traj_idx(), , drop = FALSE]
+    from <- xy[which(g == input$prot_from), , drop = FALSE]
+    to   <- xy[which(g == input$prot_to),   , drop = FALSE]
     validate(need(nrow(from) >= 2 && nrow(to) >= 2,
                   "The protractor needs at least 2 samples in each group."))
     ecmx_trajectory_angles(from, to, s$panel$centroids, n_boot = input$n_boot)
@@ -1069,7 +1175,7 @@ server <- function(input, output, session) {
   output$age_col_pick <- renderUI({
     md <- meta_df()
     num <- names(md)[vapply(md, is.numeric, logical(1))]
-    validate(need(length(num) > 0, "Upload metadata with a numeric age column."))
+    validate(need(length(num) > 0, "To fit your own weights, add sample metadata with a numeric age column."))
     selectInput("age_col", "Age column", num,
                 selected = grep("age", num, ignore.case = TRUE, value = TRUE)[1])
   })
@@ -1087,30 +1193,52 @@ server <- function(input, output, session) {
       showNotification(sprintf("%d ratios passed FDR < %.3f", nrow(b), input$age_fdr), type = "message")
     }, error = notify_err)
   })
+  age_betas <- reactive(if (identical(input$age_src, "fit")) betas() else AGE_WEIGHTS)
+  age_scores <- reactive({
+    b <- age_betas(); req(b); m <- expr_mat()
+    data.frame(SampleID = colnames(m), Group = age_group_vec(),
+               ECM_Aging_Score = ecmx_aging_score(m, b), stringsAsFactors = FALSE)
+  })
   output$age_group_pick <- renderUI({
     md <- meta_raw(); if (is.null(md)) return(NULL)
-    selectInput("age_group", "Group scores by", setdiff(names(md), "SampleID"))
+    cols <- setdiff(names(md), "SampleID")
+    cur <- isolate(input$group_col)
+    selectInput("age_group", "Group scores by", c("(none)" = "", col_choices(cols)),
+                selected = if (!is.null(cur) && cur %in% cols) cur else "")
+  })
+  age_group_vec <- reactive({
+    g <- col_vec(input$age_group) %||% rep("All samples", ncol(expr_mat()))
+    g[is.na(g) | !nzchar(g)] <- "Unlabelled"
+    g
   })
   output$age_status <- renderUI({
-    b <- betas()
-    if (is.null(b)) return(info_box(
-      "Fit age weights to compute the score. In the manuscript these are fitted on ",
-      "GSE113957 healthy dermal fibroblasts (1–94 y) and then frozen (SI Table 4)."))
-    div(class = "ecmx-note", sprintf("%d age-associated ratios at BH FDR < %.3f.", nrow(b), input$age_fdr))
+    b <- age_betas()
+    if (is.null(b)) return(info_box("Choose an age column and fit weights, or switch back to the published weights."))
+    genes <- unique(trimws(unlist(strsplit(b$Ratio_ID, "/", fixed = TRUE))))
+    have <- mean(genes %in% rownames(expr_raw()))
+    div(class = if (have < 0.85) "ecmx-warn" else "ecmx-note",
+        if (identical(input$age_src, "fit"))
+          sprintf("Your weights: %d age-associated ratios at BH FDR < %.3f. ", nrow(b), input$age_fdr)
+        else sprintf("Published weights: %d ratios (SI Table 4). ", nrow(b)),
+        sprintf("%.0f%% of their genes are in your data; ratios with a missing gene vote 0.", 100 * have))
   })
   output$p_age <- renderPlot({
-    b <- betas(); req(b); m <- expr_mat()
-    g <- col_vec(input$age_group) %||% rep("All", ncol(m))
-    ecmx_fig_aging_score(ecmx_aging_score(m, b), g)
+    a <- age_scores()
+    ref <- if (!identical(input$age_src, "fit") && isTRUE(input$age_ref)) AGE_REF
+    ecmx_fig_aging_score(a$ECM_Aging_Score, a$Group, reference = ref)
   })
   output$t_betas <- renderTable({
-    b <- betas(); req(b); b <- b[order(-abs(b$beta)), ]
-    head(data.frame(Ratio = b$Ratio_ID, beta = round(b$beta, 4),
-                    p = signif(b$p, 3), FDR = signif(b$fdr, 3)), 25)
+    b <- age_betas(); req(b); b <- b[order(-abs(b$beta)), ]
+    fdr <- if (!is.null(b$fdr)) b$fdr else b$FDR
+    head(data.frame(Ratio = b$Ratio_ID, Weight = formatC(b$beta, format = "g", digits = 3),
+                    FDR = formatC(fdr, format = "g", digits = 2), check.names = FALSE), 25)
   }, striped = TRUE, spacing = "xs")
+  output$dl_age_scores <- downloadHandler(
+    filename = function() paste0("ECM_aging_scores_", Sys.Date(), ".csv"),
+    content  = function(f) write.csv(age_scores(), f, row.names = FALSE))
   output$dl_betas <- downloadHandler(
     filename = function() paste0("ECM_age_weights_", Sys.Date(), ".csv"),
-    content  = function(f) { req(betas()); write.csv(betas(), f, row.names = FALSE) })
+    content  = function(f) { req(age_betas()); write.csv(age_betas(), f, row.names = FALSE) })
 
   # ---- example files ---------------------------------------------------------------------------
   output$dl_ex_expr <- downloadHandler("ECMExplainer_example_expression.csv",
@@ -1146,6 +1274,7 @@ server <- function(input, output, session) {
   })
   observeEvent(input$ms_open, {
     updateRadioButtons(session, "src", selected = "validation")
+    updateCheckboxInput(session, "adv_panels", value = TRUE)
     updateTabsetPanel(session, "tabs", selected = "Classify")
     updateTabsetPanel(session, "viz", selected = "acc")
   })

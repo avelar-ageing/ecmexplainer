@@ -27,6 +27,7 @@ COPY R/            R/
 COPY data/         data/
 COPY supplementary/ supplementary/
 COPY tests/        tests/
+COPY www/          www/
 
 # /ecm/ -> /ecmexplainer/ (a directory without app.R is served as static files).
 RUN mkdir -p /srv/shiny-server/ecm && printf '%s\n' \
