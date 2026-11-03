@@ -6,7 +6,7 @@
 #   Rscript tests/test_app_server.R        # ~1 min
 # ==============================================================================
 suppressPackageStartupMessages({ library(shiny); library(ggplot2) })
-Sys.setenv(ECMX_WORKERS = "1")
+if (!nzchar(Sys.getenv("ECMX_WORKERS"))) Sys.setenv(ECMX_WORKERS = "1")
 
 fails <- 0L
 check <- function(label, ok) {

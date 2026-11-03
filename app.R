@@ -36,7 +36,9 @@ if (!exists("%||%")) `%||%` <- function(x, y) if (is.null(x)) y else x
 
 # Retraining runs in a background R process when `future` is available, so one
 # visitor's retrain never stalls the app for everyone else on a shared server.
-ASYNC <- requireNamespace("future", quietly = TRUE) && requireNamespace("promises", quietly = TRUE)
+# ECMX_WORKERS=0 runs retraining in-process (for environments without local sockets).
+ASYNC <- requireNamespace("future", quietly = TRUE) && requireNamespace("promises", quietly = TRUE) &&
+  as.integer(Sys.getenv("ECMX_WORKERS", "2")) > 0
 if (ASYNC) future::plan(future::multisession,
                         workers = as.integer(Sys.getenv("ECMX_WORKERS", "2")))
 
@@ -293,7 +295,25 @@ ui <- fluidPage(
     .ecmx-steps { font-size:12.5px; color:#33475b; padding-left:18px; }
     .ecmx-steps li { margin-bottom:3px; }
     .ecmx-scroll { overflow-x:auto; }
-    @media (max-width: 767px) { .ecmx-head .tagline { display:block; margin:4px 0 0; } }
+    .ecmx-phone-only { display:none; }
+    @media (max-width: 767px) {
+      .ecmx-head { padding:10px 14px 9px; margin-bottom:10px; }
+      .ecmx-head .wordmark { font-size:1.75em; }
+      .ecmx-head .tagline { display:block; margin:3px 0 0; font-size:12px; }
+      .ecmx-head .authors { font-size:12px; margin-top:4px; }
+      .ecmx-head .affil { display:none; }              /* affiliations and citation: About tab */
+      /* one swipeable row of tabs instead of three wrapped rows */
+      .nav-tabs { display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
+                  -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+      .nav-tabs::-webkit-scrollbar { display:none; }
+      .nav-tabs > li { float:none; flex:0 0 auto; }
+      .nav-tabs > li > a { padding:8px 10px; white-space:nowrap; margin-right:0; }
+      .tab-content { padding:6px 8px 10px; }
+      /* results first; the controls follow */
+      .tab-pane > .row { display:flex; flex-direction:column; }
+      .tab-pane > .row > .col-sm-9 { order:-1; }
+      .ecmx-phone-only { display:block; }
+    }
   "))),
 
   div(class = "ecmx-head",
@@ -378,18 +398,20 @@ ui <- fluidPage(
         ),
         mainPanel(
           width = 9,
+          div(class = "ecmx-phone-only ecmx-note",
+              "Data, panels and labels are below the figures. Swipe the tabs sideways for more views."),
           uiOutput("coverage_msg"),
           uiOutput("lineage_msg"),
           tabsetPanel(
             id = "viz",
-            tabPanel("Phenotype space",    value = "lda",  br(), plotOutput("p_lda",  height = "580px")),
-            tabPanel("Posteriors",         value = "post", br(), plotOutput("p_post", height = "560px")),
-            tabPanel("Centroid distances", value = "dist", br(), plotOutput("p_dist", height = "440px")),
+            tabPanel("Phenotype space",    value = "lda",  br(), plotOutput("p_lda", height = "auto")),
+            tabPanel("Posteriors",         value = "post", br(), plotOutput("p_post", height = "auto")),
+            tabPanel("Centroid distances", value = "dist", br(), plotOutput("p_dist", height = "auto")),
             tabPanel("Compare panels",     value = "cmp",  br(), uiOutput("cmp_msg"),
-                     plotOutput("p_cmp", height = "460px"), div(class = "ecmx-scroll", tableOutput("t_agree"))),
+                     plotOutput("p_cmp", height = "auto"), div(class = "ecmx-scroll", tableOutput("t_agree"))),
             tabPanel("Accuracy",           value = "acc",  br(), uiOutput("acc_body")),
             tabPanel("Panel heatmap",      value = "heat", br(), uiOutput("heat_pheno_pick"),
-                     plotOutput("p_heat", height = "820px")),
+                     plotOutput("p_heat", height = "auto")),
             tabPanel("Results table",      value = "tbl",  br(), div(class = "ecmx-scroll", tableOutput("t_res")))
           )
         )
@@ -417,9 +439,9 @@ ui <- fluidPage(
         ),
         mainPanel(
           width = 9,
-          plotOutput("p_traj", height = "480px"),
+          plotOutput("p_traj", height = "auto"),
           hr(),
-          fluidRow(column(7, plotOutput("p_prot", height = "460px")),
+          fluidRow(column(7, plotOutput("p_prot", height = "auto")),
                    column(5, br(), tableOutput("t_angles")))
         )
       )
@@ -489,7 +511,7 @@ ui <- fluidPage(
                           tableOutput("t_confusion"))),
           uiOutput("loso_box"),
           hr(),
-          plotOutput("p_train_lda", height = "480px"),
+          plotOutput("p_train_lda", height = "auto"),
           hr(),
           h5("Selected panel"),
           div(class = "ecmx-scroll", style = "max-height:560px; overflow-y:auto;", tableOutput("t_panel"))
@@ -526,7 +548,7 @@ ui <- fluidPage(
         mainPanel(
           width = 9,
           uiOutput("age_status"),
-          plotOutput("p_age", height = "460px"),
+          plotOutput("p_age", height = "auto"),
           hr(), tableOutput("t_betas")
         )
       )
@@ -545,14 +567,14 @@ ui <- fluidPage(
             "published table; the repository's ", code("tests/test_validation.R"), " checks this."),
           h4("Panel summary (SI Table 6, sheet B)"),
           div(class = "ecmx-scroll", tableOutput("ms_summary")),
-          fluidRow(column(6, plotOutput("ms_radar", height = "440px")),
-                   column(6, plotOutput("ms_acc", height = "440px"))),
+          fluidRow(column(6, plotOutput("ms_radar", height = "auto")),
+                   column(6, plotOutput("ms_acc", height = "auto"))),
           h4("Training-cohort cross-validation (SI Tables 3 and 5)"),
           div(class = "ecmx-scroll", tableOutput("ms_training")),
           h4("Between-panel test (SI Table 6, sheet E)"),
           div(class = "ecmx-scroll", tableOutput("ms_mcnemar")),
-          plotOutput("ms_conf", height = "380px"),
-          plotOutput("ms_ds", height = "560px"),
+          plotOutput("ms_conf", height = "auto"),
+          plotOutput("ms_ds", height = "auto"),
           actionButton("ms_open", "Explore these cohorts on the Classify tab", class = "btn-default")
         ),
         column(4,
@@ -782,15 +804,30 @@ server <- function(input, output, session) {
   })
 
   # ---- figures ------------------------------------------------------------------------
-  fig_lda <- reactive({
+  # On a phone-width screen (plot narrower than 600 px) every figure gets the
+  # compact theme and a height that follows its width; downloads are unchanged.
+  plot_w   <- function(id) session$clientData[[paste0("output_", id, "_width")]] %||% 1000
+  on_phone <- function(id) plot_w(id) < 600
+  fig_output <- function(id, make, h, phone_h = h) {
+    output[[id]] <- renderPlot({
+      p <- make()
+      if (on_phone(id) && inherits(p, "ggplot")) p + ecmx_compact() else p
+    }, height = function() {
+      if (!on_phone(id)) return(h)
+      if (is.function(phone_h)) phone_h(plot_w(id)) else phone_h
+    })
+  }
+
+  make_lda <- function(point_scale = 1) {
     s <- primary_scored(); m <- s$panel
     validate(need(ncol(m$train_coords) >= 2, "This panel has fewer than 3 classes, so no 2-D space."))
     ecmx_fig_lda(m$train_coords, m$train_phenotype, m$centroids,
                  new_coords = s$proj$coords, new_label = group_vec(),
                  group_title = group_label(),
                  show_groups = isTRUE(input$show_hulls),
-                 title = sprintf("%s phenotype space", m$label))
-  })
+                 title = sprintf("%s phenotype space", m$label), point_scale = point_scale)
+  }
+  fig_lda <- reactive(make_lda())
   fig_post <- reactive({
     s <- primary_scored()
     ecmx_fig_posteriors(s$proj$posterior, colnames(expr_mat()), group_vec()) +
@@ -835,11 +872,11 @@ server <- function(input, output, session) {
                    selected = "__all__", multiple = TRUE)
   })
 
-  output$p_lda  <- renderPlot(fig_lda())
-  output$p_post <- renderPlot(fig_post())
-  output$p_dist <- renderPlot(fig_dist())
-  output$p_heat <- renderPlot(fig_heat())
-  output$p_cmp  <- renderPlot(fig_cmp())
+  fig_output("p_lda", function() make_lda(if (on_phone("p_lda")) 0.6 else 1), 580, function(w) round(w * 0.66 + 200 + 17 * max(0, length(unique(group_vec())) - 6)))
+  fig_output("p_post", function() fig_post(), 560)
+  fig_output("p_dist", function() fig_dist(), 440)
+  fig_output("p_heat", function() fig_heat(), 820)
+  fig_output("p_cmp", function() fig_cmp(), 460)
 
   output$cmp_msg <- renderUI({
     s <- scored(); req(s)
@@ -867,11 +904,11 @@ server <- function(input, output, session) {
       helpText("Accuracy counts a sample as correct when the predicted phenotype equals its label. ",
                "Balanced accuracy averages recall over the labelled phenotypes."),
       div(class = "ecmx-scroll", tableOutput("t_acc")),
-      fluidRow(column(6, plotOutput("p_acc_radar", height = "430px")),
-               column(6, plotOutput("p_acc_ci", height = "430px"))),
-      plotOutput("p_acc_conf", height = "380px"),
+      fluidRow(column(6, plotOutput("p_acc_radar", height = "auto")),
+               column(6, plotOutput("p_acc_ci", height = "auto"))),
+      plotOutput("p_acc_conf", height = "auto"),
       div(class = "ecmx-scroll", tableOutput("t_mcnemar")),
-      if (!is.null(ds_vec())) plotOutput("p_acc_ds", height = "540px"))
+      if (!is.null(ds_vec())) plotOutput("p_acc_ds", height = "auto"))
   })
   output$t_acc <- renderTable({
     s <- acc_tables()$summary
@@ -881,10 +918,10 @@ server <- function(input, output, session) {
   }, striped = TRUE, spacing = "xs", na = "–")
   output$t_mcnemar <- renderTable({ m <- acc_tables()$mcnemar; req(m); fmt_tbl(m) },
                                   striped = TRUE, spacing = "xs")
-  output$p_acc_radar <- renderPlot(fig_acc_radar())
-  output$p_acc_ci    <- renderPlot(ecmx_fig_accuracy(acc_tables()$summary))
-  output$p_acc_conf  <- renderPlot(fig_acc_conf())
-  output$p_acc_ds    <- renderPlot(fig_acc_ds())
+  fig_output("p_acc_radar", function() fig_acc_radar(), 430)
+  fig_output("p_acc_ci", function() ecmx_fig_accuracy(acc_tables()$summary), 430)
+  fig_output("p_acc_conf", function() fig_acc_conf(), 380)
+  fig_output("p_acc_ds", function() fig_acc_ds(), 540)
 
   current_fig <- reactive({
     switch(input$viz %||% "lda",
@@ -982,7 +1019,7 @@ server <- function(input, output, session) {
     tagList(selectInput("prot_from", "From (origin)", g, selected = g[1]),
             selectInput("prot_to",   "To (endpoint)", g, selected = g[2]))
   })
-  output$p_traj <- renderPlot({
+  fig_output("p_traj", function() {
     s <- primary_scored(); req(input$anchor_a, input$anchor_b)
     validate(need(input$anchor_a != input$anchor_b, "Choose two different anchors."))
     cen <- s$panel$centroids
@@ -991,7 +1028,7 @@ server <- function(input, output, session) {
     ecmx_fig_trajectory(ecmx_distances(s$proj$coords[traj_idx(), , drop = FALSE], cen), traj_groups(),
                         input$anchor_a, input$anchor_b,
                         order_levels = input$traj_seq, centroid_sep = sep)
-  })
+  }, 480, function(w) round(w * 0.85 + 200 + 17 * max(0, length(unique(stats::na.omit(traj_groups()))) - 6)))
   angles_tbl <- reactive({
     s <- primary_scored(); req(input$prot_from, input$prot_to)
     g <- traj_groups(); xy <- s$proj$coords[traj_idx(), , drop = FALSE]
@@ -1001,8 +1038,7 @@ server <- function(input, output, session) {
                   "The protractor needs at least 2 samples in each group."))
     ecmx_trajectory_angles(from, to, s$panel$centroids, n_boot = input$n_boot)
   })
-  output$p_prot <- renderPlot(
-    ecmx_fig_protractor(angles_tbl(), sprintf("%s → %s", input$prot_from, input$prot_to)))
+  fig_output("p_prot", function() ecmx_fig_protractor(angles_tbl(), sprintf("%s → %s", input$prot_from, input$prot_to)), 460)
   output$t_angles <- renderTable({
     a <- angles_tbl()
     data.frame(Phenotype = a$Phenotype, `Angle (deg)` = round(a$Angle, 1),
@@ -1160,12 +1196,12 @@ server <- function(input, output, session) {
     f[order(f$Selecting_Phenotype, -f$TSP_Delta),
       c("Ratio_ID", "Module", "Selecting_Phenotype", "Direction", "TSP_Delta", "eta_sq")]
   }, striped = TRUE, spacing = "xs", digits = 3)
-  output$p_train_lda <- renderPlot({
+  fig_output("p_train_lda", function() {
     m <- trained(); req(m)
     validate(need(ncol(m$train_coords) >= 2, "Need at least 3 classes to draw a 2-D LDA space."))
     ecmx_fig_lda(m$train_coords, m$train_phenotype, m$centroids,
                  title = sprintf("%s training space", m$label))
-  })
+  }, 480, function(w) round(w * 0.66 + 170))
   output$dl_model <- downloadHandler(
     filename = function() sprintf("ECMExplainer_%s_%d_%s.rds", trained()$design,
                                   trained()$panel_size, Sys.Date()),
@@ -1222,11 +1258,11 @@ server <- function(input, output, session) {
         else sprintf("Published weights: %d ratios (SI Table 4). ", nrow(b)),
         sprintf("%.0f%% of their genes are in your data; ratios with a missing gene vote 0.", 100 * have))
   })
-  output$p_age <- renderPlot({
+  fig_output("p_age", function() {
     a <- age_scores()
     ref <- if (!identical(input$age_src, "fit") && isTRUE(input$age_ref)) AGE_REF
     ecmx_fig_aging_score(a$ECM_Aging_Score, a$Group, reference = ref)
-  })
+  }, 460)
   output$t_betas <- renderTable({
     b <- age_betas(); req(b); b <- b[order(-abs(b$beta)), ]
     fdr <- if (!is.null(b$fdr)) b$fdr else b$FDR
@@ -1260,11 +1296,11 @@ server <- function(input, output, session) {
                        `Stress sensitivity (%)` = s$Stress_sensitivity_pct,
                        check.names = FALSE))
   }, striped = TRUE, spacing = "xs")
-  output$ms_radar <- renderPlot(ecmx_fig_recall_radar(MS_TABLES$recall) +
-                                  labs(title = "Figure 7B · Recall per phenotype"))
-  output$ms_acc   <- renderPlot(ecmx_fig_accuracy(MS_TABLES$summary))
-  output$ms_conf  <- renderPlot(ecmx_fig_confusion(MS_TABLES$confusion))
-  output$ms_ds    <- renderPlot(ecmx_fig_dataset_accuracy(MS_TABLES$per_dataset))
+  fig_output("ms_radar", function() ecmx_fig_recall_radar(MS_TABLES$recall) +
+                                  labs(title = "Figure 7B · Recall per phenotype"), 440)
+  fig_output("ms_acc", function() ecmx_fig_accuracy(MS_TABLES$summary), 440)
+  fig_output("ms_conf", function() ecmx_fig_confusion(MS_TABLES$confusion), 380)
+  fig_output("ms_ds", function() ecmx_fig_dataset_accuracy(MS_TABLES$per_dataset), 560)
   output$ms_mcnemar <- renderTable(fmt_tbl(MS_TABLES$mcnemar), striped = TRUE, spacing = "xs")
   output$ms_training <- renderTable(fmt_tbl(PANEL_CV, 2), striped = TRUE, spacing = "xs")
   lapply(seq_along(SI_FILES), function(i) {

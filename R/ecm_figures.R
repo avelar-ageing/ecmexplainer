@@ -23,6 +23,17 @@ ecmx_palette <- function(levels) {
   pal[levels]
 }
 
+#' Add to any figure drawn on a phone-width screen: legends move under the plot
+#' (side by side, each one column) and text shrinks, so the panel keeps the width.
+ecmx_compact <- function() {
+  theme(legend.position = "bottom", legend.box = "horizontal", legend.direction = "vertical",
+        legend.justification = "left", legend.box.just = "top",
+        text = element_text(size = 10), plot.title = element_text(size = 12, face = "bold"),
+        plot.title.position = "plot", plot.subtitle = element_text(size = 9.5),
+        legend.title = element_text(size = 9.5, face = "bold"), legend.text = element_text(size = 8.5),
+        legend.key.size = unit(11, "pt"), plot.margin = margin(4, 6, 4, 4))
+}
+
 ecmx_theme <- function(base = 13) {
   theme_classic(base_size = base) +
     theme(plot.title = element_text(face = "bold", hjust = 0.5),
@@ -60,7 +71,7 @@ ecmx_facet_strips <- function(n_groups) {
 ecmx_fig_lda <- function(train_coords, train_pheno, centroids,
                          new_coords = NULL, new_label = NULL, group_title = NULL,
                          dims = c(1, 2), title = "ECM phenotype space",
-                         fixed_aspect = TRUE, show_groups = FALSE) {
+                         fixed_aspect = TRUE, show_groups = FALSE, point_scale = 1) {
   stopifnot(ncol(train_coords) >= max(dims))
   df <- data.frame(D1 = train_coords[, dims[1]], D2 = train_coords[, dims[2]],
                    Phenotype = factor(train_pheno))
@@ -77,8 +88,8 @@ ecmx_fig_lda <- function(train_coords, train_pheno, centroids,
     stat_ellipse(data = df[df$Phenotype %in% ok, ], geom = "polygon",
                  type = "norm", level = 0.85, fill = "grey70", alpha = 0.10,
                  linewidth = 0.7, show.legend = FALSE) +
-    geom_point(size = 2.4, alpha = 0.7) +
-    geom_point(data = cen, shape = 8, size = 4.5, stroke = 1.2, colour = "black") +
+    geom_point(size = 2.4 * point_scale, alpha = 0.7) +
+    geom_point(data = cen, shape = 8, size = 4.5 * point_scale, stroke = 1.2 * point_scale, colour = "black") +
     scale_colour_manual(values = pal, drop = FALSE, name = "Training phenotype") +
     ecmx_theme() +
     labs(title = title, x = paste0("LD", dims[1]), y = paste0("LD", dims[2]))
@@ -110,7 +121,7 @@ ecmx_fig_lda <- function(train_coords, train_pheno, centroids,
 
     p <- p +
       geom_point(data = nd, aes(D1, D2, fill = Group), inherit.aes = FALSE,
-                 shape = 21, size = 3.4, stroke = 0.9, colour = "black") +
+                 shape = 21, size = 3.4 * point_scale, stroke = 0.9 * point_scale, colour = "black") +
       scale_fill_manual(values = gcols,
                         name = if (is.null(group_title)) "Your samples" else group_title,
                         guide = guide_legend(override.aes = list(shape = 21, size = 3.6, alpha = 1)))
